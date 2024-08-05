@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(Module::class);
         $this->call(Role::class);
         $this->call(Users::class);
-        $this->call(Province::class);      
+        // $this->call(Province::class);      
     }
 }
