@@ -664,7 +664,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".collection-thumbnail img {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n  object-fit: cover;\n}\n.collection-thumbnail img {\n  -o-object-position: top;\n     object-position: top;\n}\n.collection-thumbnail {\n  height: 100%;\n  overflow: hidden;\n  border-radius: 20px;\n  position: relative;\n}\n.title__category{\n  position: relative;\n  z-index: 9; font-size: 35px;\n  text-transform: uppercase;\n  font-weight: 400; color: #ffffff; background-color: rgb(0,0,0,0.3); padding: 10px; border-radius: 10px\n}\n@media screen and (max-width: 961px){\n.title__category{\n    font-size: 12px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".collection-thumbnail img {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n  object-fit: cover;\n}\n.collection-thumbnail img {\n  -o-object-position: top;\n     object-position: top;\n}\n.collection-thumbnail {\n  height: 100%;\n  overflow: hidden;\n  border-radius: 20px;\n  position: relative;\n}\n.title__category{\n  position: relative;\n  z-index: 9; font-size: 35px;\n  text-transform: uppercase;\n  font-weight: 400; color: #ffffff; background-color: rgb(0,0,0,0.3); padding: 10px; border-radius: 10px\n}\n@media screen and (max-width: 961px){\n.title__category{\n    font-size: 12px;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

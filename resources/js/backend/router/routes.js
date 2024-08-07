@@ -123,6 +123,27 @@ export const constantRouterMap = [
                 name:'Setting',
                 meta:{title:'Settings'}
             },
+            //Dot Cap
+            {
+                path: '/danh-sach-dot-cap',
+                component: () => import('../components/DanhSachDotCap/list'),
+                name:'DanhSachDotCap',
+                meta:{title:'DanhSachDotCap'}
+            },
+            //Quan Ly Khoa Hoc
+            {
+                path: '/danh-sach-khoa-hoc',
+                component: () => import('../components/DanhSachKhoaHoc/list'),
+                name:'DanhSachKhoaHoc',
+                meta:{title:'DanhSachKhoaHoc'}
+            },
+              //Quan Ly Cap Chung Chi
+              {
+                path: '/danh-sach-cap-chung-chi',
+                component: () => import('../components/DanhSachCapChungChi/list'),
+                name:'DanhSachCapChungChi',
+                meta:{title:'DanhSachCapChungChi'}
+            },
         ]
     },
     {

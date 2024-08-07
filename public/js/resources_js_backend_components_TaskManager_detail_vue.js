@@ -1530,7 +1530,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".tree-module_task-detail .custom-tree-node {\n  width: 100%;\n  font-size: 14px;\n  padding-right: 8px;\n}\n.label__form {\n  font-size: 13px;\n}\n.tree-module_task-detail .el-tree-node__content{\n  height: 100px;\n  /* border: 1px dotted rgb(0,0,0,0.2);\n    border-radius: 5px;\n    margin-bottom: 5px; */\n}\n.tree-module_task-detail .custom-tree-node{\n  border-radius: 20px;\n  padding: 5px;\n}\n.tree-module_task-detail .el-tree-node__content:hover, .el-upload-list__item:hover {\n  background-color:transparent !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".tree-module_task-detail .custom-tree-node {\n  width: 100%;\n  font-size: 14px;\n  padding-right: 8px;\n}\n.label__form {\n  font-size: 13px;\n}\n.tree-module_task-detail .el-tree-node__content{\n  height: 100px;\n  /* border: 1px dotted rgb(0,0,0,0.2);\r\n    border-radius: 5px;\r\n    margin-bottom: 5px; */\n}\n.tree-module_task-detail .custom-tree-node{\n  border-radius: 20px;\n  padding: 5px;\n}\n.tree-module_task-detail .el-tree-node__content:hover, .el-upload-list__item:hover {\n  background-color:transparent !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

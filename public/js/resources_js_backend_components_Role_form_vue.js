@@ -841,7 +841,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".custom-tree-node {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  font-size: 14px;\n  padding-right: 8px;\n}\n.label__form {\n  font-size: 13px;\n}\n\n/* .label__form::before{\n  content: '+ ';\n} */\n.tree-role .el-tree-node__content{\n  margin: 10px;\n  display: flex;\n  align-items: center;\n  /* border: 1px dotted rgb(0,0,0,0.2);\n    border-radius: 5px;\n    margin-bottom: 5px; */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".custom-tree-node {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  font-size: 14px;\n  padding-right: 8px;\n}\n.label__form {\n  font-size: 13px;\n}\n\n/* .label__form::before{\r\n  content: '+ ';\r\n} */\n.tree-role .el-tree-node__content{\n  margin: 10px;\n  display: flex;\n  align-items: center;\n  /* border: 1px dotted rgb(0,0,0,0.2);\r\n    border-radius: 5px;\r\n    margin-bottom: 5px; */\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
