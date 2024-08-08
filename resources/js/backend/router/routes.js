@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import appConfig from '/config/appConfig'
-import store from '../../store'
 Vue.use(VueRouter);
 
 export const constantRouterMap = [
@@ -42,32 +41,7 @@ export const constantRouterMap = [
                 component: () => import('../components/User/form'),
                 name:'UserUpdate',
                 meta:{title:'UserUpdate', type:'Form'}
-            },
-            //Task Manager
-            {
-                path: '/list-task',
-                component: () => import('../components/TaskManager/list'),
-                name:'TaskList',
-                meta:{title:'TaskList'}
-            },
-            {
-                path: '/list-task/create',
-                component: () => import('../components/TaskManager/form'),
-                name:'TaskCreate',
-                meta:{title:'TaskCreate',type:'Form'}
-            },
-            {
-                path: '/list-task/:id?',
-                component: () => import('../components/TaskManager/form'),
-                name:'TaskUpdate',
-                meta:{title:'TaskUpdate', type:'Form'}  
-            },
-            {
-                path: '/list-task-detail/:id?',
-                component: () => import('../components/TaskManager/detail'),
-                name:'TaskDetail',
-                meta:{title:'TaskDetail', type:'Form'}  
-            },
+            },   
             //Module
             {
                 path: '/list-module',

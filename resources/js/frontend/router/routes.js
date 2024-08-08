@@ -9,80 +9,80 @@ const routes = [
         path: '',
         component: ()=> import('../components/Index'),
         name: 'index',
-        children: [
-            {
-                path: '/',
-                component: ()=> import('../components/content/HomePage'),
-                name:'home',
-                meta:{
-                    title:'Trang chủ'
-                }
-            },
-            {
-                path: 'product-detail/:id?',
-                component: ()=> import('../components/content/ProductDetail'),
-                name:'product-detail',
-                meta:{
-                    title:'Chi tiết sản phẩm'
-                }
-            },
-            {
-                path: 'shopping-cart',
-                component: ()=> import('../components/content/ShoppingCart'),
-                name:'shopping-cart',
-                meta:{
-                    title:'Giỏ hàng'
-                }
-            },
-            {
-                path: 'order-success/:order_code?',
-                component: ()=> import('../components/content/OrderSuccess'),
-                name:'order-success',
-                meta:{
-                    title:'Mua hàng thành công'
-                }
-            },
-            {
-                path: 'payment-order/:order_code?',
-                component: ()=> import('../components/content/PaymentOrder'),
-                name:'payment-order',
-                meta:{
-                    title:'Thông tin thanh toán'
-                }
-            },
-            {
-                path: 'list-product',
-                component: ()=> import('../components/content/ListProduct'),
-                name:'list-product',
-                meta:{
-                    title:'Danh sách sản phẩm'
-                }
-            },
-            {
-                path: 'list-blog',
-                component: ()=> import('../components/content/ListBlog'),
-                name:'list-blog',
-                meta:{
-                    title:'Danh sách bài viết'
-                }
-            },
-            {
-                path: 'blog-detail/:id?',
-                component: ()=> import('../components/content/BlogDetail'),
-                name:'blog-detail',
-                meta:{
-                    title:'Chi tiết bài viết'
-                }
-            },
-            {
-                path: 'contact',
-                component: ()=> import('../components/content/Contact'),
-                name:'contact',
-                meta:{
-                    title:'Liên hệ'
-                }
-            },
-        ]
+        // children: [
+        //     {
+        //         path: '/',
+        //         component: ()=> import('../components/content/HomePage'),
+        //         name:'home',
+        //         meta:{
+        //             title:'Trang chủ'
+        //         }
+        //     },
+        //     {
+        //         path: 'product-detail/:id?',
+        //         component: ()=> import('../components/content/ProductDetail'),
+        //         name:'product-detail',
+        //         meta:{
+        //             title:'Chi tiết sản phẩm'
+        //         }
+        //     },
+        //     {
+        //         path: 'shopping-cart',
+        //         component: ()=> import('../components/content/ShoppingCart'),
+        //         name:'shopping-cart',
+        //         meta:{
+        //             title:'Giỏ hàng'
+        //         }
+        //     },
+        //     {
+        //         path: 'order-success/:order_code?',
+        //         component: ()=> import('../components/content/OrderSuccess'),
+        //         name:'order-success',
+        //         meta:{
+        //             title:'Mua hàng thành công'
+        //         }
+        //     },
+        //     {
+        //         path: 'payment-order/:order_code?',
+        //         component: ()=> import('../components/content/PaymentOrder'),
+        //         name:'payment-order',
+        //         meta:{
+        //             title:'Thông tin thanh toán'
+        //         }
+        //     },
+        //     {
+        //         path: 'list-product',
+        //         component: ()=> import('../components/content/ListProduct'),
+        //         name:'list-product',
+        //         meta:{
+        //             title:'Danh sách sản phẩm'
+        //         }
+        //     },
+        //     {
+        //         path: 'list-blog',
+        //         component: ()=> import('../components/content/ListBlog'),
+        //         name:'list-blog',
+        //         meta:{
+        //             title:'Danh sách bài viết'
+        //         }
+        //     },
+        //     {
+        //         path: 'blog-detail/:id?',
+        //         component: ()=> import('../components/content/BlogDetail'),
+        //         name:'blog-detail',
+        //         meta:{
+        //             title:'Chi tiết bài viết'
+        //         }
+        //     },
+        //     {
+        //         path: 'contact',
+        //         component: ()=> import('../components/content/Contact'),
+        //         name:'contact',
+        //         meta:{
+        //             title:'Liên hệ'
+        //         }
+        //     },
+        // ]
     },
     {
         path: '/404',
