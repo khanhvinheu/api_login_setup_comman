@@ -14,6 +14,15 @@ class ThongTinKhoaHoc extends Migration
     public function up()
     {
         //
+        Schema::create('thongTinKhoaHocs', function (Blueprint $table) {
+            $table->id();
+            $table->string('maKhoaHoc')->unique();
+            $table->string('tenKhoaHoc');
+            $table->string('chiTietKhoaHoc');
+            $table->string('thoiGianDaoTao');
+            $table->string('noiDaoTao');                         
+            $table->timestamps();
+        });
     }
 
     /**
@@ -24,5 +33,6 @@ class ThongTinKhoaHoc extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('thongTinKhoaHocs');
     }
 }

@@ -14,6 +14,13 @@ class DotCapChungChi extends Migration
     public function up()
     {
         //
+        Schema::create('dotCaps', function (Blueprint $table) {
+            $table->id();
+            $table->string('maDot')->unique();
+            $table->string('thoiGianCap');               
+            $table->string('ghiChu');               
+            $table->timestamps();
+        });
     }
 
     /**

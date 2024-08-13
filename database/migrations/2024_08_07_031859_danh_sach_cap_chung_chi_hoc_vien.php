@@ -26,9 +26,12 @@ class DanhSachCapChungChiHocVien extends Migration
             $table->string('diemTrungBinh');
             $table->string('xepLoai');
             $table->string('ghiChu');
-            $table->string('maDotCap');    
-            $table->string('maKhoaHoc');                 
-            $table->string('maHoSoKyDuyet');                 
+            $table->string('maDotCap')->nullable();
+            $table->foreign('maDotCap')->references('maDot')->on('dotCaps');  
+            $table->string('maKhoaHoc')->nullable();
+            $table->foreign('maKhoaHoc')->references('maKhoaHoc')->on('thongTinKhoaHocs');  
+            $table->string('maHoSoKyDuyet')->nullable();
+            $table->foreign('maHoSoKyDuyet')->references('maHoSo')->on('hoSoKyDuyets');  
             $table->timestamps();
         });
     }

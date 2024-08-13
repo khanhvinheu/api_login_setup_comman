@@ -14,6 +14,14 @@ class HoSoKyDuyet extends Migration
     public function up()
     {
         //
+        Schema::create('hoSoKyDuyets', function (Blueprint $table) {
+            $table->id();
+            $table->string('maHoSo')->unique();
+            $table->string('nguoiKyDuyet');
+            $table->string('thongTinLuu');
+            $table->string('ghiChu');               
+            $table->timestamps();
+        });
     }
 
     /**
@@ -24,5 +32,6 @@ class HoSoKyDuyet extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('hoSoKyDuyets');
     }
 }
