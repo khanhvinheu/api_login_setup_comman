@@ -7,10 +7,7 @@
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                          <i class="fas fa-times"></i>
-                        </button>
+                        </button>                     
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -45,20 +42,32 @@
                                 :row-class-name="tableRowClassName">
 
                                 <el-table-column
-                                    prop="title"
-                                    label="MÃ ĐỢT CẤP"
+                                    prop="maChungChi"
+                                    label="MÃ CHỨNG CHỈ"
                                     sortable
                                 >
                                 </el-table-column>
                                 <el-table-column
-                                    prop="title"
-                                    label="THỜI GIAN CẤP"
+                                    prop="hoTen"
+                                    label="HỌ TÊN"
                                     sortable
                                 >
                                 </el-table-column>
                                 <el-table-column
-                                    prop="title"
-                                    label="GHI CHÚ"
+                                    prop="namSinh"
+                                    label="NĂM SINH"
+                                    sortable
+                                >
+                                </el-table-column>
+                                <el-table-column
+                                    prop="danToc"
+                                    label="DÂN TỘC"
+                                    sortable
+                                >
+                                </el-table-column>
+                                <el-table-column
+                                    prop="xepLoai"
+                                    label="XẾP LOẠI"
                                     sortable
                                 >
                                 </el-table-column>
@@ -82,10 +91,10 @@
                                             @click="update(scope.row)">Cập
                                             nhật
                                         </el-button>
-                                        <el-button
+                                        <!-- <el-button
                                           size="mini"
                                           type="danger"
-                                          @click="delete(scope.row.id)">Xóa</el-button>
+                                          @click="delete(scope.row.id)">Xóa</el-button> -->
                                         <el-popconfirm
                                             confirm-button-text='Xóa'
                                             cancel-button-text='Không'
@@ -179,7 +188,7 @@ export default {
             formData.append('hidden', hidden == "0" ? "1" : "0")
             axios({
                 method: 'post',
-                url: '/api/admin/product_size/update/' + id,
+                url: '/api/admin/cap-chung-chi/update/' + id,
                 data: formData
             })
                 .then(function (response) {
@@ -205,7 +214,7 @@ export default {
             let _this = this
             axios({
                 method: 'post',
-                url: '/api/admin/product_size/delete/' + id,
+                url: '/api/admin/cap-chung-chi/delete/' + id,
             })
                 .then(function (response) {
                     if (response.data['success']) {
@@ -233,7 +242,7 @@ export default {
             this.textSearch && (param.TextSearch = this.textSearch)
             axios({
                 method: 'get',
-                url: '/api/admin/product_size',
+                url: '/api/admin/cap-chung-chi',
                 params: param
             })
                 .then(function ({data}) {

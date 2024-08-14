@@ -31,5 +31,7 @@ class DotCapChungChi extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('dotCaps');
+
     }
 }

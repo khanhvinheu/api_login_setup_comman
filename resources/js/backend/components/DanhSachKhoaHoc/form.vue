@@ -1,18 +1,24 @@
-<template>
+<template>    
     <div class="form_product_color">
        <div style="margin-top: -30px">
            <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">{{title}}</span>
            <el-divider></el-divider>
        </div>
-        <el-form :model="form"  ref="form" label-width="120px" class="demo-ruleForm">
-            <el-form-item :rules="requiredForm" label="Mã đợt cấp" prop="title">
-                <el-input v-model="form.title"></el-input>
+        <el-form :model="form"  ref="form" label-width="150px" class="demo-ruleForm">
+            <el-form-item :rules="requiredForm" label="Mã khóa học" prop="maKhoaHoc">
+                <el-input v-model="form.maKhoaHoc"></el-input>
             </el-form-item>
-            <el-form-item :rules="requiredForm" label="Thời gian" prop="title">
-                <el-input v-model="form.title"></el-input>
+            <el-form-item :rules="requiredForm" label="Tên khóa học" prop="tenKhoaHoc">
+                <el-input v-model="form.tenKhoaHoc"></el-input>
             </el-form-item>
-            <el-form-item :rules="requiredForm" label="Ghi chú" prop="title">
-                <el-input v-model="form.title"></el-input>
+            <el-form-item :rules="requiredForm" label="Chi tiết khóa học" prop="chiTietKhoaHoc">
+                <el-input type="textarea" v-model="form.chiTietKhoaHoc"></el-input>
+            </el-form-item>
+            <el-form-item :rules="requiredForm" label="Thời gian đào tạo" prop="thoiGianDaoTao">
+                <el-input v-model="form.thoiGianDaoTao"></el-input>
+            </el-form-item>
+            <el-form-item :rules="requiredForm" label="Nơi đào tạo" prop="noiDaoTao">
+                <el-input v-model="form.noiDaoTao"></el-input>
             </el-form-item>
         </el-form>
         <div style="display: flex; justify-content: end">
@@ -20,8 +26,7 @@
             <el-button @click="$refs.form.resetFields()">Reset Form</el-button>
         </div>
     </div>
-</template>
-
+</template> 
 <script>
     export default {
         name: "create_update",
@@ -30,29 +35,31 @@
             return {
                 title:'',
                 form:{
-                    maDotCap:'',
-                    thoiGian:'',
-                    ghiChu:''
+                    maKhoaHoc:'',
+                    tenKhoaHoc:'',
+                    chiTietKhoaHoc:'',
+                    thoiGianDaoTao:'',
+                    noiDaoTao:''
                 },
                 requiredForm: { required: true, message: 'Vui lòng không bỏ trống!', trigger: 'blur' }
             }
         },
         mounted() {
             if(this.resID){
-                this.title='Cập nhật đớt cấp'
+                this.title='Cập nhật khóa học'
                 this.getDetail(this.resID)
             }else {
-                this.title='Thêm mới đợt cấp'
+                this.title='Thêm mới khóa học'
                 this.$refs.form.resetFields()
             }
         },
         watch:{
             resID(e){
                 if(e){
-                    this.title='Cập nhật size sản phẩm'
+                    this.title='Cập nhật khóa học'
                     this.getDetail(e)
                 }else {
-                    this.title='Thêm mới size sản phẩm'
+                    this.title='Thêm mới khóa học'
                 }
             }
         },
@@ -60,7 +67,7 @@
             submit(){
                 let _this= this
                 let url
-                url = this.resID?('/api/admin/product_size/update/'+this.resID):'/api/admin/product_size/create'
+                url = this.resID?('/api/admin/khoa-hoc/update/'+this.resID):'/api/admin/khoa-hoc/create'
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         axios({
@@ -96,14 +103,16 @@
                 let _this = this
                 await axios({
                     method: 'get',
-                    url: '/api/admin/product_size/detail/'+id,
+                    url: '/api/admin/khoa-hoc/detail/'+id,
                 })
                     .then(({data})=> {
                         if(data['success']){
                             let res = data['data']
-                            _this.form.title = res['title']
-                            _this.form.value = res['value']
-
+                            _this.form.maKhoaHoc = res['maKhoaHoc']
+                            _this.form.tenKhoaHoc = res['tenKhoaHoc']
+                            _this.form.chiTietKhoaHoc = res['chiTietKhoaHoc']
+                            _this.form.thoiGianDaoTao = res['thoiGianDaoTao']
+                            _this.form.noiDaoTao = res['noiDaoTao']  
                         }
                     });
 

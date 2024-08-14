@@ -139,6 +139,24 @@ Route::prefix('admin')->namespace('admin')->group(function () {
      Route::post('list-task-feedback/update/{id}','TaskFeedbackController@update');
      Route::post('list-task-feedback/create','TaskFeedbackController@create');
      Route::post('list-task-feedback/delete/{id}','TaskFeedbackController@destroy');    
+     //dotCap
+     Route::get('dot-cap','dotCapController@index');       
+     Route::get('dot-cap/detail/{id}','dotCapController@show');
+     Route::post('dot-cap/update/{id}','dotCapController@update');
+     Route::post('dot-cap/create','dotCapController@store');
+     Route::post('dot-cap/delete/{id}','dotCapController@destroy');    
+     //khoaHoc
+     Route::get('khoa-hoc','thongTinKhoaHocController@index');       
+     Route::get('khoa-hoc/detail/{id}','thongTinKhoaHocController@show');
+     Route::post('khoa-hoc/update/{id}','thongTinKhoaHocController@update');
+     Route::post('khoa-hoc/create','thongTinKhoaHocController@store');
+     Route::post('khoa-hoc/delete/{id}','thongTinKhoaHocController@destroy');    
+     //danhSachCapChungChi
+     Route::get('cap-chung-chi','danhSachCapChungChiHocVienController@index');       
+     Route::get('cap-chung-chi/detail/{id}','danhSachCapChungChiHocVienController@show');
+     Route::post('cap-chung-chi/update/{id}','danhSachCapChungChiHocVienController@update');
+     Route::post('cap-chung-chi/create','danhSachCapChungChiHocVienController@store');
+     Route::post('cap-chung-chi/delete/{id}','danhSachCapChungChiHocVienController@destroy');    
 
 });
 

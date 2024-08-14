@@ -5,14 +5,14 @@
            <el-divider></el-divider>
        </div>
         <el-form :model="form"  ref="form" label-width="120px" class="demo-ruleForm">
-            <el-form-item :rules="requiredForm" label="Mã đợt cấp" prop="title">
-                <el-input v-model="form.title"></el-input>
+            <el-form-item :rules="requiredForm" label="Mã đợt cấp" prop="maDot">
+                <el-input v-model="form.maDot"></el-input>
             </el-form-item>
-            <el-form-item :rules="requiredForm" label="Thời gian" prop="title">
-                <el-input v-model="form.title"></el-input>
+            <el-form-item :rules="requiredForm" label="Thời gian" prop="thoiGianCap">
+                <el-input v-model="form.thoiGianCap"></el-input>
             </el-form-item>
-            <el-form-item :rules="requiredForm" label="Ghi chú" prop="title">
-                <el-input v-model="form.title"></el-input>
+            <el-form-item :rules="requiredForm" label="Ghi chú" prop="ghiChu">
+                <el-input v-model="form.ghiChu"></el-input>
             </el-form-item>
         </el-form>
         <div style="display: flex; justify-content: end">
@@ -30,8 +30,8 @@
             return {
                 title:'',
                 form:{
-                    maDotCap:'',
-                    thoiGian:'',
+                    maDot:'',
+                    thoiGianCap:'',
                     ghiChu:''
                 },
                 requiredForm: { required: true, message: 'Vui lòng không bỏ trống!', trigger: 'blur' }
@@ -49,10 +49,10 @@
         watch:{
             resID(e){
                 if(e){
-                    this.title='Cập nhật size sản phẩm'
+                    this.title='Cập nhật đợt cấp sản phẩm'
                     this.getDetail(e)
                 }else {
-                    this.title='Thêm mới size sản phẩm'
+                    this.title='Thêm mới đợt cấp sản phẩm'
                 }
             }
         },
@@ -60,7 +60,7 @@
             submit(){
                 let _this= this
                 let url
-                url = this.resID?('/api/admin/product_size/update/'+this.resID):'/api/admin/product_size/create'
+                url = this.resID?('/api/admin/dot-cap/update/'+this.resID):'/api/admin/dot-cap/create'
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         axios({
@@ -96,13 +96,14 @@
                 let _this = this
                 await axios({
                     method: 'get',
-                    url: '/api/admin/product_size/detail/'+id,
+                    url: '/api/admin/dot-cap/detail/'+id,
                 })
                     .then(({data})=> {
                         if(data['success']){
                             let res = data['data']
-                            _this.form.title = res['title']
-                            _this.form.value = res['value']
+                            _this.form.maDot = res['maDot']
+                            _this.form.thoiGianCap = res['thoiGianCap']
+                            _this.form.ghiChu = res['ghiChu']
 
                         }
                     });

@@ -22,8 +22,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       title: '',
       form: {
-        maDotCap: '',
-        thoiGian: '',
+        maChungChi: '',
+        hoTen: '',
+        namSinh: '',
+        gioiTinh: '',
+        vanHoa: '',
+        danToc: '',
+        queQuan: '',
+        diemTrungBinh: '',
+        xepLoai: '',
         ghiChu: ''
       },
       requiredForm: {
@@ -35,20 +42,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {
     if (this.resID) {
-      this.title = 'Cập nhật đớt cấp';
+      this.title = 'Cập nhật danh sách cấp chứng chỉ';
       this.getDetail(this.resID);
     } else {
-      this.title = 'Thêm mới đợt cấp';
+      this.title = 'Thêm mới danh sách cấp chứng chỉ';
       this.$refs.form.resetFields();
     }
   },
   watch: {
     resID: function resID(e) {
       if (e) {
-        this.title = 'Cập nhật size sản phẩm';
+        this.title = 'Cập nhật danh sách cấp chứng chỉ';
         this.getDetail(e);
       } else {
-        this.title = 'Thêm mới size sản phẩm';
+        this.title = 'Thêm mới danh sách cấp chứng chỉ';
       }
     }
   },
@@ -57,7 +64,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
       var _this = this;
       var url;
-      url = this.resID ? '/api/admin/product_size/update/' + this.resID : '/api/admin/product_size/create';
+      url = this.resID ? '/api/admin/cap-chung-chi/update/' + this.resID : '/api/admin/cap-chung-chi/create';
       this.$refs['form'].validate(function (valid) {
         if (valid) {
           axios({
@@ -97,13 +104,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context.next = 3;
               return axios({
                 method: 'get',
-                url: '/api/admin/product_size/detail/' + id
+                url: '/api/admin/cap-chung-chi/detail/' + id
               }).then(function (_ref) {
                 var data = _ref.data;
                 if (data['success']) {
                   var res = data['data'];
-                  _this.form.title = res['title'];
-                  _this.form.value = res['value'];
+                  _this.form.maChungChi = res['maChungChi'], _this.form.hoTen = res['hoTen'], _this.form.namSinh = res['namSinh'], _this.form.gioiTinh = res['gioiTinh'], _this.form.vanHoa = res['vanHoa'], _this.form.danToc = res['danToc'], _this.form.queQuan = res['queQuan'], _this.form.diemTrungBinh = res['diemTrungBinh'], _this.form.xepLoai = res['xepLoai'], _this.form.ghiChu = res['ghiChu'];
                 }
               });
             case 3:
@@ -177,7 +183,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('hidden', hidden == "0" ? "1" : "0");
       axios({
         method: 'post',
-        url: '/api/admin/product_size/update/' + id,
+        url: '/api/admin/cap-chung-chi/update/' + id,
         data: formData
       }).then(function (response) {
         if (response.data['success']) {
@@ -200,7 +206,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios({
         method: 'post',
-        url: '/api/admin/product_size/delete/' + id
+        url: '/api/admin/cap-chung-chi/delete/' + id
       }).then(function (response) {
         if (response.data['success']) {
           _this.$notify({
@@ -227,7 +233,7 @@ __webpack_require__.r(__webpack_exports__);
       this.textSearch && (param.TextSearch = this.textSearch);
       axios({
         method: 'get',
-        url: '/api/admin/product_size',
+        url: '/api/admin/cap-chung-chi',
         params: param
       }).then(function (_ref) {
         var data = _ref.data;
@@ -289,50 +295,152 @@ var render = function render() {
     ref: "form",
     staticClass: "demo-ruleForm",
     attrs: {
+      inline: true,
       model: _vm.form,
-      "label-width": "120px"
+      "label-width": "150px"
     }
   }, [_c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
-      label: "Mã đợt cấp",
-      prop: "title"
+      label: "Mã chứng chỉ",
+      prop: "maChungChi"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.maChungChi,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "maChungChi", $$v);
       },
-      expression: "form.title"
+      expression: "form.maChungChi"
     }
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
-      label: "Thời gian",
-      prop: "title"
+      label: "Họ tên",
+      prop: "hoTen"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.hoTen,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "hoTen", $$v);
       },
-      expression: "form.title"
+      expression: "form.hoTen"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Năm sinh",
+      prop: "namSinh"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.namSinh,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "namSinh", $$v);
+      },
+      expression: "form.namSinh"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Giới tính",
+      prop: "gioiTinh"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.gioiTinh,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "gioiTinh", $$v);
+      },
+      expression: "form.gioiTinh"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Văn hóa",
+      prop: "vanHoa"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.vanHoa,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "vanHoa", $$v);
+      },
+      expression: "form.vanHoa"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Dân tộc",
+      prop: "danToc"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.danToc,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "danToc", $$v);
+      },
+      expression: "form.danToc"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Quê quán",
+      prop: "queQuan"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.queQuan,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "queQuan", $$v);
+      },
+      expression: "form.queQuan"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Điểm trung bình",
+      prop: "diemTrungBinh"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.diemTrungBinh,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "diemTrungBinh", $$v);
+      },
+      expression: "form.diemTrungBinh"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Xếp loại",
+      prop: "xepLoai"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.xepLoai,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "xepLoai", $$v);
+      },
+      expression: "form.xepLoai"
     }
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
       label: "Ghi chú",
-      prop: "title"
+      prop: "ghiChu"
     }
   }, [_c("el-input", {
+    attrs: {
+      type: "textarea"
+    },
     model: {
-      value: _vm.form.title,
+      value: _vm.form.ghiChu,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "ghiChu", $$v);
       },
-      expression: "form.title"
+      expression: "form.ghiChu"
     }
   })], 1)], 1), _vm._v(" "), _c("div", {
     staticStyle: {
@@ -464,20 +572,32 @@ var render = function render() {
     }
   }, [_c("el-table-column", {
     attrs: {
-      prop: "title",
-      label: "MÃ ĐỢT CẤP",
+      prop: "maChungChi",
+      label: "MÃ CHỨNG CHỈ",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
-      prop: "title",
-      label: "THỜI GIAN CẤP",
+      prop: "hoTen",
+      label: "HỌ TÊN",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
-      prop: "title",
-      label: "GHI CHÚ",
+      prop: "namSinh",
+      label: "NĂM SINH",
+      sortable: ""
+    }
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "danToc",
+      label: "DÂN TỘC",
+      sortable: ""
+    }
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "xepLoai",
+      label: "XẾP LOẠI",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
@@ -509,17 +629,7 @@ var render = function render() {
               return _vm.update(scope.row);
             }
           }
-        }, [_vm._v("Cập\n                                        nhật\n                                    ")]), _vm._v(" "), _c("el-button", {
-          attrs: {
-            size: "mini",
-            type: "danger"
-          },
-          on: {
-            click: function click($event) {
-              return delete scope.row.id;
-            }
-          }
-        }, [_vm._v("Xóa")]), _vm._v(" "), _c("el-popconfirm", {
+        }, [_vm._v("Cập\n                                        nhật\n                                    ")]), _vm._v(" "), _c("el-popconfirm", {
           attrs: {
             "confirm-button-text": "Xóa",
             "cancel-button-text": "Không",
@@ -614,14 +724,6 @@ var staticRenderFns = [function () {
     }
   }, [_c("i", {
     staticClass: "fas fa-minus"
-  })]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-tool",
-    attrs: {
-      type: "button",
-      "data-card-widget": "remove"
-    }
-  }, [_c("i", {
-    staticClass: "fas fa-times"
   })])])]);
 }];
 render._withStripped = true;

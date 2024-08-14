@@ -22,9 +22,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       title: '',
       form: {
-        maDotCap: '',
-        thoiGian: '',
-        ghiChu: ''
+        maKhoaHoc: '',
+        tenKhoaHoc: '',
+        chiTietKhoaHoc: '',
+        thoiGianDaoTao: '',
+        noiDaoTao: ''
       },
       requiredForm: {
         required: true,
@@ -35,20 +37,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {
     if (this.resID) {
-      this.title = 'Cập nhật đớt cấp';
+      this.title = 'Cập nhật khóa học';
       this.getDetail(this.resID);
     } else {
-      this.title = 'Thêm mới đợt cấp';
+      this.title = 'Thêm mới khóa học';
       this.$refs.form.resetFields();
     }
   },
   watch: {
     resID: function resID(e) {
       if (e) {
-        this.title = 'Cập nhật size sản phẩm';
+        this.title = 'Cập nhật khóa học';
         this.getDetail(e);
       } else {
-        this.title = 'Thêm mới size sản phẩm';
+        this.title = 'Thêm mới khóa học';
       }
     }
   },
@@ -57,7 +59,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
       var _this = this;
       var url;
-      url = this.resID ? '/api/admin/product_size/update/' + this.resID : '/api/admin/product_size/create';
+      url = this.resID ? '/api/admin/khoa-hoc/update/' + this.resID : '/api/admin/khoa-hoc/create';
       this.$refs['form'].validate(function (valid) {
         if (valid) {
           axios({
@@ -97,13 +99,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context.next = 3;
               return axios({
                 method: 'get',
-                url: '/api/admin/product_size/detail/' + id
+                url: '/api/admin/khoa-hoc/detail/' + id
               }).then(function (_ref) {
                 var data = _ref.data;
                 if (data['success']) {
                   var res = data['data'];
-                  _this.form.title = res['title'];
-                  _this.form.value = res['value'];
+                  _this.form.maKhoaHoc = res['maKhoaHoc'];
+                  _this.form.tenKhoaHoc = res['tenKhoaHoc'];
+                  _this.form.chiTietKhoaHoc = res['chiTietKhoaHoc'];
+                  _this.form.thoiGianDaoTao = res['thoiGianDaoTao'];
+                  _this.form.noiDaoTao = res['noiDaoTao'];
                 }
               });
             case 3:
@@ -177,7 +182,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('hidden', hidden == "0" ? "1" : "0");
       axios({
         method: 'post',
-        url: '/api/admin/product_size/update/' + id,
+        url: '/api/admin/khoa-hoc/update/' + id,
         data: formData
       }).then(function (response) {
         if (response.data['success']) {
@@ -200,7 +205,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios({
         method: 'post',
-        url: '/api/admin/product_size/delete/' + id
+        url: '/api/admin/khoa-hoc/delete/' + id
       }).then(function (response) {
         if (response.data['success']) {
           _this.$notify({
@@ -227,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
       this.textSearch && (param.TextSearch = this.textSearch);
       axios({
         method: 'get',
-        url: '/api/admin/product_size',
+        url: '/api/admin/khoa-hoc',
         params: param
       }).then(function (_ref) {
         var data = _ref.data;
@@ -290,49 +295,80 @@ var render = function render() {
     staticClass: "demo-ruleForm",
     attrs: {
       model: _vm.form,
-      "label-width": "120px"
+      "label-width": "150px"
     }
   }, [_c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
-      label: "Mã đợt cấp",
-      prop: "title"
+      label: "Mã khóa học",
+      prop: "maKhoaHoc"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.maKhoaHoc,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "maKhoaHoc", $$v);
       },
-      expression: "form.title"
+      expression: "form.maKhoaHoc"
     }
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
-      label: "Thời gian",
-      prop: "title"
+      label: "Tên khóa học",
+      prop: "tenKhoaHoc"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.tenKhoaHoc,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "tenKhoaHoc", $$v);
       },
-      expression: "form.title"
+      expression: "form.tenKhoaHoc"
     }
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
-      label: "Ghi chú",
-      prop: "title"
+      label: "Chi tiết khóa học",
+      prop: "chiTietKhoaHoc"
+    }
+  }, [_c("el-input", {
+    attrs: {
+      type: "textarea"
+    },
+    model: {
+      value: _vm.form.chiTietKhoaHoc,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "chiTietKhoaHoc", $$v);
+      },
+      expression: "form.chiTietKhoaHoc"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Thời gian đào tạo",
+      prop: "thoiGianDaoTao"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.thoiGianDaoTao,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "thoiGianDaoTao", $$v);
       },
-      expression: "form.title"
+      expression: "form.thoiGianDaoTao"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Nơi đào tạo",
+      prop: "noiDaoTao"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.noiDaoTao,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "noiDaoTao", $$v);
+      },
+      expression: "form.noiDaoTao"
     }
   })], 1)], 1), _vm._v(" "), _c("div", {
     staticStyle: {
@@ -464,20 +500,26 @@ var render = function render() {
     }
   }, [_c("el-table-column", {
     attrs: {
-      prop: "title",
-      label: "MÃ ĐỢT CẤP",
+      prop: "maKhoaHoc",
+      label: "MÃ KHÓA HỌC",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
-      prop: "title",
-      label: "THỜI GIAN CẤP",
+      prop: "tenKhoaHoc",
+      label: "TÊN KHÓA HỌC",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
-      prop: "title",
-      label: "GHI CHÚ",
+      prop: "thoiGianDaoTao",
+      label: "THỜI GIAN ĐÀO TẠO",
+      sortable: ""
+    }
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "noiDaoTao",
+      label: "NƠI ĐÀO TẠO",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
@@ -509,17 +551,7 @@ var render = function render() {
               return _vm.update(scope.row);
             }
           }
-        }, [_vm._v("Cập\n                                        nhật\n                                    ")]), _vm._v(" "), _c("el-button", {
-          attrs: {
-            size: "mini",
-            type: "danger"
-          },
-          on: {
-            click: function click($event) {
-              return delete scope.row.id;
-            }
-          }
-        }, [_vm._v("Xóa")]), _vm._v(" "), _c("el-popconfirm", {
+        }, [_vm._v("Cập\n                                        nhật\n                                    ")]), _vm._v(" "), _c("el-popconfirm", {
           attrs: {
             "confirm-button-text": "Xóa",
             "cancel-button-text": "Không",
@@ -614,14 +646,6 @@ var staticRenderFns = [function () {
     }
   }, [_c("i", {
     staticClass: "fas fa-minus"
-  })]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-tool",
-    attrs: {
-      type: "button",
-      "data-card-widget": "remove"
-    }
-  }, [_c("i", {
-    staticClass: "fas fa-times"
   })])])]);
 }];
 render._withStripped = true;

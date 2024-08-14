@@ -22,8 +22,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       title: '',
       form: {
-        maDotCap: '',
-        thoiGian: '',
+        maDot: '',
+        thoiGianCap: '',
         ghiChu: ''
       },
       requiredForm: {
@@ -45,10 +45,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     resID: function resID(e) {
       if (e) {
-        this.title = 'Cập nhật size sản phẩm';
+        this.title = 'Cập nhật đợt cấp sản phẩm';
         this.getDetail(e);
       } else {
-        this.title = 'Thêm mới size sản phẩm';
+        this.title = 'Thêm mới đợt cấp sản phẩm';
       }
     }
   },
@@ -57,7 +57,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
       var _this = this;
       var url;
-      url = this.resID ? '/api/admin/product_size/update/' + this.resID : '/api/admin/product_size/create';
+      url = this.resID ? '/api/admin/dot-cap/update/' + this.resID : '/api/admin/dot-cap/create';
       this.$refs['form'].validate(function (valid) {
         if (valid) {
           axios({
@@ -97,13 +97,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context.next = 3;
               return axios({
                 method: 'get',
-                url: '/api/admin/product_size/detail/' + id
+                url: '/api/admin/dot-cap/detail/' + id
               }).then(function (_ref) {
                 var data = _ref.data;
                 if (data['success']) {
                   var res = data['data'];
-                  _this.form.title = res['title'];
-                  _this.form.value = res['value'];
+                  _this.form.maDot = res['maDot'];
+                  _this.form.thoiGianCap = res['thoiGianCap'];
+                  _this.form.ghiChu = res['ghiChu'];
                 }
               });
             case 3:
@@ -177,7 +178,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('hidden', hidden == "0" ? "1" : "0");
       axios({
         method: 'post',
-        url: '/api/admin/product_size/update/' + id,
+        url: '/api/admin/dot-cap/update/' + id,
         data: formData
       }).then(function (response) {
         if (response.data['success']) {
@@ -200,7 +201,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios({
         method: 'post',
-        url: '/api/admin/product_size/delete/' + id
+        url: '/api/admin/dot-cap/delete/' + id
       }).then(function (response) {
         if (response.data['success']) {
           _this.$notify({
@@ -227,7 +228,7 @@ __webpack_require__.r(__webpack_exports__);
       this.textSearch && (param.TextSearch = this.textSearch);
       axios({
         method: 'get',
-        url: '/api/admin/product_size',
+        url: '/api/admin/dot-cap',
         params: param
       }).then(function (_ref) {
         var data = _ref.data;
@@ -296,43 +297,43 @@ var render = function render() {
     attrs: {
       rules: _vm.requiredForm,
       label: "Mã đợt cấp",
-      prop: "title"
+      prop: "maDot"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.maDot,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "maDot", $$v);
       },
-      expression: "form.title"
+      expression: "form.maDot"
     }
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
       label: "Thời gian",
-      prop: "title"
+      prop: "thoiGianCap"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.thoiGianCap,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "thoiGianCap", $$v);
       },
-      expression: "form.title"
+      expression: "form.thoiGianCap"
     }
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
       label: "Ghi chú",
-      prop: "title"
+      prop: "ghiChu"
     }
   }, [_c("el-input", {
     model: {
-      value: _vm.form.title,
+      value: _vm.form.ghiChu,
       callback: function callback($$v) {
-        _vm.$set(_vm.form, "title", $$v);
+        _vm.$set(_vm.form, "ghiChu", $$v);
       },
-      expression: "form.title"
+      expression: "form.ghiChu"
     }
   })], 1)], 1), _vm._v(" "), _c("div", {
     staticStyle: {
@@ -464,19 +465,19 @@ var render = function render() {
     }
   }, [_c("el-table-column", {
     attrs: {
-      prop: "title",
+      prop: "maDot",
       label: "MÃ ĐỢT CẤP",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
-      prop: "title",
+      prop: "thoiGianCap",
       label: "THỜI GIAN CẤP",
       sortable: ""
     }
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
-      prop: "title",
+      prop: "ghiChu",
       label: "GHI CHÚ",
       sortable: ""
     }
@@ -509,17 +510,7 @@ var render = function render() {
               return _vm.update(scope.row);
             }
           }
-        }, [_vm._v("Cập\n                                        nhật\n                                    ")]), _vm._v(" "), _c("el-button", {
-          attrs: {
-            size: "mini",
-            type: "danger"
-          },
-          on: {
-            click: function click($event) {
-              return delete scope.row.id;
-            }
-          }
-        }, [_vm._v("Xóa")]), _vm._v(" "), _c("el-popconfirm", {
+        }, [_vm._v("Cập\n                                        nhật\n                                    ")]), _vm._v(" "), _c("el-popconfirm", {
           attrs: {
             "confirm-button-text": "Xóa",
             "cancel-button-text": "Không",
@@ -614,14 +605,6 @@ var staticRenderFns = [function () {
     }
   }, [_c("i", {
     staticClass: "fas fa-minus"
-  })]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-tool",
-    attrs: {
-      type: "button",
-      "data-card-widget": "remove"
-    }
-  }, [_c("i", {
-    staticClass: "fas fa-times"
   })])])]);
 }];
 render._withStripped = true;
