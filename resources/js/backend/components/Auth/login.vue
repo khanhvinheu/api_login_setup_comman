@@ -32,8 +32,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                <el-button style="background: #ee4d2d; color: #fff; width: 100%" :loading="loading" @click="login()">Sign In</el-button>
-
+                        <el-button style="background: #ee4d2d; color: #fff; width: 100%" :loading="loading" @click="login()">Sign In</el-button>
                     </div>
                 </div>
 

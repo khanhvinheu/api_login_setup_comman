@@ -170,20 +170,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getList();
   },
   methods: {
-    generatePDF: function generatePDF() {
+    generatePDF: function generatePDF(item) {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var element, pdfBlob;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              // const element = `
-              //     <div>Test</div>
-              // `;
-              // const pdfBlob = await html2pdf().from(element).outputPdf('blob');
-              // this.pdfSrc = URL.createObjectURL(pdfBlob);  
-              _this2.pdfSrc = '/pdf/chungchimau.pdf';
+              element = "\n                <div style=\"display: flex;position: relative;;width: 795px;height: 540px; background-image: url('/assets/chungchimau/chungchimau_front.jpg');background-position: center;\n                    background-repeat: no-repeat; background-size: 100% auto;\n                \">\n                        <div class=\"left\" style=\"position: relative; width: 50%;height: 100%;\">                    \n                            <div class=\"chucVuEN\" style=\"position: absolute;top:65px; left: 169px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: red;\">RECTOR</span>\n                            </div>                    \n                            <div class=\"donViCapEN\" style=\"position: absolute;top:90px; left: 125px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: red;\">TRA VINH UNIVERSITY</span>\n                            </div>                   \n                            <div class=\"hoTenEN\" style=\"position: absolute;top:180px; left: 60px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">".concat(item.hoTen, "</span>\n                            </div>\n                            <div class=\"ngaySinhEN\" style=\"position: absolute;top:210px; left: 100px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">").concat(item.namSinh, "</span>\n                            </div>\n                            <div class=\"tenKhoaHocEN\" style=\"position: absolute;top:268px; left:26px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">CN CNTT</span>\n                            </div>                \n                            <div class=\"fromDateEN\" style=\"position: absolute;top:298px; left:196px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">01&nbsp 01 &nbsp&nbsp2016 \n                                    &nbsp\n                                    &nbsp 01&nbsp&nbsp09&nbsp  2020</span>\n                            </div>                \n                            <div class=\"noiDaoTaoEN\" style=\"position: absolute;top:328px; left:46px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">Tr\xE0 Vinh University</span>\n                            </div>\n                        </div>\n                        <div class=\"right\" style=\"position: relative; width: 50%;height: 100%;\">\n                            <div class=\"chucVu\" style=\"position: absolute;top:65px; right: 152px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: red;\">HI\u1EC6U TR\u01AF\u1EDENG</span>\n                            </div>\n                            <div class=\"donViCap\" style=\"position: absolute;top:90px; right: 110px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: red;\">TR\u01AF\u1EDCNG \u0110\u1EA0I H\u1ECCC TR\xC0 VINH</span>\n                            </div>\n                            <div class=\"hoTen\" style=\"position: absolute;top:180px; left: 50px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">").concat(item.hoTen, "</span>\n                            </div>\n                            <div class=\"gioiTinh\" style=\"position: absolute;top:180px; left: 330px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">Nam</span>\n                            </div>\n                            <div class=\"ngaySinh\" style=\"position: absolute;top:210px; left:80px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">").concat(item.namSinh, "</span>\n                            </div>\n                            <div class=\"tenKhoaHoc\" style=\"position: absolute;top:268px; left: 25px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">C\xF4ng nh\xE2n CNTT</span>\n                            </div>\n                            <div class=\"fromDate\" style=\"position: absolute;top:298px; left: 178px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">01&nbsp 01 2016 \n                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp\n                                    &nbsp 01&nbsp  09&nbsp  2020</span>\n                            </div>\n                            <div class=\"noiDaoTao\" style=\"position: absolute;top:328px; left: 45px\">\n                                <span style=\"font-size: 13px;font-weight: bold; color: black;\">Tr\u01B0\u1EDDng \u0111\u1EA1i h\u1ECDc Tr\xE0 Vinh</span>\n                            </div>\n                        </div>\n                </div>\n                <div style=\"display: flex;position: relative;;width: 795px;height: 540px; background-image: url('/assets/chungchimau/chungchimau_back.jpg');background-position: center;\n                            background-repeat: no-repeat; background-size: 100% auto;\n                        \"></div>\n            ");
+              _context.next = 3;
+              return html2pdf_js__WEBPACK_IMPORTED_MODULE_0___default()().from(element).outputPdf('blob');
+            case 3:
+              pdfBlob = _context.sent;
+              _this2.pdfSrc = URL.createObjectURL(pdfBlob);
+              // this.pdfSrc='/pdf/chungchimau.pdf'
               _this2.viewPdf = true;
-            case 2:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -658,7 +660,9 @@ var render = function render() {
             size: "mini"
           },
           on: {
-            click: _vm.generatePDF
+            click: function click($event) {
+              return _vm.generatePDF(scope.row);
+            }
           }
         }, [_c("i", {
           staticClass: "el-icon-view"
@@ -748,32 +752,27 @@ var render = function render() {
       success: _vm.success
     }
   })], 1), _vm._v(" "), _c("el-dialog", {
+    staticClass: "dialog-pdf-viewer",
     attrs: {
       visible: _vm.viewPdf,
-      width: "80%"
+      width: "60%",
+      top: "5vh",
+      "show-close": false
     },
     on: {
       "update:visible": function updateVisible($event) {
         _vm.viewPdf = $event;
       }
     }
-  }, [_c("div", {
-    staticStyle: {
-      "margin-top": "-30px"
-    }
-  }, [_c("span", {
-    staticStyle: {
-      "font-size": "13px",
-      "font-weight": "bold",
-      "text-transform": "uppercase"
-    }
-  }, [_vm._v("THÔNG TIN CHI TIẾT CHỨNG CHỈ")]), _vm._v(" "), _c("el-divider")], 1), _vm._v(" "), _c("embed", {
+  }, [_c("embed", {
     staticStyle: {
       width: "100%",
-      height: "90vh"
+      height: "80vh"
     },
     attrs: {
-      src: _vm.pdfSrc
+      src: _vm.pdfSrc,
+      title: "Embedded PDF Viewer",
+      type: "application/pdf"
     }
   })])], 1);
 };
@@ -804,10 +803,10 @@ render._withStripped = true;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -821,7 +820,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".el-table .warning-row {\n  background: oldlace;\n}\n.el-table .success-row {\n  background: #f0f9eb;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".el-table .warning-row {\n  background: oldlace;\n}\n.el-table .success-row {\n  background: #f0f9eb;\n}\n.dialog-pdf-viewer .el-dialog__body {\n  padding: 0 !important;\n}\n.dialog-pdf-viewer .el-dialog__header {\n  display: none;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16763,10 +16762,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -16776,7 +16775,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./list.vue?vue&type=style&index=0&id=5b02964c&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css&");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_scss___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!../../../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./list.vue?vue&type=style&index=0&id=5b02964c&lang=scss& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss&");
 
             
 
@@ -16785,11 +16784,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_scss___WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_scss___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -16845,7 +16844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _list_vue_vue_type_template_id_5b02964c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./list.vue?vue&type=template&id=5b02964c& */ "./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=template&id=5b02964c&");
 /* harmony import */ var _list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./list.vue?vue&type=script&lang=js& */ "./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=script&lang=js&");
-/* harmony import */ var _list_vue_vue_type_style_index_0_id_5b02964c_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./list.vue?vue&type=style&index=0&id=5b02964c&lang=css& */ "./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css&");
+/* harmony import */ var _list_vue_vue_type_style_index_0_id_5b02964c_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./list.vue?vue&type=style&index=0&id=5b02964c&lang=scss& */ "./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -16939,15 +16938,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css&":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css& ***!
-  \*******************************************************************************************************************/
+/***/ "./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss&":
+/*!********************************************************************************************************************!*\
+  !*** ./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss& ***!
+  \********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./list.vue?vue&type=style&index=0&id=5b02964c&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_style_index_0_id_5b02964c_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!../../../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./list.vue?vue&type=style&index=0&id=5b02964c&lang=scss& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/backend/components/DanhSachCapChungChi/list.vue?vue&type=style&index=0&id=5b02964c&lang=scss&");
 
 
 /***/ }),
