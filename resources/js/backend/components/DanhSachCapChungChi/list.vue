@@ -86,10 +86,22 @@
                                     width="180"
                                 >
                                     <template slot-scope="scope">
+                                       
                                         <el-button
+                                            type="success"
                                             size="mini"
-                                            @click="update(scope.row)">Cập
-                                            nhật
+                                            @click="generatePDF"
+                                            ><i class="el-icon-view"></i>
+                                        </el-button>
+                                        <!-- <el-button
+                                            type="success"
+                                            size="mini"
+                                            ><i class="el-icon-check"></i>
+                                        </el-button> -->
+                                        <el-button
+                                            type="primary"
+                                            size="mini"
+                                            @click="update(scope.row)"><i class="el-icon-edit"></i>
                                         </el-button>
                                         <!-- <el-button
                                           size="mini"
@@ -102,7 +114,7 @@
                                             @confirm="()=>deleteBanner(scope.row.id)"
                                         >
                                             <el-button slot="reference" type="danger"
-                                                       size="mini"><i class="el-icon-delete"></i> Xóa
+                                                       size="mini"><i class="el-icon-delete"></i>
                                             </el-button>
                                         </el-popconfirm>
                                     </template>
@@ -137,11 +149,21 @@
         <el-dialog :visible.sync="outerVisible">
             <formData :resID="idUpdate" @success="success"/>
         </el-dialog>
+        <el-dialog :visible.sync="viewPdf" width="80%">
+            <div style="margin-top: -30px">
+                <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">THÔNG TIN CHI TIẾT CHỨNG CHỈ</span>
+                <el-divider></el-divider>
+            </div>           
+            <embed style="width: 100%; height: 90vh"  :src="pdfSrc">              
+            </embed>       
+        </el-dialog>
+       
     </div>
 
 </template>
 
 <script>
+import html2pdf from 'html2pdf.js';
 import formData from "./form";
 export default {
     components:{formData},
@@ -149,6 +171,7 @@ export default {
         return {
             idUpdate:'',
             outerVisible:false,
+            viewPdf:false,
             loadingTable:false,
             tableData: [],
             slideData: [],
@@ -158,13 +181,23 @@ export default {
                 Total:10,
                 Page:1,
                 PageLimit:10
-            }
+            },
+            pdfSrc:''
         }
     },
     mounted() {
         this.getList()
     },
     methods: {
+        async generatePDF() {         
+            // const element = `
+            //     <div>Test</div>
+            // `;
+            // const pdfBlob = await html2pdf().from(element).outputPdf('blob');
+            // this.pdfSrc = URL.createObjectURL(pdfBlob);  
+            this.pdfSrc='/pdf/chungchimau.pdf'
+            this.viewPdf = true
+        },
         success(){
           this.outerVisible = false
           this.getList()
