@@ -65,3 +65,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 -------------------------------------------------------------------------------------
 ## Note
 Run git bash: sh setup.sh
+php artisan serve --host 0.0.0.0
+npm run watch
