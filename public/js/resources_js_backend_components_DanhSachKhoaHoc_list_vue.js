@@ -19,7 +19,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "create_update",
-  props: ['resID'],
+  props: ['resID', 'trigger'],
   data: function data() {
     return {
       title: '',
@@ -48,10 +48,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   watch: {
-    resID: function resID(e) {
-      if (e) {
+    trigger: function trigger(e) {
+      if (this.resID) {
         this.title = 'Cập nhật khóa học';
-        this.getDetail(e);
+        this.getDetail(this.resID);
       } else {
         this.title = 'Thêm mới khóa học';
         this.$refs.form.resetFields();
@@ -166,6 +166,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      trigger: new Date().getTime(),
       idUpdate: '',
       outerVisible: false,
       loadingTable: false,
@@ -191,6 +192,7 @@ __webpack_require__.r(__webpack_exports__);
     update: function update(e) {
       this.idUpdate = e.id;
       this.outerVisible = true;
+      this.trigger = new Date().getTime();
     },
     handleSizeChange: function handleSizeChange(val) {
       this.options.PageLimit = val;
@@ -507,6 +509,7 @@ var render = function render() {
       click: function click($event) {
         _vm.outerVisible = true;
         _vm.idUpdate = "";
+        _vm.trigger = new Date().getTime();
       }
     }
   }, [_c("i", {
@@ -649,7 +652,8 @@ var render = function render() {
     }
   }, [_c("formData", {
     attrs: {
-      resID: _vm.idUpdate
+      resID: _vm.idUpdate,
+      trigger: _vm.trigger
     },
     on: {
       success: _vm.success

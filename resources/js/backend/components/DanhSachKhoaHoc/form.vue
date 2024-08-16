@@ -31,7 +31,7 @@
     import ApiService from '../../common/api.service'
     export default {
         name: "create_update",
-        props:['resID'],
+        props:['resID','trigger'],
         data(){
             return {
                 title:'',
@@ -56,10 +56,10 @@
             }
         },
         watch:{
-            resID(e){
-                if(e){
+            trigger(e){
+                if(this.resID){
                     this.title='Cập nhật khóa học'
-                    this.getDetail(e)
+                    this.getDetail(this.resID)
                 }else {
                     this.title='Thêm mới khóa học'
                     this.$refs.form.resetFields()
