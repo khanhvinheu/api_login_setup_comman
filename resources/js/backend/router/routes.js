@@ -112,12 +112,24 @@ export const constantRouterMap = [
                 meta:{title:'DanhSachKhoaHoc'}
             },
               //Quan Ly Cap Chung Chi
-              {
+            {
                 path: '/danh-sach-cap-chung-chi',
                 component: () => import('../components/DanhSachCapChungChi/list'),
                 name:'DanhSachCapChungChi',
                 meta:{title:'DanhSachCapChungChi'}
             },
+            {
+                path: '/danh-sach-cap-chung-chi/create',
+                component: () => import('../components/DanhSachCapChungChi/form'),
+                name:'CapChungChiCreate',
+                meta:{title:'UserCreate',type:'Form'}
+            },
+            {
+                path: '/danh-sach-cap-chung-chi/:id?',
+                component: () => import('../components/DanhSachCapChungChi/form'),
+                name:'CapChungChiUpdate',
+                meta:{title:'UserUpdate', type:'Form'}
+            },   
         ]
     },
     {
@@ -157,7 +169,7 @@ export function resetRouter() {
     router.matcher = newRouter.matcher; // reset router
 }
 
-const DEFAULT_TITLE ='RSA';
+const DEFAULT_TITLE ='ECDSA';
 router.afterEach((to,from) => {  
     document.title =(DEFAULT_TITLE + ' - ' + to.meta.title )|| DEFAULT_TITLE + ' - '+(to.name);
 });

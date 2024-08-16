@@ -28,7 +28,7 @@
 
                                     </template>
                                 </el-input>
-                                <el-button @click="outerVisible=true; idUpdate=''" class="ml-2" type="primary"><i
+                                <el-button @click="$router.push({name:'CapChungChiCreate'})" class="ml-2" type="primary"><i
                                     class="el-icon-plus"></i> Thêm mới
                                 </el-button>
                             </div>
@@ -324,7 +324,8 @@ export default {
         },
         update(e){
             this.idUpdate = e.id
-            this.outerVisible=true
+            // this.outerVisible=true
+            this.$router.push({name:'CapChungChiUpdate',params:{id:e.id}})
         },
         handleSizeChange(val) {
             this.options.PageLimit = val

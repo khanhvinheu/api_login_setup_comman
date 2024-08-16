@@ -164,4 +164,14 @@ class thongTinKhoaHocController extends Controller
             return response()->json(['success'=>false, 'mess'=>$e]);
         }
     }
+    public function genCode(){
+        $lastCode = thongTinKhoaHocs::orderBy('maKhoaHoc', 'desc')->first(); // lấy mã cuối cùng trong database      
+        if (!$lastCode) {
+            $number = 1;
+        } else {
+            $number = intval(substr($lastCode->maKhoaHoc, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
+        }    
+        $newCode = 'KH' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
+        return $newCode;
+    }
 }

@@ -6,13 +6,13 @@
        </div>
         <el-form :model="form"  ref="form" label-width="120px" class="demo-ruleForm">
             <el-form-item :rules="requiredForm" label="Mã đợt cấp" prop="maDot">
-                <el-input v-model="form.maDot"></el-input>
+                <el-input disabled v-model="form.maDot"></el-input>
             </el-form-item>
             <el-form-item :rules="requiredForm" label="Thời gian" prop="thoiGianCap">
                 <el-input v-model="form.thoiGianCap"></el-input>
             </el-form-item>
             <el-form-item :rules="requiredForm" label="Ghi chú" prop="ghiChu">
-                <el-input v-model="form.ghiChu"></el-input>
+                <el-input type="textarea" rows="4" v-model="form.ghiChu"></el-input>
             </el-form-item>
         </el-form>
         <div style="display: flex; justify-content: end">
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+    import ApiService from '../../common/api.service'
     export default {
         name: "create_update",
         props:['resID'],
@@ -44,6 +45,7 @@
             }else {
                 this.title='Thêm mới đợt cấp'
                 this.$refs.form.resetFields()
+                this.genCode()
             }
         },
         watch:{
@@ -53,10 +55,17 @@
                     this.getDetail(e)
                 }else {
                     this.title='Thêm mới đợt cấp sản phẩm'
+                    this.genCode()
                 }
             }
         },
         methods:{
+            async genCode() {
+                let _this = this
+                ApiService.query('/api/admin/dot-cap/gen_code').then(({data}) => {
+                    _this.form.maDot = data
+                })
+            },
             submit(){
                 let _this= this
                 let url

@@ -6,7 +6,7 @@
        </div>
         <el-form :model="form"  ref="form" label-width="150px" class="demo-ruleForm">
             <el-form-item :rules="requiredForm" label="Mã khóa học" prop="maKhoaHoc">
-                <el-input v-model="form.maKhoaHoc"></el-input>
+                <el-input disabled v-model="form.maKhoaHoc"></el-input>
             </el-form-item>
             <el-form-item :rules="requiredForm" label="Tên khóa học" prop="tenKhoaHoc">
                 <el-input v-model="form.tenKhoaHoc"></el-input>
@@ -28,6 +28,7 @@
     </div>
 </template> 
 <script>
+    import ApiService from '../../common/api.service'
     export default {
         name: "create_update",
         props:['resID'],
@@ -51,6 +52,7 @@
             }else {
                 this.title='Thêm mới khóa học'
                 this.$refs.form.resetFields()
+                this.genCode()
             }
         },
         watch:{
@@ -60,10 +62,17 @@
                     this.getDetail(e)
                 }else {
                     this.title='Thêm mới khóa học'
+                    this.genCode()
                 }
             }
         },
         methods:{
+            async genCode() {
+                let _this = this
+                ApiService.query('/api/admin/khoa-hoc/gen_code').then(({data}) => {
+                    _this.form.maKhoaHoc = data
+                })
+            },
             submit(){
                 let _this= this
                 let url

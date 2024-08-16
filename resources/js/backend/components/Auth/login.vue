@@ -3,7 +3,7 @@
         <div class="login-box">
             <!-- /.login-logo -->
             <div style="margin-top: 20px; background-color: unset" class="login-logo">
-                <a style="color: #ee4d2d" href="/"><b>RSA</b>_CERTIFICATE</a>
+                <a style="color: #ee4d2d" href="/"><b>ECDSA</b>_CERTIFICATE</a>
             </div>
             <div style="background-color: unset" class="card-body login-card-body">
                 <el-form label-position="right" status-icon :model="formData" :rules="rules" ref="formData" class="demo-ruleForm">

@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'RSA',
+  title: 'ECDSA',
 
   /**
    * @type {string} url pages

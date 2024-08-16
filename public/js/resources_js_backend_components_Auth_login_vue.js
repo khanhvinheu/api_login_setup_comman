@@ -201,7 +201,7 @@ var staticRenderFns = [function () {
     attrs: {
       href: "/"
     }
-  }, [_c("b", [_vm._v("RSA")]), _vm._v("_CERTIFICATE")])]);
+  }, [_c("b", [_vm._v("ECDSA")]), _vm._v("_CERTIFICATE")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;

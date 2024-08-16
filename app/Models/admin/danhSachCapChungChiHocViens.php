@@ -19,6 +19,7 @@ class danhSachCapChungChiHocViens extends Model
        'queQuan',
        'diemTrungBinh',
        'xepLoai',
+       'image',
        'ghiChu',
        'maDotCap',
        'maKhoaHoc',

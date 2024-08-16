@@ -164,4 +164,15 @@ class dotCapController extends Controller
             return response()->json(['success'=>false, 'mess'=>$e]);
         }
     }
+
+    public function genCode(){
+        $lastCode = dotCaps::orderBy('maDot', 'desc')->first(); // lấy mã cuối cùng trong database      
+        if (!$lastCode) {
+            $number = 1;
+        } else {
+            $number = intval(substr($lastCode->maDot, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
+        }    
+        $newCode = 'DC' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
+        return $newCode;
+    }
 }

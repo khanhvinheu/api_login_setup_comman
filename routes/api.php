@@ -144,19 +144,22 @@ Route::prefix('admin')->namespace('admin')->group(function () {
      Route::get('dot-cap/detail/{id}','dotCapController@show');
      Route::post('dot-cap/update/{id}','dotCapController@update');
      Route::post('dot-cap/create','dotCapController@store');
-     Route::post('dot-cap/delete/{id}','dotCapController@destroy');    
+     Route::post('dot-cap/delete/{id}','dotCapController@destroy');  
+     Route::get('dot-cap/gen_code','dotCapController@genCode');    
      //khoaHoc
      Route::get('khoa-hoc','thongTinKhoaHocController@index');       
      Route::get('khoa-hoc/detail/{id}','thongTinKhoaHocController@show');
      Route::post('khoa-hoc/update/{id}','thongTinKhoaHocController@update');
      Route::post('khoa-hoc/create','thongTinKhoaHocController@store');
      Route::post('khoa-hoc/delete/{id}','thongTinKhoaHocController@destroy');    
+     Route::get('khoa-hoc/gen_code','thongTinKhoaHocController@genCode');  
      //danhSachCapChungChi
      Route::get('cap-chung-chi','danhSachCapChungChiHocVienController@index');       
      Route::get('cap-chung-chi/detail/{id}','danhSachCapChungChiHocVienController@show');
      Route::post('cap-chung-chi/update/{id}','danhSachCapChungChiHocVienController@update');
      Route::post('cap-chung-chi/create','danhSachCapChungChiHocVienController@store');
      Route::post('cap-chung-chi/delete/{id}','danhSachCapChungChiHocVienController@destroy');    
+     Route::get('cap-chung-chi/gen_code','danhSachCapChungChiHocVienController@genCode');  
 
 });
 

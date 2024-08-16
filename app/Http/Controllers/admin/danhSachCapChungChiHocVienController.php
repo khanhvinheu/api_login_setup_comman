@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\danhSachCapChungChiHocViens;
 use App\Services\QueryService;
+use Illuminate\Support\Str;
+use File;
 
 class danhSachCapChungChiHocVienController extends Controller
 {
@@ -61,17 +63,21 @@ class danhSachCapChungChiHocVienController extends Controller
     public function store(Request $request)
     {
         //
-        // try{
-            $formData = $request->post();         
+        try{
+            $formData = $request->post();    
+            $file = $request->file('file0');
+            if($file){
+                $formData['image']= $this->upload($file);
+            }     
             $res = danhSachCapChungChiHocViens::create($formData);
             if($res){
                 return response()->json(['success'=>true, 'mess'=>'Thêm mới thành công!']);
             }else{
                 return response()->json(['success'=>false, 'mess'=>'Thêm mới thất bại!']);
             }
-        // }catch(\Exception $e){
-        //     return response()->json(['success'=>false, 'mess'=>$e]);
-        // }
+        }catch(\Exception $e){
+            return response()->json(['success'=>false, 'mess'=>$e]);
+        }
     }
 
     /**
@@ -118,10 +124,18 @@ class danhSachCapChungChiHocVienController extends Controller
         //
         try{
             $formData = $request->post();
-            $file = $request->file('image');
+            $file = $request->file('file0');
             if($file){
-                $formData['path']= $this->upoadFile($file);
+                $formData['image']= $this->upload($file);
             }
+            if(@$formData['image']=='null'){                
+                $formData['image']='';
+            }       
+            if (@$formData['delete_image']) {              
+                if(file_exists((public_path($formData['delete_image'])))){
+                    File::delete(public_path($formData['delete_image']));
+                }
+            }             
             $res = danhSachCapChungChiHocViens::find($id)->update($formData);
             if($res){
                 return response()->json(['success'=>true, 'mess'=>'Cập nhật dữ liệu thành công']);
@@ -153,4 +167,25 @@ class danhSachCapChungChiHocVienController extends Controller
             return response()->json(['success'=>false, 'mess'=>$e]);
         }
     }
+
+    public function upload($file){
+        $randomString = Str::random(10); 
+        $fileName ='anh34'.explode('.',$file->getClientOriginalName())[0].time().$randomString.'.'.$file->extension();
+        if($file->move(public_path('uploads/anh34'), $fileName)){
+            return '/uploads/anh34/'.$fileName;
+        }
+    }
+
+    public function genCode(){
+        $lastCode = danhSachCapChungChiHocViens::orderBy('maChungChi', 'desc')->first(); // lấy mã cuối cùng trong database      
+        if (!$lastCode) {
+            $number = 1;
+        } else {
+            $number = intval(substr($lastCode->maChungChi, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
+        }    
+        $newCode = 'CCTN' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
+        return $newCode;
+    }
+
+
 }

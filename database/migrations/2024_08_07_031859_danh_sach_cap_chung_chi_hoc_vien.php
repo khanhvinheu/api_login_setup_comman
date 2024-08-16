@@ -25,7 +25,8 @@ class DanhSachCapChungChiHocVien extends Migration
             $table->string('queQuan');
             $table->string('diemTrungBinh');
             $table->string('xepLoai');
-            $table->string('ghiChu');
+            $table->string('image')->nullable();
+            $table->string('ghiChu')->nullable();
             $table->string('maDotCap')->nullable();
             $table->foreign('maDotCap')->references('maDot')->on('dotCaps');  
             $table->string('maKhoaHoc')->nullable();

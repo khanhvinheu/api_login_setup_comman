@@ -490,7 +490,7 @@ var staticRenderFns = [function () {
     attrs: {
       href: "#"
     }
-  }, [_vm._v("RSA")]), _vm._v(".")]), _vm._v("\n      All rights reserved.\n    "), _c("div", {
+  }, [_vm._v("ECDSA")]), _vm._v(".")]), _vm._v("\n      All rights reserved.\n    "), _c("div", {
     staticClass: "float-right d-none d-sm-inline-block"
   }, [_c("b", [_vm._v("Version")]), _vm._v(" 1.0.0\n    ")])])]);
 }];
