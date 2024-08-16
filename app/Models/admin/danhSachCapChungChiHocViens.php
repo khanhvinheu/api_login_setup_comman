@@ -19,7 +19,6 @@ class danhSachCapChungChiHocViens extends Model
        'queQuan',
        'diemTrungBinh',
        'xepLoai',
-       'image',
        'ghiChu',
        'maDotCap',
        'maKhoaHoc',
@@ -32,5 +31,9 @@ class danhSachCapChungChiHocViens extends Model
     public function khoaHoc(): \Illuminate\Database\Eloquent\Relations\belongsTo
     {
         return $this->belongsTo(thongTinKhoaHocs::class, 'maKhoaHoc', 'maKhoaHoc');
+    }
+    public function hoSoDuyet(): \Illuminate\Database\Eloquent\Relations\belongsTo
+    {
+        return $this->belongsTo(hoSoKyDuyets::class, 'maHoSoKyDuyet', 'maHoSo');
     }
 }

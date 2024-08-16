@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\danhSachCapChungChiHocViens;
+use App\Models\admin\hoSoKyDuyets;
 use App\Services\QueryService;
 use Illuminate\Support\Str;
 use File;
@@ -29,7 +30,7 @@ class danhSachCapChungChiHocVienController extends Controller
             $queryService = new QueryService(new danhSachCapChungChiHocViens());
             $queryService->select = [];
             $queryService->columnSearch =$columnSearch;
-            $queryService->withRelationship = ['dotCap','khoaHoc'];
+            $queryService->withRelationship = ['dotCap','khoaHoc','hoSoDuyet'];
             $queryService->search = $search;
             $queryService->betweenDate = $betweenDate;
             $queryService->limit = $limit;
@@ -135,7 +136,7 @@ class danhSachCapChungChiHocVienController extends Controller
                 if(file_exists((public_path($formData['delete_image'])))){
                     File::delete(public_path($formData['delete_image']));
                 }
-            }             
+            }                    
             $res = danhSachCapChungChiHocViens::find($id)->update($formData);
             if($res){
                 return response()->json(['success'=>true, 'mess'=>'Cập nhật dữ liệu thành công']);
@@ -185,6 +186,34 @@ class danhSachCapChungChiHocVienController extends Controller
         }    
         $newCode = 'CCTN' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
         return $newCode;
+    }
+    public function kyDuyet(Request $request, $id){     
+        $formData=[
+            "maHoSo"=>$id,
+            "nguoiKyDuyet"=>'Dev',
+            "thongTinLuu"=>'Dev',
+            "ghiChu"=>'Dev test'
+        ];
+       
+        $dataFind= hoSoKyDuyets::where('maHoSo', $id)->first();
+      
+        $formDataUpdate=[
+            "maHoSoKyDuyet"=>1
+        ]; 
+        if(!$dataFind){
+            $resHS = hoSoKyDuyets::create($formData);
+            $resHS &&  $formDataUpdate['maHoSoKyDuyet']= $resHS->id;            
+        }else{        
+            $idHoSo = $dataFind->toArray();    
+            $formDataUpdate['maHoSoKyDuyet']=$idHoSo['maHoSo'];
+        }          
+
+        $res = danhSachCapChungChiHocViens::find($id)->update($formDataUpdate);
+        if($res){
+            return response()->json(['success'=>true, 'mess'=>'Cập nhật dữ liệu thành công']);
+        }else{
+            return response()->json(['success'=>false, 'mess'=>'Cập nhật thất bại!']);
+        }
     }
 
 

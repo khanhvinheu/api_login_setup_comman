@@ -5,6 +5,12 @@ Vue.use(VueRouter);
 
 export const constantRouterMap = [
     {
+        path: '/check-file-in-pdf/:id?',
+        component: () => import('../components/CheckFile/index'),
+        name:'CheckFile',
+        meta:{title:'CheckFile'}
+    },
+    {
         path: '/login',
         component: () => import('../components/Auth/login'),
         name:'Login',

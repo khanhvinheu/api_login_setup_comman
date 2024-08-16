@@ -11,7 +11,7 @@ NProgress.configure({ showSpinner: true }); // NProgress Configuration
 
 const whiteList = store.state.settings.whiteList; // no redirect whitelist
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from, next) => {  
   // start progress bar
   NProgress.start();
   // set page title
@@ -59,13 +59,22 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
+    
+   
     /* has no token*/
     if (matchInArray(to.path, whiteList)) {
       // in the free login whitelist, go directly
       next();
     } else {
-      // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`);    
+      console.log(to.path);
+      
+      if(to.path.includes('/check-file-in-pdf')){
+        next()
+      }else{
+         // other pages that do not have permission to access are redirected to the login page.
+        next(`/login?redirect=${to.path}`);   
+      }
+      
       NProgress.done();
     }
   }

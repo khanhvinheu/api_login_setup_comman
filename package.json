@@ -42,6 +42,7 @@
         "lottie-web-vue": "^1.2.1",
         "nprogress": "^0.2.0",
         "path": "^0.12.7",
+        "qrcode.vue": "^3.4.1",
         "v-jsoneditor": "^1.4.5",
         "v-money": "^0.8.1",
         "vue": "^2.6.14",

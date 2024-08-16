@@ -88,10 +88,18 @@
                                     <template slot-scope="scope">
                                        
                                         <el-button
+                                            v-if="scope.row.ho_so_duyet"
                                             type="success"
                                             size="mini"
                                             @click="generatePDF(scope.row)"
                                             ><i class="el-icon-view"></i>
+                                        </el-button>
+                                        <el-button
+                                            v-else
+                                            type="success"
+                                            size="mini"
+                                            @click="kyDuyet(scope.row)"
+                                            ><i class="el-icon-check"></i>
                                         </el-button>
                                         <!-- <el-button
                                             type="success"
@@ -149,13 +157,22 @@
         <el-dialog :visible.sync="outerVisible">
             <formData :resID="idUpdate" @success="success"/>
         </el-dialog>
-        <el-dialog class="dialog-pdf-viewer" :visible.sync="viewPdf" width="60%" top="5vh" :show-close="false">
-            <!-- <div style="margin-top: -30px">
+        <el-dialog :visible.sync="viewPdf" width="20%">
+            <div style="margin-top: -30px">
                 <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">THÔNG TIN CHI TIẾT CHỨNG CHỈ</span>
                 <el-divider></el-divider>
-            </div>            -->
-            <embed style="width: 100%; height: 80vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
-            </embed>       
+            </div>           
+            <!-- <embed style="width: 100%; height: 80vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
+            </embed>        -->
+           <div style="display: flex; justify-content: center; align-items: center;">
+            <qrcode-vue
+                style="height: 80%; width: 80%;"
+                :size="600"
+                :value="qrValue"              
+                :color="'#000000'"
+                :background="'#ffffff'"
+                />
+           </div>
         </el-dialog>
         <!-- <div style="display: flex;position: relative;;width: 795px;height: 540px; background-image: url('/assets/chungchimau/chungchimau_front.jpg');background-position: center;
                     background-repeat: no-repeat; background-size: 100% auto;
@@ -226,8 +243,9 @@
 <script>
 import html2pdf from 'html2pdf.js';
 import formData from "./form";
+import QrcodeVue from 'qrcode.vue';
 export default {
-    components:{formData},
+    components:{formData, QrcodeVue},
     data() {
         return {
             idUpdate:'',
@@ -243,7 +261,8 @@ export default {
                 Page:1,
                 PageLimit:10
             },
-            pdfSrc:''
+            pdfSrc:'',
+            qrValue: 'https://example.com'
         }
     },
     mounted() {
@@ -317,6 +336,12 @@ export default {
             this.pdfSrc = URL.createObjectURL(pdfBlob);  
             // this.pdfSrc='/pdf/chungchimau.pdf'
             this.viewPdf = true
+            const { protocol, hostname, port, pathname, search, hash } = window.location;
+            this.qrValue= hostname+':'+port+'/check-file-in-pdf/'+item.id
+            console.log(this.qrValue);
+            
+            
+            
         },
         success(){
           this.outerVisible = false
@@ -335,14 +360,12 @@ export default {
             this.options.Page = val
             this.getList()
         },
-        updateStatus(id, hidden) {
+        kyDuyet(item) {
             let _this = this
-            var formData = new FormData()
-            console.log(hidden, hidden == "0" ? "1" : "0")
-            formData.append('hidden', hidden == "0" ? "1" : "0")
+            var formData = new FormData()              
             axios({
                 method: 'post',
-                url: '/api/admin/cap-chung-chi/update/' + id,
+                url: '/api/admin/cap-chung-chi/kyduyet/' + item.id,
                 data: formData
             })
                 .then(function (response) {
