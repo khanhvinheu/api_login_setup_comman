@@ -165,13 +165,7 @@
             <!-- <embed style="width: 100%; height: 80vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
             </embed>        -->
            <div style="display: flex; justify-content: center; align-items: center;">
-            <qrcode-vue
-                style="height: 80%; width: 80%;"
-                :size="600"
-                :value="qrValue"              
-                :color="'#000000'"
-                :background="'#ffffff'"
-                />
+            <div id="qrcode"></div>        
            </div>
         </el-dialog>
         <!-- <div style="display: flex;position: relative;;width: 795px;height: 540px; background-image: url('/assets/chungchimau/chungchimau_front.jpg');background-position: center;
@@ -337,10 +331,17 @@ export default {
             // this.pdfSrc='/pdf/chungchimau.pdf'
             this.viewPdf = true
             const { protocol, hostname, port, pathname, search, hash } = window.location;
-            this.qrValue= hostname+':'+port+'/check-file-in-pdf/'+item.id
-            console.log(this.qrValue);
-            
-            
+            this.qrValue= 'http://'+hostname+':'+port+'/check-file-in-pdf/'+item.id
+            // var qrcode = new QRCode("test", {
+            //     text: "http://jindo.dev.naver.com/collie",
+            //     width: 128,
+            //     height: 128,
+            //     colorDark : "#000000",
+            //     colorLight : "#ffffff",
+            //     correctLevel : QRCode.CorrectLevel.H
+            // });
+            var qrcode = new QRCode("qrcode");
+            qrcode.makeCode(this.qrValue);
             
         },
         success(){

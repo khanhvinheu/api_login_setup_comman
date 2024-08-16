@@ -440,7 +440,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     generatePDF: function generatePDF(item) {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var element, pdfBlob, _window$location, protocol, hostname, port, pathname, search, hash;
+        var element, pdfBlob, _window$location, protocol, hostname, port, pathname, search, hash, qrcode;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -453,9 +453,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               // this.pdfSrc='/pdf/chungchimau.pdf'
               _this2.viewPdf = true;
               _window$location = window.location, protocol = _window$location.protocol, hostname = _window$location.hostname, port = _window$location.port, pathname = _window$location.pathname, search = _window$location.search, hash = _window$location.hash;
-              _this2.qrValue = hostname + ':' + port + '/check-file-in-pdf/' + item.id;
-              console.log(_this2.qrValue);
-            case 9:
+              _this2.qrValue = 'http://' + hostname + ':' + port + '/check-file-in-pdf/' + item.id;
+              // var qrcode = new QRCode("test", {
+              //     text: "http://jindo.dev.naver.com/collie",
+              //     width: 128,
+              //     height: 128,
+              //     colorDark : "#000000",
+              //     colorLight : "#ffffff",
+              //     correctLevel : QRCode.CorrectLevel.H
+              // });
+              qrcode = new QRCode("qrcode");
+              qrcode.makeCode(_this2.qrValue);
+            case 10:
             case "end":
               return _context.stop();
           }
@@ -1326,18 +1335,11 @@ var render = function render() {
       "justify-content": "center",
       "align-items": "center"
     }
-  }, [_c("qrcode-vue", {
-    staticStyle: {
-      height: "80%",
-      width: "80%"
-    },
+  }, [_c("div", {
     attrs: {
-      size: 600,
-      value: _vm.qrValue,
-      color: "#000000",
-      background: "#ffffff"
+      id: "qrcode"
     }
-  })], 1)])], 1);
+  })])])], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
