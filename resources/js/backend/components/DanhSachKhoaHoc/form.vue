@@ -62,6 +62,7 @@
                     this.getDetail(e)
                 }else {
                     this.title='Thêm mới khóa học'
+                    this.$refs.form.resetFields()
                     this.genCode()
                 }
             }

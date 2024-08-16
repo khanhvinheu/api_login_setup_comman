@@ -28,7 +28,7 @@
 
                                     </template>
                                 </el-input>
-                                <el-button @click="outerVisible=true; idUpdate=''" class="ml-2" type="primary"><i
+                                <el-button @click="outerVisible=true; idUpdate=''; trigger=new Date().getTime()" class="ml-2" type="primary"><i
                                     class="el-icon-plus"></i> Thêm mới
                                 </el-button>
                             </div>
@@ -123,7 +123,7 @@
             </div>
         </div>
         <el-dialog :visible.sync="outerVisible">
-            <formData :resID="idUpdate" @success="success"/>
+            <formData :resID="idUpdate" :trigger="trigger" @success="success"/>
         </el-dialog>
     </div>
 
@@ -146,7 +146,8 @@ export default {
                 Total:10,
                 Page:1,
                 PageLimit:10
-            }
+            },
+            trigger:new Date().getTime()
         }
     },
     mounted() {
@@ -160,6 +161,7 @@ export default {
         update(e){
             this.idUpdate = e.id
             this.outerVisible=true
+            this.trigger=new Date().getTime()         
         },
         handleSizeChange(val) {
             this.options.PageLimit = val

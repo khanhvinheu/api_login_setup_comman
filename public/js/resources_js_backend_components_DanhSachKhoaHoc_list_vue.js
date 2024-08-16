@@ -54,6 +54,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.getDetail(e);
       } else {
         this.title = 'Thêm mới khóa học';
+        this.$refs.form.resetFields();
         this.genCode();
       }
     }

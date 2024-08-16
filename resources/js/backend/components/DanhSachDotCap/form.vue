@@ -26,7 +26,7 @@
     import ApiService from '../../common/api.service'
     export default {
         name: "create_update",
-        props:['resID'],
+        props:['resID','trigger'],
         data(){
             return {
                 title:'',
@@ -49,12 +49,13 @@
             }
         },
         watch:{
-            resID(e){
-                if(e){
-                    this.title='Cập nhật đợt cấp sản phẩm'
-                    this.getDetail(e)
+            trigger(e){    
+                if(this.resID){
+                    this.title='Cập nhật đợt cấp'
+                    this.getDetail(this.resID)
                 }else {
-                    this.title='Thêm mới đợt cấp sản phẩm'
+                    this.title='Thêm mới đợt cấp'
+                    this.$refs.form.resetFields()
                     this.genCode()
                 }
             }
