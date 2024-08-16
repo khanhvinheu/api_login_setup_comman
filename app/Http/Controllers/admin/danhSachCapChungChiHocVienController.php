@@ -136,7 +136,8 @@ class danhSachCapChungChiHocVienController extends Controller
                 if(file_exists((public_path($formData['delete_image'])))){
                     File::delete(public_path($formData['delete_image']));
                 }
-            }                    
+            }     
+                    
             $res = danhSachCapChungChiHocViens::find($id)->update($formData);
             if($res){
                 return response()->json(['success'=>true, 'mess'=>'Cập nhật dữ liệu thành công']);

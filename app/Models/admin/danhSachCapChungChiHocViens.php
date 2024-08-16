@@ -17,6 +17,7 @@ class danhSachCapChungChiHocViens extends Model
        'vanHoa',
        'danToc',
        'queQuan',
+       'image',
        'diemTrungBinh',
        'xepLoai',
        'ghiChu',

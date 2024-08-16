@@ -54,6 +54,14 @@
                                 >
                                 </el-table-column>
                                 <el-table-column
+                                    prop="image"
+                                    label="Ảnh 3X4"                                   
+                                >
+                                    <template slot-scope="scope">
+                                        <img width="50px" :src="scope.row.image"/>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
                                     prop="namSinh"
                                     label="NĂM SINH"
                                     sortable

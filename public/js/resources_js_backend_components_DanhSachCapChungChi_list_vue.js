@@ -1164,6 +1164,22 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
+      prop: "image",
+      label: "Ảnh 3X4"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(scope) {
+        return [_c("img", {
+          attrs: {
+            width: "50px",
+            src: scope.row.image
+          }
+        })];
+      }
+    }])
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
       prop: "namSinh",
       label: "NĂM SINH",
       sortable: ""
