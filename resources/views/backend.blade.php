@@ -15,5 +15,6 @@
 <body>
 <div id="app"></div>
 <script src="{{ asset('js/main.js') }}"></script>
+<script type="text/javascript" language="javascript" src="{{ asset('qrcode.min.js') }}"></script>
 </body>
 </html>
