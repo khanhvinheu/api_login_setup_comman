@@ -45,7 +45,12 @@ router.beforeEach(async (to, from, next) => {
             if(pathModule.includes(to.path)|| to.meta.type=='Form'){
               next({...to, replace: true });
             }else{
-              next({path:'/404'});
+              if(to.path.includes('/check-file-in-pdf')){
+                next()
+              }else{
+                next({path:'/404'});
+              }
+              
             }
            
           }

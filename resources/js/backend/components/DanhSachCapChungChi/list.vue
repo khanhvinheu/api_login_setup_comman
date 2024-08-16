@@ -159,13 +159,13 @@
         </el-dialog>
         <el-dialog :visible.sync="viewPdf" width="20%">
             <div style="margin-top: -30px">
-                <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">THÔNG TIN CHI TIẾT CHỨNG CHỈ</span>
+                <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">QUÉT MÃ ĐỂ TẢI CHỨNG CHỈ</span>
                 <el-divider></el-divider>
             </div>           
             <!-- <embed style="width: 100%; height: 80vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
             </embed>        -->
            <div style="display: flex; justify-content: center; align-items: center;">
-            <div id="qrcode"></div>        
+                <VueQRCodeComponent :text="this.qrValue"></VueQRCodeComponent>  
            </div>
         </el-dialog>
         <!-- <div style="display: flex;position: relative;;width: 795px;height: 540px; background-image: url('/assets/chungchimau/chungchimau_front.jpg');background-position: center;
@@ -237,9 +237,9 @@
 <script>
 import html2pdf from 'html2pdf.js';
 import formData from "./form";
-import QrcodeVue from 'qrcode.vue';
+import VueQRCodeComponent from 'vue-qrcode-component'
 export default {
-    components:{formData, QrcodeVue},
+    components:{formData, VueQRCodeComponent},
     data() {
         return {
             idUpdate:'',
@@ -282,7 +282,7 @@ export default {
                                 <span style="font-size: 13px;font-weight: bold; color: black;">${item.namSinh}</span>
                             </div>
                             <div class="tenKhoaHocEN" style="position: absolute;top:268px; left:26px">
-                                <span style="font-size: 13px;font-weight: bold; color: black;">CN CNTT</span>
+                                <span style="font-size: 13px;font-weight: bold; color: black;">CNTT</span>
                             </div>                
                             <div class="fromDateEN" style="position: absolute;top:298px; left:196px">
                                 <span style="font-size: 13px;font-weight: bold; color: black;">01&nbsp 01 &nbsp&nbsp2016 
@@ -310,7 +310,7 @@ export default {
                                 <span style="font-size: 13px;font-weight: bold; color: black;">${item.namSinh}</span>
                             </div>
                             <div class="tenKhoaHoc" style="position: absolute;top:268px; left: 25px">
-                                <span style="font-size: 13px;font-weight: bold; color: black;">Công nhân CNTT</span>
+                                <span style="font-size: 13px;font-weight: bold; color: black;">CNTT</span>
                             </div>
                             <div class="fromDate" style="position: absolute;top:298px; left: 178px">
                                 <span style="font-size: 13px;font-weight: bold; color: black;">01&nbsp 01 2016 
