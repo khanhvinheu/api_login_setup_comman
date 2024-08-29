@@ -165,17 +165,17 @@
         <el-dialog :visible.sync="outerVisible">
             <formData :resID="idUpdate" @success="success"/>
         </el-dialog>
-        <el-dialog :visible.sync="viewPdf" width="80%">
+        <el-dialog :visible.sync="viewPdf" width="300px">
             <div style="margin-top: -30px">
                 <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">QUÉT MÃ ĐỂ TẢI CHỨNG CHỈ</span>
                 <el-divider></el-divider>
             </div>           
             <!-- <embed style="width: 100%; height: 80vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
             </embed>        -->
-           <div style="display: flex; justify-content: center; align-items: center;">
+           <div style="display: flex; justify-content: center; align-items: center;flex-direction: column;">
                 <VueQRCodeComponent :text="this.qrValue"></VueQRCodeComponent>  
+                <a style="text-align: center; width: 100%;" :href="this.qrValue" target="_brank">Nhấn vào để xem</a>
            </div>
-           <a>{{ this.qrValue }}</a>
         </el-dialog>
         <!-- <div style="display: flex;position: relative;width: 785px;height: 540px;">
               

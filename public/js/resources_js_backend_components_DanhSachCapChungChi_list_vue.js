@@ -1328,7 +1328,7 @@ var render = function render() {
   })], 1), _vm._v(" "), _c("el-dialog", {
     attrs: {
       visible: _vm.viewPdf,
-      width: "80%"
+      width: "300px"
     },
     on: {
       "update:visible": function updateVisible($event) {
@@ -1349,13 +1349,23 @@ var render = function render() {
     staticStyle: {
       display: "flex",
       "justify-content": "center",
-      "align-items": "center"
+      "align-items": "center",
+      "flex-direction": "column"
     }
   }, [_c("VueQRCodeComponent", {
     attrs: {
       text: this.qrValue
     }
-  })], 1), _vm._v(" "), _c("a", [_vm._v(_vm._s(this.qrValue))])])], 1);
+  }), _vm._v(" "), _c("a", {
+    staticStyle: {
+      "text-align": "center",
+      width: "100%"
+    },
+    attrs: {
+      href: this.qrValue,
+      target: "_brank"
+    }
+  }, [_vm._v("Nhấn vào để xem")])], 1)])], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
