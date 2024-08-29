@@ -26,9 +26,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: {
         maKhoaHoc: '',
         tenKhoaHoc: '',
+        tenKhoaHocEN: '',
         chiTietKhoaHoc: '',
         thoiGianDaoTao: '',
-        noiDaoTao: ''
+        noiDaoTao: '',
+        noiDaoTaoEN: ''
       },
       requiredForm: {
         required: true,
@@ -130,9 +132,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var res = data['data'];
                   _this.form.maKhoaHoc = res['maKhoaHoc'];
                   _this.form.tenKhoaHoc = res['tenKhoaHoc'];
+                  _this.form.tenKhoaHocEN = res['tenKhoaHocEN'];
                   _this.form.chiTietKhoaHoc = res['chiTietKhoaHoc'];
                   _this.form.thoiGianDaoTao = res['thoiGianDaoTao'];
                   _this.form.noiDaoTao = res['noiDaoTao'];
+                  _this.form.noiDaoTaoEN = res['noiDaoTaoEN'];
                 }
               });
             case 3:
@@ -359,6 +363,20 @@ var render = function render() {
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
+      label: "Tên khóa học (EN)",
+      prop: "tenKhoaHocEN"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.tenKhoaHocEN,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "tenKhoaHocEN", $$v);
+      },
+      expression: "form.tenKhoaHocEN"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
       label: "Chi tiết khóa học",
       prop: "chiTietKhoaHoc"
     }
@@ -400,6 +418,20 @@ var render = function render() {
         _vm.$set(_vm.form, "noiDaoTao", $$v);
       },
       expression: "form.noiDaoTao"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Nơi đào tạo (EN)",
+      prop: "noiDaoTaoEN"
+    }
+  }, [_c("el-input", {
+    model: {
+      value: _vm.form.noiDaoTaoEN,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "noiDaoTaoEN", $$v);
+      },
+      expression: "form.noiDaoTaoEN"
     }
   })], 1)], 1), _vm._v(" "), _c("div", {
     staticStyle: {

@@ -90,8 +90,11 @@ class danhSachCapChungChiHocVienController extends Controller
     public function show($id)
     {
         //
-        try{
-            $res = danhSachCapChungChiHocViens::find($id);
+        try{            
+            $res = danhSachCapChungChiHocViens::find($id)->with('dotCap')
+            ->with('khoaHoc')
+            ->with('hoSoDuyet')
+            ->first();
             if($res){
                 return response()->json(['success'=>true, 'data'=>$res]);
             }else{

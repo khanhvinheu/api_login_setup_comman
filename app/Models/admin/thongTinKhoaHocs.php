@@ -12,8 +12,10 @@ class thongTinKhoaHocs extends Model
     protected $fillable = [
         'maKhoaHoc',
         'tenKhoaHoc',
+        'tenKhoaHocEN',
         'chiTietKhoaHoc',
         'thoiGianDaoTao',
-        'noiDaoTao'       
+        'noiDaoTao',       
+        'noiDaoTaoEN'       
     ];
 }

@@ -18,9 +18,11 @@ class ThongTinKhoaHoc extends Migration
             $table->id();
             $table->string('maKhoaHoc')->unique();
             $table->string('tenKhoaHoc');
+            $table->string('tenKhoaHocEN');
             $table->string('chiTietKhoaHoc');
             $table->string('thoiGianDaoTao');
             $table->string('noiDaoTao');                         
+            $table->string('noiDaoTaoEN');                         
             $table->timestamps();
         });
     }

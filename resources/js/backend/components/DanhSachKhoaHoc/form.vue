@@ -11,6 +11,9 @@
             <el-form-item :rules="requiredForm" label="Tên khóa học" prop="tenKhoaHoc">
                 <el-input v-model="form.tenKhoaHoc"></el-input>
             </el-form-item>
+            <el-form-item :rules="requiredForm" label="Tên khóa học (EN)" prop="tenKhoaHocEN">
+                <el-input v-model="form.tenKhoaHocEN"></el-input>
+            </el-form-item>
             <el-form-item :rules="requiredForm" label="Chi tiết khóa học" prop="chiTietKhoaHoc">
                 <el-input type="textarea" v-model="form.chiTietKhoaHoc"></el-input>
             </el-form-item>
@@ -19,6 +22,9 @@
             </el-form-item>
             <el-form-item :rules="requiredForm" label="Nơi đào tạo" prop="noiDaoTao">
                 <el-input v-model="form.noiDaoTao"></el-input>
+            </el-form-item>
+            <el-form-item :rules="requiredForm" label="Nơi đào tạo (EN)" prop="noiDaoTaoEN">
+                <el-input v-model="form.noiDaoTaoEN"></el-input>
             </el-form-item>
         </el-form>
         <div style="display: flex; justify-content: end">
@@ -38,9 +44,11 @@
                 form:{
                     maKhoaHoc:'',
                     tenKhoaHoc:'',
+                    tenKhoaHocEN:'',
                     chiTietKhoaHoc:'',
                     thoiGianDaoTao:'',
-                    noiDaoTao:''
+                    noiDaoTao:'',
+                    noiDaoTaoEN:''
                 },
                 requiredForm: { required: true, message: 'Vui lòng không bỏ trống!', trigger: 'blur' }
             }
@@ -120,9 +128,11 @@
                             let res = data['data']
                             _this.form.maKhoaHoc = res['maKhoaHoc']
                             _this.form.tenKhoaHoc = res['tenKhoaHoc']
+                            _this.form.tenKhoaHocEN = res['tenKhoaHocEN']
                             _this.form.chiTietKhoaHoc = res['chiTietKhoaHoc']
                             _this.form.thoiGianDaoTao = res['thoiGianDaoTao']
                             _this.form.noiDaoTao = res['noiDaoTao']  
+                            _this.form.noiDaoTaoEN = res['noiDaoTaoEN']  
                         }
                     });
 
