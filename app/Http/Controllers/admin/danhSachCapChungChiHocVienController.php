@@ -191,18 +191,11 @@ class danhSachCapChungChiHocVienController extends Controller
         $newCode = 'CCTN' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
         return $newCode;
     }
-    public function kyDuyet(Request $request, $id){     
-        $formData=[
-            "maHoSo"=>$id,
-            "nguoiKyDuyet"=>'Dev',
-            "thongTinLuu"=>'Dev',
-            "ghiChu"=>'Dev test'
-        ];
-       
-        $dataFind= hoSoKyDuyets::where('maHoSo', $id)->first();
-      
+    public function kyDuyet(Request $request, $id){            
+        $formData=$request->input();       
+        $dataFind= hoSoKyDuyets::where('maHoSo', $id)->first();      
         $formDataUpdate=[
-            "maHoSoKyDuyet"=>1
+            "maHoSoKyDuyet"=>''
         ]; 
         if(!$dataFind){
             $resHS = hoSoKyDuyets::create($formData);

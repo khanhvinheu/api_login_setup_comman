@@ -12,6 +12,10 @@ class hoSoKyDuyets extends Model
     protected $fillable = [
         'maHoSo',
         'nguoiKyDuyet',
+        'hinhanhchuky',
+        'publickey',
+        'privatekey',
+        'signature',
         'thongTinLuu',
         'ghiChu',
     ];

@@ -18,8 +18,12 @@ class HoSoKyDuyet extends Migration
             $table->id();
             $table->string('maHoSo')->unique();
             $table->string('nguoiKyDuyet');
-            $table->string('thongTinLuu');
-            $table->string('ghiChu');               
+            $table->string('thongTinLuu')->nullable();
+            $table->string('publickey')->nullable();
+            $table->string('privatekey')->nullable();
+            $table->string('signature')->nullable();
+            $table->string('hinhanhchuky')->nullable();
+            $table->string('ghiChu')->nullable();             
             $table->timestamps();
         });
     }

@@ -165,16 +165,16 @@
         <el-dialog :visible.sync="outerVisible">
             <formData :resID="idUpdate" @success="success"/>
         </el-dialog>
-        <el-dialog :visible.sync="viewPdf" width="300px">
+        <el-dialog :visible.sync="viewPdf" width="80vw">
             <div style="margin-top: -30px">
                 <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">QUÉT MÃ ĐỂ TẢI CHỨNG CHỈ</span>
                 <el-divider></el-divider>
             </div>           
-            <!-- <embed style="width: 100%; height: 80vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
-            </embed>        -->
+            <embed style="width: 100%; height: 60vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
+            </embed>       
            <div style="display: flex; justify-content: center; align-items: center;flex-direction: column;">
-                <VueQRCodeComponent :text="this.qrValue"></VueQRCodeComponent>  
-                <a style="text-align: center; width: 100%;" :href="this.qrValue" target="_brank">Nhấn vào để xem</a>
+                <!-- <VueQRCodeComponent :text="this.qrValue"></VueQRCodeComponent>  
+                <a style="text-align: center; width: 100%;" :href="this.qrValue" target="_brank">Nhấn vào để xem</a> -->
            </div>
         </el-dialog>
         <!-- <div style="display: flex;position: relative;width: 785px;height: 540px;">
@@ -248,6 +248,7 @@
 import html2pdf from 'html2pdf.js';
 import formData from "./form";
 import VueQRCodeComponent from 'vue-qrcode-component'
+import QRCode from 'qrcode';
 export default {
     components:{formData, VueQRCodeComponent},
     data() {
@@ -273,12 +274,13 @@ export default {
         this.getList()
     },
     methods: {
-        async generatePDF(item) {         
+        async generatePDF(item) {  
+            const { protocol, hostname, port, pathname, search, hash } = window.location;
+            this.qrValue= 'http://'+hostname+':'+port+'/check-file-in-pdf/'+item.id
+            var qrCodeUrl = await QRCode.toDataURL(this.qrValue);  
             const element = `
-                <div style="display: flex;position: relative;width: 785px;height: 540px;">
-              
-                <img src="/assets/chungchimau/chungchiv2.jpg" style="width: 100%; height: 100%; position: absolute; top: 1px; left: 0;"/>
-                
+            <div style="display: flex;position: relative;width: 785px;height: 540px;">              
+                <img src="/assets/chungchimau/chungchiv2.jpg" style="width: 100%; height: 100%; position: absolute; top: 1px; left: 0;"/>                
                 <div class="left" style="position: relative; width: 50%;height: 100%;">                    
                     <div class="chucVuEN" style="position: absolute;top:65px; left: 169px">
                         <span style="font-size: 13px;font-weight: bold; color: #e92b37;">RECTOR</span>
@@ -303,7 +305,11 @@ export default {
                     <div class="noiDaoTaoEN" style="position: absolute;top:325px; left:46px">
                         <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.khoa_hoc.noiDaoTaoEN}</span>
                     </div>
-                    <img src="${item.image}" style="position:absolute; top:380px; left:60px; width: 60px; height:75px; object-fit:contain"/>
+                    <img src="${item.image}" style="position:absolute; top:380px; left:60px; width: 60px; height:75px; object-fit:contain"/>                 
+                    <img src="${qrCodeUrl}" style="position:absolute; top:440px; left:280px; width: 80px; height:80px; object-fit:contain"/>   
+                    <div class="noiDaoTaoEN" style="position: absolute;top:495px; left:86px">
+                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">${item.maChungChi}</span>
+                    </div>              
                 </div>
                 <div class="right" style="position: relative; width: 50%;height: 100%;">
                     <div class="chucVu" style="position: absolute;top:65px; right: 152px">
@@ -332,15 +338,21 @@ export default {
                     <div class="noiDaoTao" style="position: absolute;top:325px; left: 48px">
                         <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.khoa_hoc.noiDaoTao}</span>
                     </div>
-                </div>
-        </div>
+                    <img src="${item.ho_so_duyet.hinhanhchuky}" style="position:absolute; top:380px; left:220px; width: 80px; height:80px; object-fit:contain"/>    
+                    <div class="noiDaoTaoEN" style="position: absolute;top:495px; left:170px">
+                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">${item.maChungChi}</span>
+                    </div>     
+                </div>                              
+            </div>
+            <div style="display: flex;position: relative;width: 785px;height: 540px;">              
+                <img src="/assets/chungchimau/chungchimau_back.jpg" style="width: 100%; height: 100%; position: absolute; top: 1px; left: 0;"/>  
+            </div>
             `;
             const pdfBlob = await html2pdf().from(element).outputPdf('blob');
             this.pdfSrc = URL.createObjectURL(pdfBlob);  
             // this.pdfSrc='/pdf/chungchimau.pdf'
             this.viewPdf = true
-            const { protocol, hostname, port, pathname, search, hash } = window.location;
-            this.qrValue= 'http://'+hostname+':'+port+'/check-file-in-pdf/'+item.id
+           
             // var qrcode = new QRCode("test", {
             //     text: "http://jindo.dev.naver.com/collie",
             //     width: 128,
@@ -349,8 +361,10 @@ export default {
             //     colorLight : "#ffffff",
             //     correctLevel : QRCode.CorrectLevel.H
             // });
-            var qrcode = new QRCode("qrcode");
-            qrcode.makeCode(this.qrValue);
+            // var qrcode = new QRCode("qrcode");
+            // qrcode.makeCode(this.qrValue);
+            // console.log(qrcode);
+            
             
         },
         success(){
@@ -372,7 +386,16 @@ export default {
         },
         kyDuyet(item) {
             let _this = this
-            var formData = new FormData()              
+            var formData = new FormData()                          
+            formData.set('nguoiKyDuyet',this.$store.getters.user.id)
+            formData.set('maHoSo',item.id)    
+            formData.set('thongTinLuu','')    
+            formData.set('ghiChu','')    
+            formData.set('privatekey',this.$store.getters.user.privatekey)    
+            formData.set('publickey',this.$store.getters.user.publickey)    
+            formData.set('signature',this.$store.getters.user.signature)    
+            formData.set('hinhanhchuky',this.$store.getters.user.hinhanhchuky)             
+            // $store.getters.user         
             axios({
                 method: 'post',
                 url: '/api/admin/cap-chung-chi/kyduyet/' + item.id,

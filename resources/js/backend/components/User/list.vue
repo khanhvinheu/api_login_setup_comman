@@ -83,11 +83,18 @@
                                      
                                 <el-table-column
                                     label="THAO TÁC"
-                                    width="180"
+                                    width="320"
                                 >
                                     <template slot-scope="scope">
                                         <el-button
+                                            type="success"
                                             size="mini"
+                                            @click="createSign(scope.row)">
+                                            <i class="el-icon-key"></i>
+                                            Tạo chữ ký số
+                                        </el-button>
+                                        <el-button
+                                            size="mini"  
                                             @click="update(scope.row)">Cập
                                             nhật
                                         </el-button>
@@ -130,7 +137,10 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-
+                    <el-dialog top="5vh" :visible.sync="outerVisible">
+                        <!-- <formData :resID="idUpdate" :trigger="trigger" @success="success"/> -->
+                         <formCreateSignature :resID="idUpdate" :trigger="trigger" @success="success"/>
+                    </el-dialog>
                 </div>
             </div>
         </div>       
@@ -140,9 +150,11 @@
 
 <script>
 import ApiService from '../../common/api.service';
+import formCreateSignature from './formCreateSignature.vue';
 export default {   
+    components:{formCreateSignature},
     data() {
-        return {
+        return {          
             idUpdate:'',
             outerVisible:false,
             loadingTable:false,
@@ -155,7 +167,7 @@ export default {
                 Page:1,
                 PageLimit:10
             },
-            triggerLoad:new Date().getTime(),           
+            trigger: ''    
         }
     },
     mounted() {
@@ -169,6 +181,11 @@ export default {
         update(e){
             this.idUpdate = e.id
             this.$router.push({name:'UserUpdate',params:{id:e.id}})
+        },
+        createSign(e){
+            this.trigger=new Date().getTime()      
+            this.idUpdate = e.id
+            this.outerVisible = true
         },
         handleSizeChange(val) {
             this.options.PageLimit = val

@@ -108,6 +108,7 @@ Route::prefix('admin')->namespace('admin')->group(function () {
     Route::post('users/create','UserController@create');
     Route::get('users/detail/{id}','UserController@show');
     Route::post('users/update/{id}','UserController@update');
+    Route::post('users/create-signature/{id}','UserController@createSigature');
     Route::post('users/delete/{id}','UserController@destroy');
     //Modules
     Route::get('module','ModuleController@index');  

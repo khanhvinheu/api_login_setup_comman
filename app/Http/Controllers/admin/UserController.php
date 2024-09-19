@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Services\QueryService;
-
+use Str;
+use File;
 
 class UserController extends Controller
 {
@@ -131,7 +132,41 @@ class UserController extends Controller
             return response()->json(['success'=>false, 'mess'=>$e]);
         }
     }
+    public function createSigature(Request $request, $id)
+    {
+        //
+        // try{
+            $formData = $request->post();  
+            $file = $request->file('file0');
+            if($file){
+                $formData['hinhanhchuky']= $this->upload($file);
+            }
+            if(@$formData['hinhanhchuky']=='null'){                
+                $formData['hinhanhchuky']='';
+            }       
+            if (@$formData['delete_image']) {              
+                if(file_exists((public_path($formData['delete_image'])))){
+                    File::delete(public_path($formData['delete_image']));
+                }
+            }                    
+            $res = User::find($id)->update($formData);
+            if($res){
+                return response()->json(['success'=>true, 'mess'=>'Cập nhật dữ liệu thành công']);
+            }else{
+                return response()->json(['success'=>false, 'mess'=>'Cập nhật thất bại!']);
+            }
+        // }catch(\Exception $e){
+        //     return response()->json(['success'=>false, 'mess'=>$e]);
+        // }
+    }
 
+    public function upload($file){
+        $randomString = Str::random(10); 
+        $fileName ='signature'.explode('.',$file->getClientOriginalName())[0].time().$randomString.'.'.$file->extension();
+        if($file->move(public_path('uploads/signature'), $fileName)){
+            return '/uploads/signature/'.$fileName;
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -141,15 +176,15 @@ class UserController extends Controller
     public function destroy($id)
     {
         //       
-        // try{
+        try{
             $res = User::find($id)->delete();
             if($res){
                 return response()->json(['success'=>true, 'mess'=>'Xóa dữ liệu thành công!']);
             }else{
                 return response()->json(['success'=>false, 'mess'=>'Xóa dữ liệu thất bại!']);
             }
-        // }catch(\Exception $e){
-        //     return response()->json(['success'=>false, 'mess'=>$e]);
-        // }
+        }catch(\Exception $e){
+            return response()->json(['success'=>false, 'mess'=>$e]);
+        }
     }
 }
