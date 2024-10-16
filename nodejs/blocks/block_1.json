@@ -1,0 +1,10 @@
+{
+  "index": 1,
+  "timestamp": "2024-10-16T10:04:53.054Z",
+  "data": {
+    "amount": 10
+  },
+  "previousHash": "fa41f9d7d7b58b74769d2aeafbf018a7cb4d04448560e1909c5c28b7732bfe46",
+  "signature": "3045022100c3cf5da5fe60ec99c18ee31f90a5eafb1a1c26555fa786a78c051883d0237023022064d286ed9788fc4070243421fe5f3f420c52e7cdf761d962fc418ff798f2469b",
+  "hash": "fce5edbe572a841a576640bfb73da1cf902ce0845f60e34df5188bfe998856d1"
+}

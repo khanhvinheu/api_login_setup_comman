@@ -304,18 +304,7 @@ var render = function render() {
     staticClass: "hold-transition sidebar-mini layout-fixed"
   }, [_c("div", {
     staticClass: "wrapper"
-  }, [_c("Transition", {
-    attrs: {
-      name: "slide-fade"
-    }
-  }, [_c("Preloader", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.showLoad,
-      expression: "showLoad"
-    }]
-  })], 1), _vm._v(" "), _c("Navbar"), _vm._v(" "), _c("Sidebar"), _vm._v(" "), _c("div", {
+  }, [_c("div", {
     staticClass: "content-wrapper"
   }, [_c("section", {
     staticClass: "content pt-3"
@@ -330,7 +319,7 @@ var render = function render() {
       name: "nested",
       mode: "out-in"
     }
-  }, [_c("router-view")], 1)], 1)])]), _vm._v(" "), _c("Footer"), _vm._v(" "), _c("ControlSidebar")], 1)]);
+  }, [_c("router-view")], 1)], 1)])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

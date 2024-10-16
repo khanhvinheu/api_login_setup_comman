@@ -174,7 +174,12 @@ Route::prefix('admin')->namespace('admin')->group(function () {
     Route::post('cap-chung-chi/delete/{id}','danhSachCapChungChiHocVienController@destroy');    
     Route::post('cap-chung-chi/kyduyet/{id}','danhSachCapChungChiHocVienController@kyDuyet');    
     Route::get('cap-chung-chi/gen_code','danhSachCapChungChiHocVienController@genCode');  
-
+    
+    Route::post('/blocks', 'BlockController@store');
+    Route::get('/blocks/get-all', 'BlockController@index');
+    Route::get('/blocks/get-index', 'BlockController@getIndex');
 
 });
+
+
 

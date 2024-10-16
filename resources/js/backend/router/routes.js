@@ -48,6 +48,12 @@ export const constantRouterMap = [
                 name:'UserUpdate',
                 meta:{title:'UserUpdate', type:'Form'}
             },   
+            {
+                path: '/log',
+                component: () => import('../components/User/blockChain.vue'),
+                name:'Block',
+                meta:{title:'UserUpdate', type:'Form'}
+            },   
             //Module
             {
                 path: '/list-module',
