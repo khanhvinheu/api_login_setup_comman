@@ -1,5 +1,5 @@
 <template>
-    <div class="row">    
+    <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header" style="background-color: rgb(0,0,0,0.1);">
@@ -7,7 +7,7 @@
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
-                        </button>              
+                        </button>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -15,27 +15,27 @@
                     <div class="row">
                         <div class="col-md-12">
                             <el-form label-position="right" :model="formData" :rules="rules" ref="formData"
-                                     label-width="180px" class="demo-ruleForm">   
-                                <!-- <span class="title-divider">Thông tin nhân viên</span>     
+                                     label-width="180px" class="demo-ruleForm">
+                                <!-- <span class="title-divider">Thông tin nhân viên</span>
                                 <el-divider></el-divider>                                      -->
                                 <el-form-item label="Private Key" prop="privatekey">
                                     <div class="form-group">
                                         <el-input validate-event placeholder="Privatekey"
                                                   v-model="formData.privatekey"></el-input>
                                     </div>
-                                </el-form-item> 
+                                </el-form-item>
                                 <el-form-item label="Public Key" prop="publickey">
                                     <div class="form-group">
                                         <el-input validate-event placeholder="Publickey"
                                                   v-model="formData.publickey"></el-input>
                                     </div>
                                 </el-form-item>
-                                <el-form-item label="Signature" prop="signature">
-                                    <div class="form-group">
-                                        <el-input validate-event placeholder="Signature"
-                                                  v-model="formData.signature"></el-input>
-                                    </div>
-                                </el-form-item>
+<!--                                <el-form-item label="Signature" prop="signature">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <el-input validate-event placeholder="Signature"-->
+<!--                                                  v-model="formData.signature"></el-input>-->
+<!--                                    </div>-->
+<!--                                </el-form-item>-->
                                 <el-form-item  label="Ảnh chữ ký">
                                     <div class="form-group">
                                         <el-upload class="custorm-upload" ref="upload" :auto-upload="false" accept="image/png, image/jpeg"
@@ -67,7 +67,7 @@
                                         </el-dialog>
                                     </div>
                                     <!-- <el-button @click="$refs.upload.submit()" size="small" type="primary">Upload</el-button> -->
-                                </el-form-item>                                                           
+                                </el-form-item>
                             </el-form>
 
                             <!-- /.form-group -->
@@ -80,7 +80,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer" style="display: flex; justify-content: end;">
                     <el-button v-show="resID" type="success" @click="update"><i class="el-icon-plus"></i> Lưu lại
-                    </el-button>                  
+                    </el-button>
                     <el-button @click="$refs.form.resetFields()">Reset Form</el-button>
                 </div>
             </div>
@@ -93,13 +93,14 @@
 import { update } from 'lodash';
 import ApiService from '../../common/api.service';
 import VueUploadMultipleImage from 'vue-upload-multiple-image'
+import crypto from "crypto";
 const EC = require('elliptic').ec;
 export default {
     props:['resID','trigger'],
-    watch: {       
-        trigger(e){  
+    watch: {
+        trigger(e){
             if(this.resID){
-                this.title='Cập nhật ký số' 
+                this.title='Cập nhật ký số'
                 this.getDetail(this.resID)
             }
         }
@@ -111,14 +112,14 @@ export default {
         var validatePass = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('Vui lòng không bỏ trống'));
-            } else {        
+            } else {
                 if (this.formData.password !== '') {
                     this.$refs.formData.validateField('password_confirmation');
                 }
                 callback();
             }
         };
-        var validatePass2 = (rule, value, callback) => {    
+        var validatePass2 = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('Vui lòng nhập lại mật khẩu'));
             } else if (value !== this.formData.password) {
@@ -128,7 +129,7 @@ export default {
             }
         };
         return {
-            title:'TẠO CHỮ KÝ SỐ',   
+            title:'TẠO CHỮ KÝ SỐ',
             rules: {
                 name: [
                     {required: true, message: 'Vui lòng không bỏ trống', trigger: 'blur'},
@@ -140,7 +141,7 @@ export default {
                         message: 'Vui lòng nhập đúng định dạng: abc@gmail.com',
                         trigger: ['blur', 'change'],
                     },
-                ],               
+                ],
                 password: [
                     {required: true, validator: validatePass, trigger: 'blur' }
                 ],
@@ -151,13 +152,13 @@ export default {
             data: [],
             filterDataCategorys: '',
             listCategoryParent: [],
-            listModule: [],             
+            listModule: [],
             form:new FormData(),
             formData: {
                 privatekey:'',
                 publickey:'',
-                hinhanhchuky:'',   
-                signature:''           
+                hinhanhchuky:'',
+                // signature:''
             },
             files: [],
             fileListOption: [],
@@ -168,29 +169,30 @@ export default {
 
         }
     },
-    async mounted() {      
+    async mounted() {
         if(this.resID){
             this.title='Cập nhật ký số'
             this.getDetail(this.resID)
-        }   
+        }
     },
     methods: {
+        pemToBase64(pem,type ='PUBLIC KEY') {
+            // Step 1: Remove the PEM header and footer
+            const base64String = pem
+                .replace(`-----BEGIN ${type}-----`, '')
+                .replace(`-----END ${type}-----`, '')
+                .replace(/\s+/g, ''); // Remove all spaces and newlines
+
+            return base64String;
+        },
         // Hàm tạo cặp khóa ECDSA
         async generateKeys() {
-            const keyPair = await window.crypto.subtle.generateKey(
-                {
-                name: "ECDSA",
-                namedCurve: "P-256", // prime256v1
-                },
-                true, // Khóa có thể xuất
-                ["sign", "verify"] // Quyền thực thi (ký và xác minh)
-            );
-            
-            // Xuất khóa riêng và khóa công khai
-            const privateKey = await crypto.subtle.exportKey('jwk', keyPair.privateKey);
-            const publicKey = await crypto.subtle.exportKey('jwk', keyPair.publicKey);
-
-            return { privateKey, publicKey };
+            let privateKey='',publicKey=''
+            await ApiService.query('http://localhost:3000/blocks/gen-key').then(({data})=>{
+               privateKey = this.pemToBase64(data.privateKey,'PRIVATE KEY')
+               publicKey = this.pemToBase64(data.publicKey)
+            })
+            return {privateKey, publicKey}
         },
 
         // Hàm lưu trữ khóa (giả định lưu trong localStorage)
@@ -211,9 +213,7 @@ export default {
                 false,
                 ['sign']
             );
-
             const messageEncoded = new TextEncoder().encode(message);
-
             const signature = await crypto.subtle.sign(
                 {
                 name: "ECDSA",
@@ -224,6 +224,7 @@ export default {
             );
 
             return Array.from(new Uint8Array(signature)).map(b => b.toString(16).padStart(2, '0')).join('');
+
         },
 
         // Hàm xác minh chữ ký
@@ -266,17 +267,17 @@ export default {
                 this.fileList.push(file)
             }
         },
-        clearImage(i){      
-            this.fileListOption.splice(i, 1,null); 
+        clearImage(i){
+            this.fileListOption.splice(i, 1,null);
         },
         handleFileUpload(event, index) {
             // Get the uploaded file
             const file = event.target.files[0]
             // Update the files array with the new file
-            this.$set(this.fileListOption, index, file)           
-          
-        },  
-        removeImg(el) {           
+            this.$set(this.fileListOption, index, file)
+
+        },
+        removeImg(el) {
             if (el.url) {
                 this.formData.delete_image=(el.url)
             }
@@ -297,51 +298,51 @@ export default {
             event.preventDefault()
             // Handle form submission here
         },
-        resetForm(formName) {            
+        resetForm(formName) {
             this.$refs[formName].resetFields();
-        },       
-       
+        },
+
         async getDetail(id) {
             let _this = this
-            _this.resID = id
+            // _this.resID = id
             await axios({
                 method: 'get',
                 url: '/api/admin/users/detail/' + id,
             })
                 .then(async({data}) => {
                     if (data['success']) {
-                        let res = data['data']       
+                        let res = data['data']
                         if(res['publickey'] &&  res['privatekey']){
                             _this.formData.publickey = res['publickey']
-                            _this.formData.privatekey = res['privatekey']   
+                            _this.formData.privatekey = res['privatekey']
                         }else{
-                            const { privateKey, publicKey } = await this.generateKeys();    
-                            _this.formData.publickey=JSON.stringify(publicKey)
-                            _this.formData.privatekey=JSON.stringify(privateKey)
-                        }     
-                        
-                        const message = res['name'];
-                        if(res['signature']){
-                            _this.formData.signature=res['signature']
-                        }else{                          
-                            const signature = await _this.signMessage(JSON.parse(_this.formData.privatekey), message);
-                            await(_this.formData.signature=signature); 
+                            const { privateKey, publicKey } = await this.generateKeys();
+                            _this.formData.publickey=publicKey
+                            _this.formData.privatekey=privateKey
                         }
-                                     
+
+                        // const message = res['name'];
+                        // if(res['signature']){
+                            // _this.formData.signature=res['signature']
+                        // }else{
+                            // const signature = await _this.signMessage(JSON.parse(_this.formData.privatekey), message);
+                            // await(_this.formData.signature=signature);
+                        // }
+
                         if(res['hinhanhchuky']){
                             _this.fileList=[{url:res['hinhanhchuky'], id:1}]
                         }else{
                             _this.fileList=[]
                         }
-                        //  res['hinhanhchuky'] && (_this.fileList=[{url:res['hinhanhchuky'], id:1}])       
+                        //  res['hinhanhchuky'] && (_this.fileList=[{url:res['hinhanhchuky'], id:1}])
                     }
-                 
+
                 }
             );
              // 4. Xác minh chữ ký
             // const isValid = await this.verifySignature(JSON.parse(_this.formData.publickey), 'This is a test message', _this.formData.signature);
             // console.log("Signature valid:", isValid);
-           
+
         },
         appendFileToFormData() {
             let index = 0
@@ -359,17 +360,17 @@ export default {
         appendToFormData() {
             let _this = this
             _this.form =new FormData()
-            Object.keys(this.formData).forEach(key => {   
+            Object.keys(this.formData).forEach(key => {
                 if(this.formData[key]){
                      _this.form.set(key, this.formData[key])
-                }             
-               
-            });          
-        },      
+                }
+
+            });
+        },
         update() {
             let _this = this
             _this.appendToFormData()
-            _this.appendFileToFormData()      
+            _this.appendFileToFormData()
             this.$refs['formData'].validate((valid) => {
                 if (valid) {
                     axios({
@@ -384,9 +385,10 @@ export default {
                                     message: response.data['mess'],
                                     type: 'success'
                                 });
-                                _this.resetForm('formData')                               
-                                _this.resID = ''
-                                _this.$router.push({name:"UserList"})
+                                _this.$emit('close')
+                                // _this.resetForm('formData')
+                                // _this.resID = ''
+                                // _this.$router.push({name:"UserList"})
                             } else {
                                 _this.$notify({
                                     title: 'Error',

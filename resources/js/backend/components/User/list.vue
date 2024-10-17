@@ -54,10 +54,10 @@
                                 <el-table-column
                                     prop="chucvu"
                                     label="Chức vụ/ chức danh"
-                                >  
+                                >
                                 <template slot-scope="scope">
-                                    <el-tag>{{ scope.row.chucvu}}</el-tag> 
-                                    </template>                    
+                                    <el-tag>{{ scope.row.chucvu}}</el-tag>
+                                    </template>
                                 </el-table-column>
 
                                 <el-table-column
@@ -69,7 +69,7 @@
                                     prop="note"
                                     label="GHI CHÚ"
                                 >
-                                </el-table-column>         
+                                </el-table-column>
 
                                 <el-table-column
                                     prop="created_at"
@@ -79,8 +79,8 @@
                                     <template slot-scope="scope">
                                         {{ scope.row.created_at | formatDate}}
                                     </template>
-                                </el-table-column>  
-                                     
+                                </el-table-column>
+
                                 <el-table-column
                                     label="THAO TÁC"
                                     width="320"
@@ -94,7 +94,7 @@
                                             Tạo chữ ký số
                                         </el-button>
                                         <el-button
-                                            size="mini"  
+                                            size="mini"
                                             @click="update(scope.row)">Cập
                                             nhật
                                         </el-button>
@@ -139,11 +139,11 @@
                 <div class="card-footer">
                     <el-dialog top="5vh" :visible.sync="outerVisible">
                         <!-- <formData :resID="idUpdate" :trigger="trigger" @success="success"/> -->
-                         <formCreateSignature :resID="idUpdate" :trigger="trigger" @success="success"/>
+                         <formCreateSignature :resID="idUpdate" :trigger="trigger" @success="success" @close="outerVisible=false"/>
                     </el-dialog>
                 </div>
             </div>
-        </div>       
+        </div>
     </div>
 
 </template>
@@ -151,10 +151,10 @@
 <script>
 import ApiService from '../../common/api.service';
 import formCreateSignature from './formCreateSignature.vue';
-export default {   
+export default {
     components:{formCreateSignature},
     data() {
-        return {          
+        return {
             idUpdate:'',
             outerVisible:false,
             loadingTable:false,
@@ -167,13 +167,13 @@ export default {
                 Page:1,
                 PageLimit:10
             },
-            trigger: ''    
+            trigger: ''
         }
     },
     mounted() {
-        this.getList()      
+        this.getList()
     },
-    methods: {      
+    methods: {
         success(){
           this.outerVisible = false
           this.getList()
@@ -183,7 +183,7 @@ export default {
             this.$router.push({name:'UserUpdate',params:{id:e.id}})
         },
         createSign(e){
-            this.trigger=new Date().getTime()      
+            this.trigger=new Date().getTime()
             this.idUpdate = e.id
             this.outerVisible = true
         },
@@ -227,7 +227,7 @@ export default {
         deleteUser(id) {
             let _this = this
             axios({
-                method: 'post',  
+                method: 'post',
                 url: '/api/admin/users/delete/' + id,
             })
                 .then(function (response) {

@@ -5,7 +5,9 @@
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
-        "production": "cross-env mix --production"
+        "production": "cross-env mix --production",
+        "start-server1": "php artisan serve --host 0.0.0.0",
+        "start-server2": "node nodejs/index.js"
     },
     "devDependencies": {
         "autoprefixer": "10.4.5",

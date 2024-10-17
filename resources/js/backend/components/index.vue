@@ -1,11 +1,11 @@
 <template>
     <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-        <!-- <Transition name="slide-fade" >
+        <Transition name="slide-fade" >
         <Preloader v-show="showLoad"></Preloader>
             </Transition>
-        <Navbar></Navbar> -->
-        <!-- <Sidebar></Sidebar> -->
+        <Navbar></Navbar>
+         <Sidebar></Sidebar>
         <div class="content-wrapper">
             <!--         <Breadcrumb></Breadcrumb>-->
             <section class="content pt-3">
@@ -16,8 +16,8 @@
                 </div>
             </section>
         </div>
-        <!-- <Footer></Footer> -->
-        <!-- <ControlSidebar></ControlSidebar> -->
+         <Footer></Footer>
+         <ControlSidebar></ControlSidebar>
     </div>
     </body>
 </template>

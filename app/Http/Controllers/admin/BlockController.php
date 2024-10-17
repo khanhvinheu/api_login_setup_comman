@@ -21,6 +21,10 @@ class BlockController extends Controller
         $newIndex = $lastBlock ? $lastBlock->index + 1 : 1;
         return response()->json($newIndex);
     }
+    public function getLast(){
+        $lastBlock = Blocks::orderBy('index', 'desc')->first();
+        return response()->json($lastBlock);
+    }
     //
     public function store(Request $request)
     {
@@ -33,21 +37,21 @@ class BlockController extends Controller
             'hash' => 'required|string',
             'signature' => 'required|string',
         ]);
-    
+
         // Nếu không hợp lệ, trả về lỗi kèm thông tin chi tiết
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 422);
         }
-      
+
         try {
              // Chuyển đổi mảng `data` thành JSON trước khi lưu vào MySQL
             $validatedData = $validator->validated();
             $validatedData['data'] = json_encode($validatedData['data']);
             $lastBlock = Blocks::orderBy('index', 'desc')->first();
             $newIndex = $lastBlock ? $lastBlock->index + 1 : 1;
-            // Convert ISO 8601 timestamp to MySQL DATETIME format        
+            // Convert ISO 8601 timestamp to MySQL DATETIME format
             $validatedData['index'] = $newIndex;
 
             // Thực hiện lưu trữ vào MySQL

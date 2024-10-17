@@ -111,73 +111,74 @@ Route::prefix('admin')->namespace('admin')->group(function () {
     Route::post('users/create-signature/{id}','UserController@createSigature');
     Route::post('users/delete/{id}','UserController@destroy');
     //Modules
-    Route::get('module','ModuleController@index');  
-    Route::get('module/gen_code','ModuleController@genCode');  
+    Route::get('module','ModuleController@index');
+    Route::get('module/gen_code','ModuleController@genCode');
     Route::get('module/detail/{id}','ModuleController@show');
     Route::post('module/update/{id}','ModuleController@update');
     Route::post('module/create','ModuleController@create');
     Route::post('module/delete/{id}','ModuleController@destroy');
     //Action
-    Route::get('action','ActionController@index');  
-    Route::get('action/gen_code','ActionController@genCode');  
+    Route::get('action','ActionController@index');
+    Route::get('action/gen_code','ActionController@genCode');
     Route::get('action/detail/{id}','ActionController@show');
     Route::post('action/update/{id}','ActionController@update');
     Route::post('action/create','ActionController@create');
     Route::post('action/delete/{id}','ActionController@destroy');
     //Role
-    Route::get('role','RoleController@index');  
-    Route::get('role/gen_code','RoleController@genCode');  
+    Route::get('role','RoleController@index');
+    Route::get('role/gen_code','RoleController@genCode');
     Route::get('role/detail/{id}','RoleController@show');
     Route::post('role/update/{id}','RoleController@update');
     Route::post('role/create','RoleController@create');
     Route::post('role/delete/{id}','RoleController@destroy');
     //TaskManager
-    Route::get('list-task','TaskManagerController@index');       
+    Route::get('list-task','TaskManagerController@index');
     Route::get('list-task/detail/{id}','TaskManagerController@show');
     Route::post('list-task/update/{id}','TaskManagerController@update');
     Route::post('list-task/create','TaskManagerController@create');
     Route::post('list-task/delete/{id}','TaskManagerController@destroy');
     //TaskType
-    Route::get('list-task-type','TaskTypesController@index');   
+    Route::get('list-task-type','TaskTypesController@index');
     //TaskFeedbacks
-    Route::get('list-task-feedback','TaskFeedbackController@index');       
+    Route::get('list-task-feedback','TaskFeedbackController@index');
     Route::get('list-task-feedback/detail/{id}','TaskFeedbackController@show');
     Route::post('list-task-feedback/update/{id}','TaskFeedbackController@update');
     Route::post('list-task-feedback/create','TaskFeedbackController@create');
-    Route::post('list-task-feedback/delete/{id}','TaskFeedbackController@destroy');    
+    Route::post('list-task-feedback/delete/{id}','TaskFeedbackController@destroy');
     //dotCap
-    Route::get('dot-cap','dotCapController@index');       
+    Route::get('dot-cap','dotCapController@index');
     Route::get('dot-cap/detail/{id}','dotCapController@show');
     Route::post('dot-cap/update/{id}','dotCapController@update');
     Route::post('dot-cap/create','dotCapController@store');
-    Route::post('dot-cap/delete/{id}','dotCapController@destroy');  
-    Route::get('dot-cap/gen_code','dotCapController@genCode');    
+    Route::post('dot-cap/delete/{id}','dotCapController@destroy');
+    Route::get('dot-cap/gen_code','dotCapController@genCode');
     //hoSoKyDuyet
-    Route::get('ho-so-ky-duyet','hoSoKyDuyetController@index');       
+    Route::get('ho-so-ky-duyet','hoSoKyDuyetController@index');
     Route::get('ho-so-ky-duyet/detail/{id}','hoSoKyDuyetController@show');
     Route::post('ho-so-ky-duyet/update/{id}','hoSoKyDuyetController@update');
     Route::post('ho-so-ky-duyet/create','hoSoKyDuyetController@store');
-    Route::post('ho-so-ky-duyet/delete/{id}','hoSoKyDuyetController@destroy');  
-    Route::get('ho-so-ky-duyet/gen_code','hoSoKyDuyetController@genCode');    
+    Route::post('ho-so-ky-duyet/delete/{id}','hoSoKyDuyetController@destroy');
+    Route::get('ho-so-ky-duyet/gen_code','hoSoKyDuyetController@genCode');
     //khoaHoc
-    Route::get('khoa-hoc','thongTinKhoaHocController@index');       
+    Route::get('khoa-hoc','thongTinKhoaHocController@index');
     Route::get('khoa-hoc/detail/{id}','thongTinKhoaHocController@show');
     Route::post('khoa-hoc/update/{id}','thongTinKhoaHocController@update');
     Route::post('khoa-hoc/create','thongTinKhoaHocController@store');
-    Route::post('khoa-hoc/delete/{id}','thongTinKhoaHocController@destroy');    
-    Route::get('khoa-hoc/gen_code','thongTinKhoaHocController@genCode');  
+    Route::post('khoa-hoc/delete/{id}','thongTinKhoaHocController@destroy');
+    Route::get('khoa-hoc/gen_code','thongTinKhoaHocController@genCode');
     //danhSachCapChungChi
-    Route::get('cap-chung-chi','danhSachCapChungChiHocVienController@index');       
+    Route::get('cap-chung-chi','danhSachCapChungChiHocVienController@index');
     Route::get('cap-chung-chi/detail/{id}','danhSachCapChungChiHocVienController@show');
     Route::post('cap-chung-chi/update/{id}','danhSachCapChungChiHocVienController@update');
     Route::post('cap-chung-chi/create','danhSachCapChungChiHocVienController@store');
-    Route::post('cap-chung-chi/delete/{id}','danhSachCapChungChiHocVienController@destroy');    
-    Route::post('cap-chung-chi/kyduyet/{id}','danhSachCapChungChiHocVienController@kyDuyet');    
-    Route::get('cap-chung-chi/gen_code','danhSachCapChungChiHocVienController@genCode');  
-    
+    Route::post('cap-chung-chi/delete/{id}','danhSachCapChungChiHocVienController@destroy');
+    Route::post('cap-chung-chi/kyduyet/{id}','danhSachCapChungChiHocVienController@kyDuyet');
+    Route::get('cap-chung-chi/gen_code','danhSachCapChungChiHocVienController@genCode');
+
     Route::post('/blocks', 'BlockController@store');
-    Route::get('/blocks/get-all', 'BlockController@index');
     Route::get('/blocks/get-index', 'BlockController@getIndex');
+    Route::get('/blocks/get-all', 'BlockController@index');
+    Route::get('/blocks/get-last', 'BlockController@getLast');
 
 });
 

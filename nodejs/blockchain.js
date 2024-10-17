@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const { isString } = require('lodash');
 const path = require('path');
+const axios = require("axios");
 
 // Định nghĩa Block
 class Block {
@@ -17,7 +18,7 @@ class Block {
   // Tính hash cho block
   // Tính hash cho block (bỏ qua chữ ký)
   calculateHash() {
-    const dataToHash = 
+    const dataToHash =
       this.index +
       this.timestamp +
       JSON.stringify(this.data) +
@@ -54,7 +55,30 @@ class Block {
 // Định nghĩa Blockchain
 class Blockchain {
   constructor() {
-    this.chain = [this.createGenesisBlock()];
+      this.getLastBlock().then( async (data)=>{
+          if(data){
+              this.chain = [this.genBlock(data)]
+          }else {
+              this.chain = [this.createGenesisBlock()]
+          }
+      })
+  }
+
+  genBlock(currentBlock){
+      currentBlock['data']= JSON.parse(currentBlock['data'])
+      return new Block(currentBlock.index, currentBlock.timestamp, currentBlock.data, currentBlock.previousHash, currentBlock.signature, currentBlock.hash);
+  }
+  async getLastBlock(){
+      try {
+          const url = 'http://localhost:8000/api/admin/blocks/get-last';
+          // Optional: If you need to send any data (e.g., for POST requests)
+          // Example of a GET request
+          const response = await axios.get(url);
+          return response.data;
+      } catch (error) {
+          return error.response ? error.response.data : error.message;
+          // console.error('Error calling Laravel API:', error.response ? error.response.data : error.message);
+      }
   }
 
   // Tạo block đầu tiên (Genesis Block)
@@ -81,33 +105,31 @@ class Blockchain {
 
   // Lưu block vào file JSON
   saveBlockToFile(block) {
-    const filePath = path.join(__dirname, 'blocks', `block_${block.index}.json`);
-    fs.writeFileSync(filePath, JSON.stringify(block, null, 2));
-    console.log(`Block ${block.index} đã được lưu tại ${filePath}`);
+    // const filePath = path.join(__dirname, 'blocks', `block_${block.index}.json`);
+    // fs.writeFileSync(filePath, JSON.stringify(block, null, 2));
+    // console.log(`Block ${block.index} đã được lưu tại ${filePath}`);
   }
 
   // Xác thực toàn bộ chuỗi blockchain
-  isChainValid(publicKey, data) { 
-    var valid = false  
-    for (let i = 1; i < data.length; i++) {     
+  isChainValid(publicKey, data) {
+    var valid = false
+    for (let i = 1; i < data.length; i++) {
       var currentBlock = data[i];
-      currentBlock['data']= JSON.parse(currentBlock['data'])      
+      currentBlock['data']= JSON.parse(currentBlock['data'])
       currentBlock = new Block(currentBlock.index, currentBlock.timestamp, currentBlock.data, currentBlock.previousHash, currentBlock.signature, currentBlock.hash);
-      console.log(currentBlock);
-      
-      
+
       var previousBlock = data[i - 1];
       if(previousBlock['data'] && isString(previousBlock['data'])){
-        previousBlock['data']= JSON.parse(previousBlock['data'])    
+        previousBlock['data']= JSON.parse(previousBlock['data'])
       }
-      
+
       previousBlock = new Block(previousBlock.index, previousBlock.timestamp, previousBlock.data, previousBlock.previousHash, previousBlock.signature, previousBlock.hash);
 
       console.log(`Kiểm tra Block ${currentBlock.index}...`);
       console.log(`Hash hiện tại: ${currentBlock.hash}`);
       console.log(`Hash tính lại: ${currentBlock.calculateHash()}`);
 
-  
+
       // Kiểm tra hash
       if (currentBlock.hash !== currentBlock.calculateHash()) {
         console.log(`Block ${currentBlock.index}: Hash không khớp.`);
@@ -115,7 +137,7 @@ class Blockchain {
       }else{
         valid = true
       }
-  
+
       // Kiểm tra previousHash
       if (currentBlock.previousHash !== previousBlock.hash) {
         console.log(`Block ${currentBlock.index}: Previous hash không khớp.`);
@@ -123,7 +145,7 @@ class Blockchain {
       }else{
         valid = true
       }
-  
+
       // Kiểm tra chữ ký (vẫn dùng hash đã khóa trước khi ký)
       if (!currentBlock.verifySignature(publicKey)) {
         console.log(`Block ${currentBlock.index}: Chữ ký không hợp lệ.`);
@@ -136,4 +158,20 @@ class Blockchain {
   }
 }
 
-module.exports = { Blockchain, Block };
+function generateKeys(saveFile=false) {
+    const { publicKey, privateKey } = crypto.generateKeyPairSync('ec', {
+        namedCurve: 'prime256v1',
+        publicKeyEncoding: { type: 'spki', format: 'pem' },
+        privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+    });
+    if(saveFile){
+        // Lưu khóa vào file
+        fs.writeFileSync('private_key.pem', privateKey);
+        fs.writeFileSync('public_key.pem', publicKey);
+        console.log('Cặp khóa đã được tạo và lưu.');
+    }
+    return {publicKey, privateKey}
+
+}
+
+module.exports = { Blockchain, Block, generateKeys};
