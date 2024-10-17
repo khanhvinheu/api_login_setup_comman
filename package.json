@@ -7,7 +7,7 @@
         "hot": "mix watch --hot",
         "production": "cross-env mix --production",
         "start-server1": "php artisan serve --host 0.0.0.0",
-        "start-server2": "node nodejs/index.js"
+        "start-server2": "cd nodejs && node index.js"
     },
     "devDependencies": {
         "autoprefixer": "10.4.5",

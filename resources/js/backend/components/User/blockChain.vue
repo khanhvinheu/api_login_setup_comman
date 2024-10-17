@@ -81,9 +81,9 @@ export default {
                 }
             }).then(({data}) => {
                 this.$notify({
-                    title: 'Success',
+                    title: data.status?'Success':'Error',
                     message: data['messages'],
-                    type: 'success'
+                    type: data.status?'success':'error'
                 });
                 this.getListBlog()
             });
