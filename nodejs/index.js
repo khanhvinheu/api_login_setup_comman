@@ -79,7 +79,8 @@ app.post('/blocks/isChainValid', async(req, res) => {
         // console.log('GET Response:', response.data);
         // const publicKey = fs.readFileSync('public_key.pem', 'utf8');
         const publicKey =  formatPEM(req.body.publicKey, 'PUBLIC KEY')
-        const isValid = blockchain.isChainValid(publicKey,response.data);
+        const providedSignature = req.body.providedSignature
+        const isValid = blockchain.isChainValid(publicKey,response.data,providedSignature);
         if(isValid){
             res.status(200).json({status:true, messages:"Khóa trùng khớp"});
         }else {

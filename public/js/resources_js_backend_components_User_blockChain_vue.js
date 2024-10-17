@@ -5366,9 +5366,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).then(function (_ref) {
         var data = _ref.data;
         _this2.$notify({
-          title: 'Success',
+          title: data.status ? 'Success' : 'Error',
           message: data['messages'],
-          type: 'success'
+          type: data.status ? 'success' : 'error'
         });
         _this2.getListBlog();
       });
@@ -5821,6 +5821,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "toolCheck",
   data: function data() {
     return {
+      providedSignature: '',
       publicKey: ''
     };
   },
@@ -5831,7 +5832,8 @@ __webpack_require__.r(__webpack_exports__);
         method: 'post',
         url: 'http://localhost:3000/blocks/isChainValid',
         data: {
-          publicKey: this.publicKey
+          publicKey: this.publicKey,
+          providedSignature: this.providedSignature
         }
       }).then(function (_ref) {
         var data = _ref.data;
@@ -6230,6 +6232,14 @@ var render = function render() {
         _vm.publicKey = $$v;
       },
       expression: "publicKey"
+    }
+  }), _vm._v(" "), _c("el-input", {
+    model: {
+      value: _vm.providedSignature,
+      callback: function callback($$v) {
+        _vm.providedSignature = $$v;
+      },
+      expression: "providedSignature"
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "card-footer"

@@ -9,6 +9,7 @@
                    PrivateKey:  {{$store.getters.user.privatekey}}
                 </p>
                 <el-input v-model="publicKey"></el-input>
+                <el-input v-model="providedSignature"></el-input>
             </div>
 
             <div class="card-footer">
@@ -23,7 +24,7 @@
         name:"toolCheck",
         data(){
             return{
-
+                providedSignature:'',
                 publicKey:''
             }
         },
@@ -33,7 +34,8 @@
                     method: 'post',
                     url: 'http://localhost:3000/blocks/isChainValid',
                     data: {
-                        publicKey: this.publicKey
+                        publicKey: this.publicKey,
+                        providedSignature: this.providedSignature
                     }
                 }).then(({data}) => {
                     if(data.status){
