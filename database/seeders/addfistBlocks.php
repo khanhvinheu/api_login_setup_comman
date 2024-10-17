@@ -31,7 +31,7 @@ class addfistBlocks extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         // Truncate the table
-        DB::table('modules')->truncate();
+        DB::table('blocks')->truncate();
 
         // Enable foreign key checks again
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
