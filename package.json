@@ -44,6 +44,7 @@
         "elliptic": "^6.5.7",
         "ethers": "^6.13.4",
         "font-awesome": "^4.7.0",
+        "fontkit": "^2.0.4",
         "html2pdf.js": "^0.10.2",
         "http-browserify": "^1.7.0",
         "jquery": "^3.6.0",
