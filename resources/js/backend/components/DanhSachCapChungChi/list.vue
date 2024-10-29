@@ -99,7 +99,7 @@
                                             v-if="scope.row.ho_so_duyet"
                                             type="success"
                                             size="mini"
-                                            @click="generatePDF(scope.row)"
+                                            @click="signPfd(scope.row)"
                                             ><i class="el-icon-view"></i>
                                         </el-button>
                                         <el-button
@@ -171,75 +171,16 @@
                 <el-divider></el-divider>
             </div>           
             <embed style="width: 100%; height: 60vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
-            </embed>       
+            </embed>           
            <div style="display: flex; justify-content: center; align-items: center;flex-direction: column;">
                 <!-- <VueQRCodeComponent :text="this.qrValue"></VueQRCodeComponent>  
                 <a style="text-align: center; width: 100%;" :href="this.qrValue" target="_brank">Nhấn vào để xem</a> -->
            </div>
-        </el-dialog>
-        <!-- <div style="display: flex;position: relative;width: 785px;height: 540px;">
-              
-                <img src="/assets/chungchimau/chungchiv2.jpg" style="width: 100%; height: 100%; position: absolute; top: 1px; left: 0;"/>
-                
-                <div class="left" style="position: relative; width: 50%;height: 100%;">                    
-                    <div class="chucVuEN" style="position: absolute;top:65px; left: 169px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">RECTOR</span>
-                    </div>                    
-                    <div class="donViCapEN" style="position: absolute;top:90px; left: 125px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">TRA VINH UNIVERSITY</span>
-                    </div>                   
-                    <div class="hoTenEN" style="position: absolute;top:180px; left: 60px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.hoTen}</span>
-                    </div>
-                    <div class="ngaySinhEN" style="position: absolute;top:210px; left: 100px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.namSinh}</span>
-                    </div>
-                    <div class="tenKhoaHocEN" style="position: absolute;top:268px; left:24px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">CN CNTT</span>
-                    </div>                
-                    <div class="fromDateEN" style="position: absolute;top:298px; left:192px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">01&nbsp 01 &nbsp&nbsp2016 
-                            &nbsp
-                            &nbsp 01&nbsp&nbsp09&nbsp  2020</span>
-                    </div>                
-                    <div class="noiDaoTaoEN" style="position: absolute;top:328px; left:46px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">Trà Vinh University</span>
-                    </div>
-                </div>
-                <div class="right" style="position: relative; width: 50%;height: 100%;">
-                    <div class="chucVu" style="position: absolute;top:65px; right: 152px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">HIỆU TRƯỞNG</span>
-                    </div>
-                    <div class="donViCap" style="position: absolute;top:90px; right: 110px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">TRƯỜNG ĐẠI HỌC TRÀ VINH</span>
-                    </div>
-                    <div class="hoTen" style="position: absolute;top:180px; left: 50px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.hoTen}</span>
-                    </div>
-                    <div class="gioiTinh" style="position: absolute;top:180px; left: 330px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">Nam</span>
-                    </div>
-                    <div class="ngaySinh" style="position: absolute;top:210px; left:80px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.namSinh}</span>
-                    </div>
-                    <div class="tenKhoaHoc" style="position: absolute;top:268px; left: 30px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">Công nhân CNTT</span>
-                    </div>
-                    <div class="fromDate" style="position: absolute;top:298px; left: 182px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">01&nbsp 01 2016 
-                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                            &nbsp 01&nbsp  09&nbsp  2020</span>
-                    </div>
-                    <div class="noiDaoTao" style="position: absolute;top:328px; left: 45px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">Trường đại học Trà Vinh</span>
-                    </div>
-                </div>
-        </div> -->
-        <!-- <div style="display: flex;position: relative;;width: 795px;height: 540px; background-image: url('/assets/chungchimau/chungchimau_back.jpg');background-position: center;
-                    background-repeat: no-repeat; background-size: 100% auto;
-                "></div> -->
+        </el-dialog>     
+        <input type="file" @change="readPdf" />
+        <pre>Public Key: {{ publicKey }}</pre>
+        <pre>Blockchain Key: {{ signature }}</pre>  
         
-       
     </div>
 
 </template>
@@ -248,7 +189,11 @@
 import html2pdf from 'html2pdf.js';
 import formData from "./form";
 import VueQRCodeComponent from 'vue-qrcode-component'
-import QRCode from 'qrcode';
+import QRCode from 'qrcode'; 
+import { PDFDocument, rgb  } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit'; // Import fontkit
+import robotoFont from '/assets/fonts/Roboto-Regular.ttf'; // Đường dẫn đến phông chữ
+import backgroundImage from '/assets/chungchimau/chungchiv2.jpg';
 export default {
     components:{formData, VueQRCodeComponent},
     data() {
@@ -267,13 +212,114 @@ export default {
                 PageLimit:10
             },
             pdfSrc:'',
-            qrValue: 'https://example.com'
+            qrValue: 'https://example.com',
+            publicKey: '',
+            signature: '',
         }
     },
     mounted() {
         this.getList()
     },
-    methods: {
+    
+    methods: {     
+       getFileExtension(path) {
+            const parts = path.split('.');
+            return parts.length > 1 ? parts.pop() : '';
+       },        
+       async signPfd(item){
+            // 1. Tạo tài liệu PDF mới
+            const pdfDoc = await PDFDocument.create();
+            // Nhúng ảnh nền
+            const imageBytes = await fetch(backgroundImage).then((res) =>
+                res.arrayBuffer()
+            );
+            const jpgImage = await pdfDoc.embedJpg(imageBytes);
+
+            // 2. Đăng ký fontkit và nhúng phông Roboto
+            pdfDoc.registerFontkit(fontkit);
+            const fontBytes = await fetch(robotoFont).then((res) => res.arrayBuffer());
+            const roboto = await pdfDoc.embedFont(fontBytes);
+
+            // 3. Thêm một trang mới vào PDF và vẽ văn bản
+            const page = pdfDoc.addPage([600, 400]);
+            page.drawImage(jpgImage, {
+                x: 0,
+                y: 0,
+                width: page.getWidth(),
+                height: page.getHeight(),
+            });
+            const { protocol, hostname, port, pathname, search, hash } = window.location;
+            this.qrValue= 'http://'+hostname+':'+port+'/check-file-in-pdf/'+item.id
+            const qrImg = await QRCode.toDataURL(this.qrValue) 
+            const pngImageBytes = await fetch(qrImg).then(res => res.arrayBuffer());     
+            const qrCodeImg =  await pdfDoc.embedPng(pngImageBytes);       
+            page.drawImage(qrCodeImg, {
+                x: 220,
+                y: 20,
+                width: 60,
+                height:60,
+            });
+            //set anh 3*4
+            const path3x4=item.image          
+            const imageBytes3x4 = await fetch(path3x4).then((res) =>
+                res.arrayBuffer()
+            );            
+            if(path3x4 && ['PNG','png'].includes(this.getFileExtension(path3x4))){              
+                const jpgImage3x4 = await pdfDoc.embedPng(imageBytes3x4);
+                page.drawImage(jpgImage3x4, {
+                    x: 48,
+                    y: 65,
+                    width: 39,
+                    height:52,
+                });
+            }else{
+                const jpgImage3x4 = await pdfDoc.embedJpg(imageBytes3x4);
+                page.drawImage(jpgImage3x4, {
+                    x: 0,
+                    y: 0,
+                    width: 60,
+                    height:60,
+                });
+            }          
+            // page.drawText('Đây là tài liệu có nhúng public key.', {
+            //     x: 50,
+            //     y: 350,
+            //     size: 20,
+            //     font: roboto,
+            //     color: rgb(0, 0, 0),
+            // });          
+            
+            // 4. Lưu Public Key vào metadata
+            const publicKey = `
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr5YIqGnI...
+            -----END PUBLIC KEY-----`;
+            pdfDoc.setTitle('Tài liệu chứa Public Key');
+            pdfDoc.setAuthor(publicKey); // Lưu vào trường 'Author'
+            pdfDoc.setSubject('blockchainkey')
+
+            // 5. Xuất PDF và tạo Blob để tải về
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            // 6. Tạo liên kết tải PDF
+            const url = URL.createObjectURL(blob);
+            this.pdfSrc = url      
+            this.viewPdf = true    
+        },
+        async readPdf(){
+            const file = event.target.files[0];
+            const arrayBuffer = await file.arrayBuffer();
+
+            const pdfDoc = await PDFDocument.load(arrayBuffer);
+
+            // 7. Đọc Public Key từ metadata (trường Author)
+            const author = pdfDoc.getAuthor();
+            const signature = pdfDoc.getSubject();          
+
+            this.publicKey = author || 'Không tìm thấy public Key';
+            this.signature = signature || 'Không tìm thấy signature Key';
+        },
         async generatePDF(item) {  
             const { protocol, hostname, port, pathname, search, hash } = window.location;
             this.qrValue= 'http://'+hostname+':'+port+'/check-file-in-pdf/'+item.id
@@ -374,7 +420,7 @@ export default {
         update(e){
             this.idUpdate = e.id
             // this.outerVisible=true
-            this.$router.push({name:'CapChungChiUpdate',params:{id:e.id}})
+            this.$router.push({name:'CapChungChiUpdate',params:{id:e.id}}) 
         },
         handleSizeChange(val) {
             this.options.PageLimit = val
