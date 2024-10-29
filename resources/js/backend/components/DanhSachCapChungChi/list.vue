@@ -28,9 +28,15 @@
 
                                     </template>
                                 </el-input>
-                                <el-button @click="$router.push({name:'CapChungChiCreate'})" class="ml-2" type="primary"><i
-                                    class="el-icon-plus"></i> Thêm mới
-                                </el-button>
+                                <div>
+                                    <el-button @click="validFile()" class="ml-2" type="success"><i
+                                        class="el-icon-key"></i> ValidKey
+                                    </el-button>
+                                    <el-button @click="$router.push({name:'CapChungChiCreate'})" class="ml-2" type="primary"><i
+                                        class="el-icon-plus"></i> Thêm mới
+                                    </el-button>
+                                </div>
+                               
                             </div>
                             <el-table
                                 empty-text="Chưa có dữ liệu !"
@@ -58,7 +64,8 @@
                                     label="Ảnh 3X4"                                   
                                 >
                                     <template slot-scope="scope">
-                                        <img width="50px" :src="scope.row.image"/>
+                                        <img width="50px" v-if="scope.row.image!='null'" :src="scope.row.image"/>
+                                        <img width="50px" v-else :src="'/images/avatar5.png'"/>
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -176,11 +183,64 @@
                 <!-- <VueQRCodeComponent :text="this.qrValue"></VueQRCodeComponent>  
                 <a style="text-align: center; width: 100%;" :href="this.qrValue" target="_brank">Nhấn vào để xem</a> -->
            </div>
-        </el-dialog>     
-        <input type="file" @change="readPdf" />
-        <pre>Public Key: {{ publicKey }}</pre>
-        <pre>Blockchain Key: {{ signature }}</pre>  
-        
+        </el-dialog>    
+        <el-dialog :visible.sync="validDialog" width="50vw">
+            <div style="margin-top: -30px">
+                <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">KIỂM TRA TÍNH HỢP LỆ CỦA CHỨNG CHỈ</span>
+                <el-divider></el-divider>
+            </div> 
+            <div>
+                <el-upload
+                    accept=".pdf"
+                    class="upload-demo"
+                    drag
+                    action=""
+                    :limit="1"
+                    :on-change="readPdf"
+                    :auto-upload="false" 
+                    :on-remove="handleRemove"
+                    :before-upload="beforeUpload"
+                    :file-list="fileList">
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text"><em>Click to upload</em></div>
+                    <!-- <div class="el-upload__tip" slot="tip">pdf files with a size less than 500kb</div> -->
+                </el-upload>                
+            </div>   
+            <div v-if="publicKey=='' || signature==''">
+                <el-alert v-if="fileList.length>0"
+                    title="File tải lên chưa được ký duyệt hoặc không đúng định dạng, Vui lòng kiểm tra lại"
+                    type="error">
+                </el-alert>
+            </div>
+            <div v-else>
+                <el-alert
+                    :closable=false
+                    title="File tải lên đã hợp lệ"
+                    type="success">
+                </el-alert>
+            </div>         
+                <el-divider v-if="publicKey && signature" content-position="left">
+                    <el-button v-show="publicKey && signature" style="margin-left: 10px;" size="small" type="success" @click="validKey()">Kiểm tra tính hợp lệ chữ ký</el-button>
+                </el-divider>           
+                <el-progress v-if="percentage>0 && percentage<100" :percentage="percentage" color="success"></el-progress>
+            <div v-if="percentage==100">
+                <el-alert v-if="statusValid===true"
+                :closable=false
+                    title="Kết quả"
+                    type="success"
+                    description="Khóa hợp lệ"
+                    show-icon>
+                </el-alert>
+                <el-alert v-if="statusValid===false"
+                :closable=false
+                    title="Kết quả"
+                    type="error"
+                    description="Khóa không hợp lệ"
+                    show-icon>
+                </el-alert>
+            </div>
+           
+        </el-dialog> 
     </div>
 
 </template>
@@ -198,6 +258,7 @@ export default {
     components:{formData, VueQRCodeComponent},
     data() {
         return {
+            fileList:[],
             idUpdate:'',
             outerVisible:false,
             viewPdf:false,
@@ -215,13 +276,47 @@ export default {
             qrValue: 'https://example.com',
             publicKey: '',
             signature: '',
+            validDialog:false,           
+            statusValid:'',
+            percentage: 0
         }
     },
     mounted() {
         this.getList()
     },
     
-    methods: {     
+    methods: {   
+        beforeUpload(file) {
+            if (this.fileList.length >= 1) {
+                this.fileList.splice(0, 1); // Remove existing file
+            }
+            return true; // Allow upload
+        }, 
+        fakeLoading(){
+            this.percentage=0
+            setInterval(() => {                
+                if (this.percentage < 100) {
+                    this.percentage += 10;
+                }
+            }, 100);
+        },    
+        handleRemove(el) {        
+            this.fileList = this.fileList.filter(e => e.uid != el.uid)
+            this.publicKey = this.signature = this.statusValid =''          
+        },
+       validKey(){    
+            this.fakeLoading()    
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/blocks/isChainValid',
+                data: {
+                    publicKey: this.publicKey,
+                    providedSignature: this.signature
+                }
+            }).then(({data}) => {                
+                this.showValidMess=this.statusValid=data.status            
+            });
+       },
        getFileExtension(path) {
             const parts = path.split('.');
             return parts.length > 1 ? parts.pop() : '';
@@ -260,27 +355,35 @@ export default {
                 height:60,
             });
             //set anh 3*4
-            const path3x4=item.image          
-            const imageBytes3x4 = await fetch(path3x4).then((res) =>
-                res.arrayBuffer()
-            );            
-            if(path3x4 && ['PNG','png'].includes(this.getFileExtension(path3x4))){              
-                const jpgImage3x4 = await pdfDoc.embedPng(imageBytes3x4);
-                page.drawImage(jpgImage3x4, {
-                    x: 48,
-                    y: 65,
-                    width: 39,
-                    height:52,
-                });
-            }else{
-                const jpgImage3x4 = await pdfDoc.embedJpg(imageBytes3x4);
-                page.drawImage(jpgImage3x4, {
-                    x: 0,
-                    y: 0,
-                    width: 60,
-                    height:60,
-                });
-            }          
+            const path3x4=item.image    
+            if(path3x4!='null'){
+                const imageBytes3x4 = await fetch(path3x4).then((res) =>
+                    res.arrayBuffer()
+                );            
+               
+                
+                if(path3x4 && ['PNG','png'].includes(this.getFileExtension(path3x4))){              
+                    const jpgImage3x4 = await pdfDoc.embedPng(imageBytes3x4);
+                    page.drawImage(jpgImage3x4, {
+                        x: 48,
+                        y: 65,
+                        width: 39,
+                        height:52,
+                    });
+                }else{
+                    const jpgImage3x4 = await pdfDoc.embedJpg(imageBytes3x4);
+                    page.drawImage(jpgImage3x4, {
+                        x: 0,
+                        y: 0,
+                        width: 60,
+                        height:60,
+                    });
+                }     
+            }
+         
+               
+             
+                
             // page.drawText('Đây là tài liệu có nhúng public key.', {
             //     x: 50,
             //     y: 350,
@@ -290,13 +393,10 @@ export default {
             // });          
             
             // 4. Lưu Public Key vào metadata
-            const publicKey = `
-            -----BEGIN PUBLIC KEY-----
-            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr5YIqGnI...
-            -----END PUBLIC KEY-----`;
-            pdfDoc.setTitle('Tài liệu chứa Public Key');
-            pdfDoc.setAuthor(publicKey); // Lưu vào trường 'Author'
-            pdfDoc.setSubject('blockchainkey')
+          
+            // pdfDoc.setTitle('Tài liệu chứa Public Key');
+            pdfDoc.setAuthor(item.ho_so_duyet.publickey); // Lưu vào trường 'Author'
+            pdfDoc.setSubject(item.ho_so_duyet.signature)
 
             // 5. Xuất PDF và tạo Blob để tải về
             const pdfBytes = await pdfDoc.save();
@@ -307,6 +407,9 @@ export default {
             this.pdfSrc = url      
             this.viewPdf = true    
         },
+        validFile(){
+            this.validDialog=true
+        },
         async readPdf(){
             const file = event.target.files[0];
             const arrayBuffer = await file.arrayBuffer();
@@ -315,10 +418,36 @@ export default {
 
             // 7. Đọc Public Key từ metadata (trường Author)
             const author = pdfDoc.getAuthor();
-            const signature = pdfDoc.getSubject();          
+            const signature = pdfDoc.getSubject();      
+            
+            if(!author && !signature){
+                this.$notify({
+                    title: 'Error',
+                    message: 'File tải lên không hợp lệ',
+                    type: 'error'
+                });
+                this.fileList=[]
+            }else{
+                this.publicKey = author || '';
+                this.signature = signature || '';
+            }
 
-            this.publicKey = author || 'Không tìm thấy public Key';
-            this.signature = signature || 'Không tìm thấy signature Key';
+            
+        },
+        async addBlock() {
+            return await axios({
+                method: 'post',
+                url: 'http://localhost:3000/add-block',
+                data:{
+                    privateKey:this.$store.getters.user.privatekey
+                }
+            }).then(({data}) => {
+                if(data && data.status){
+                    return data.newBlock.signature   
+                }else{
+                    return false
+                }       
+            });
         },
         async generatePDF(item) {  
             const { protocol, hostname, port, pathname, search, hash } = window.location;
@@ -430,41 +559,39 @@ export default {
             this.options.Page = val
             this.getList()
         },
-        kyDuyet(item) {
-            let _this = this
-            var formData = new FormData()                          
-            formData.set('nguoiKyDuyet',this.$store.getters.user.id)
-            formData.set('maHoSo',item.id)    
-            formData.set('thongTinLuu','')    
-            formData.set('ghiChu','')    
-            formData.set('privatekey',this.$store.getters.user.privatekey)    
-            formData.set('publickey',this.$store.getters.user.publickey)    
-            formData.set('signature',this.$store.getters.user.signature)    
-            formData.set('hinhanhchuky',this.$store.getters.user.hinhanhchuky)             
-            // $store.getters.user         
-            axios({
-                method: 'post',
-                url: '/api/admin/cap-chung-chi/kyduyet/' + item.id,
-                data: formData
-            })
-                .then(function (response) {
-                    if (response.data['success']) {
-                        _this.$notify({
-                            title: 'Success',
-                            message: response.data['mess'],
-                            type: 'success'
-                        });
-                        _this.getList()
-                    } else {
-                        _this.$notify({
-                            title: 'Error',
-                            message: response.data['mess'],
-                            type: 'error'
-                        });
-                    }
+        async kyDuyet(item) {
+             await this.addBlock().then((res)=>{
+                let _this = this
+                var formData = new FormData()                          
+                formData.set('nguoiKyDuyet',this.$store.getters.user.id)
+                formData.set('maHoSo',item.id)    
+                formData.set('thongTinLuu','')    
+                formData.set('ghiChu','')                
+                formData.set('publickey',this.$store.getters.user.publickey)    
+                formData.set('signature',res)    
+                axios({
+                    method: 'post',
+                    url: '/api/admin/cap-chung-chi/kyduyet/' + item.id,
+                    data: formData
+                })
+                    .then(function (response) {
+                        if (response.data['success']) {
+                            _this.$notify({
+                                title: 'Success',
+                                message: response.data['mess'],
+                                type: 'success'
+                            });
+                            _this.getList()
+                        } else {
+                            _this.$notify({
+                                title: 'Error',
+                                message: response.data['mess'],
+                                type: 'error'
+                            });
+                        }
 
                 });
-
+             });
         },
         deleteBanner(id) {
             let _this = this

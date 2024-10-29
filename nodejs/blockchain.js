@@ -115,6 +115,7 @@ class Blockchain {
     isChainValid(publicKey, data, providedSignature) {
         console.log(this.createGenesisBlock())
         var valid = false
+        var validSign = false
         for (let i = 1; i < data.length; i++) {
             var currentBlock = data[i];
             currentBlock['data'] = JSON.parse(currentBlock['data'])
@@ -154,14 +155,13 @@ class Blockchain {
             } else {
                 valid = true
             }
-            if (currentBlock.signature !== providedSignature) {
-                console.log(`Block ${currentBlock.index}: Chữ ký không khớp với chữ ký đã cung cấp.`);
-                valid = false;
-            } else {
-                valid = true
-            }
+            
+            if (currentBlock.signature === providedSignature) {                             
+                console.log(`Block ${currentBlock.index}: Chữ ký khớp với chữ ký đã cung cấp.`);
+                validSign = true
+            } 
         }
-        return valid;
+        return valid && validSign;
     }
 }
 

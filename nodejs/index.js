@@ -58,7 +58,7 @@ app.post('/add-block', async (req, res) => {
         // Example of a GET request
         const response = await axios.post(url, requestData);
         // console.log('GET Response:', response.data);
-        res.status(201).json({status:true, messages:"Add new block success"});
+        res.status(201).json({status:true, messages:"Add new block success", newBlock});
 
     } catch (error) {
         res.status(201).json({status:false, messages:"Add new block error"});
