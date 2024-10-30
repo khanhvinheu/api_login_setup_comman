@@ -373,24 +373,32 @@ export default {
                 }else{
                     const jpgImage3x4 = await pdfDoc.embedJpg(imageBytes3x4);
                     page.drawImage(jpgImage3x4, {
-                        x: 0,
-                        y: 0,
-                        width: 60,
-                        height:60,
+                        x: 48,
+                        y: 65,
+                        width: 39,
+                        height:52,
                     });
                 }     
             }
          
-               
+            // Set text
+            page.drawText('RECTOR', {
+                x: 120,
+                y: 340,
+                size: 14,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });   
+            page.drawText('HIỆU TRƯỞNG', {
+                x: 410,
+                y: 340,
+                size: 14,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });     
              
                 
-            // page.drawText('Đây là tài liệu có nhúng public key.', {
-            //     x: 50,
-            //     y: 350,
-            //     size: 20,
-            //     font: roboto,
-            //     color: rgb(0, 0, 0),
-            // });          
+                  
             
             // 4. Lưu Public Key vào metadata
           
