@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'ECDSA',
+  title: 'HỆ THỐNG QUẢN LÝ CẤP CHỨNG CHỈ',
 
   /**
    * @type {string} url pages

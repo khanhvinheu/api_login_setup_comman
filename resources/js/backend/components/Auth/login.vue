@@ -2,8 +2,13 @@
     <div class="main-login">
         <div class="login-box">
             <!-- /.login-logo -->
-            <div style="margin-top: 20px; background-color: unset" class="login-logo">
-                <a style="color: #ee4d2d" href="/"><b>ECDSA</b>_CERTIFICATE</a>
+            <div style="display: flex; justify-content: center; padding-top: 10px">
+                <img style="width: 200px; height: auto;" src="/images/logo.webp"/>
+            </div>
+            <div style="margin-top: 20px; background-color: unset; line-height: 25px;" class="login-logo">
+                <a style="color: #ee4d2d; font-size: 23px; font-weight: bold;" href="/"><b>HỆ THỐNG QUẢN LÝ CẤP CHỨNG CHỈ</b> </a>
+                <br>
+                <!-- <a style="color: #ee4d2d; font-size: 20px; text-transform: uppercase; font-weight: bold" href="/"><b>Trường Trung Cấp Nghề Tân Hiệp Tỉnh Kiên Giang</b></a> -->
             </div>
             <div style="background-color: unset" class="card-body login-card-body">
                 <el-form label-position="right" status-icon :model="formData" :rules="rules" ref="formData" class="demo-ruleForm">
@@ -122,11 +127,11 @@ export default {
         height: 100vh
     }
     .login-box{
-        /* background-color: rgb(255,255,255,0.9);                 */
-        background-color: rgb(0,0,0, 0.6);
+        background-color: rgb(255,255,255,0.9);                
+        /* background-color: rgb(0,0,0, 0.6); */
         box-shadow: -16px 18px 0px 5px rgba(222,222,222,0.08);
         -webkit-box-shadow: -16px 18px 0px 5px rgba(222,222,222,0.08);
         -moz-box-shadow: -16px 18px 0px 5px rgba(222,222,222,0.08);
-        
+        width: 500px;
     }
 </style>

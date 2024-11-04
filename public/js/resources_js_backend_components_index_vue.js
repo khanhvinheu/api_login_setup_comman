@@ -490,7 +490,7 @@ var staticRenderFns = [function () {
     attrs: {
       href: "#"
     }
-  }, [_vm._v("ECDSA")]), _vm._v(".")]), _vm._v("\n      All rights reserved.\n    "), _c("div", {
+  }, [_vm._v("Hệ thống quản lý cấp chứng chỉ: Trường Trung cấp nghề Tân Hiệp tỉnh Kiên Giang")]), _vm._v(".")]), _vm._v(" "), _c("div", {
     staticClass: "float-right d-none d-sm-inline-block"
   }, [_c("b", [_vm._v("Version")]), _vm._v(" 1.0.0\n    ")])])]);
 }];
@@ -935,7 +935,7 @@ var staticRenderFns = [function () {
   }, [_c("img", {
     staticClass: "img-circle elevation-2",
     attrs: {
-      src: "/assets/img/avatar5.png",
+      src: "/images/logo.webp",
       alt: "User Image"
     }
   })]);
