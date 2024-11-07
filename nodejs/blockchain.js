@@ -3,6 +3,7 @@ const fs = require('fs');
 const {isString} = require('lodash');
 const path = require('path');
 const axios = require("axios");
+const usb = require('usb');
 
 // Định nghĩa Block
 class Block {
@@ -172,18 +173,37 @@ async function generateKeys(saveFile = true) {
         privateKeyEncoding: {type: 'pkcs8', format: 'pem'},
     });
     if (saveFile) {
-        const usbPath ='E:/'
+        //Vendor ID: 1423
+        //Product ID: 25479
+        const YOUR_USB_VENDOR_ID = 1423
+        const YOUR_USB_PRODUCT_ID = 25479
+        const devices = usb.getDeviceList(); 
+        devices.forEach(device => {  
+            // So sánh với vendorId và productId bạn cần tìm
+            if (device.deviceDescriptor.idVendor === YOUR_USB_VENDOR_ID && device.deviceDescriptor.idProduct === YOUR_USB_PRODUCT_ID) {
+           
+              // Lấy mô tả về thiết bị và các thuộc tính khác             
+              device.open();
+              console.log("Device path:", device);
+        
+              // Bạn có thể thực hiện các thao tác đọc/ghi với thiết bị tại đây
+            }
+          });
+        
+
+
+        // const usbPath ='E:/'
         // Lưu khóa vào file
         // fs.writeFileSync('private_key.pem', privateKey);
         // fs.writeFileSync('public_key.pem', publicKey);
         // console.log('Cặp khóa đã được tạo và lưu.');
         // Ghi public key vào USB
-        fs.writeFileSync(`${usbPath}/private_key.pem`, publicKey);
-        console.log('Public key đã được lưu vào USB.');
+        // fs.writeFileSync(`${usbPath}/private_key.pem`, publicKey);
+        // console.log('Public key đã được lưu vào USB.');
 
         // Ghi private key vào USB
-        fs.writeFileSync(`${usbPath}/public_key.pem`,privateKey);
-        console.log('Private key đã được lưu vào USB.');
+        // fs.writeFileSync(`${usbPath}/public_key.pem`,privateKey);
+        // console.log('Private key đã được lưu vào USB.');
     }
     return {publicKey, privateKey}
 
