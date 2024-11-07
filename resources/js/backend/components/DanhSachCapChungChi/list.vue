@@ -253,7 +253,9 @@ import QRCode from 'qrcode';
 import { PDFDocument, rgb  } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit'; // Import fontkit
 import robotoFont from '/assets/fonts/Roboto-Regular.ttf'; // Đường dẫn đến phông chữ
+import robotoItalicFont from '/assets/fonts/Roboto-Italic.ttf'; // Đường dẫn đến phông chữ
 import backgroundImage from '/assets/chungchimau/chungchiv2.jpg';
+import moment from 'moment/moment';
 export default {
     components:{formData, VueQRCodeComponent},
     data() {
@@ -334,6 +336,8 @@ export default {
             pdfDoc.registerFontkit(fontkit);
             const fontBytes = await fetch(robotoFont).then((res) => res.arrayBuffer());
             const roboto = await pdfDoc.embedFont(fontBytes);
+            const fontItalicBytes = await fetch(robotoItalicFont).then((res) => res.arrayBuffer());
+            const robotoItalic = await pdfDoc.embedFont(fontItalicBytes);
 
             // 3. Thêm một trang mới vào PDF và vẽ văn bản
             const page = pdfDoc.addPage([600, 400]);
@@ -344,7 +348,8 @@ export default {
                 height: page.getHeight(),
             });
             const { protocol, hostname, port, pathname, search, hash } = window.location;
-            this.qrValue= 'http://'+hostname+':'+port+'/check-file-in-pdf/'+item.id
+            this.qrValue= 'http://'+hostname+':'+port+'/check-file-in-pdf/'+item.id          
+            
             const qrImg = await QRCode.toDataURL(this.qrValue) 
             const pngImageBytes = await fetch(qrImg).then(res => res.arrayBuffer());     
             const qrCodeImg =  await pdfDoc.embedPng(pngImageBytes);       
@@ -383,19 +388,129 @@ export default {
          
             // Set text
             page.drawText('RECTOR', {
-                x: 120,
+                x: 126,
                 y: 340,
-                size: 14,
+                size: 12,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });   
+            page.drawText('HIỆU TRƯỞNG', {
+                x: 416,
+                y: 340,
+                size: 12,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });     
+
+            page.drawText('TAN HIEP VOCATIONAL SCHOOL, KIEN GIANG PROVINCE', {
+                x: 20,
+                y: 320,
+                size: 10,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });   
+            page.drawText('TRƯỜNG TRUNG CẤP NGHỀ TÂN HIỆP TỈNH KIÊN GIANG', {
+                x: 328,
+                y: 320,
+                size: 10,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });     
+            // Ho ten
+            page.drawText(item.hoTen, {
+                x: 44,
+                y: 253,
+                size: 10,
                 font: roboto,
                 color: rgb(0, 0, 0),
             });   
-            page.drawText('HIỆU TRƯỞNG', {
-                x: 410,
-                y: 340,
-                size: 14,
+            page.drawText(item.hoTen, {
+                x: 342,
+                y: 253,
+                size: 10,
                 font: roboto,
                 color: rgb(0, 0, 0),
             });     
+             // Gioi tinh
+             page.drawText(item.gioiTinh, {
+                x: 234,
+                y: 253,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });   
+            page.drawText(item.gioiTinh, {
+                x: 552,
+                y: 253,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });     
+            // Nam sinh
+            page.drawText(item.namSinh, {
+                x: 75,
+                y: 231,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });   
+            page.drawText(item.namSinh, {
+                x: 363,
+                y: 231,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });    
+            //Khoa hoc 
+            page.drawText(item.khoa_hoc.tenKhoaHoc, {
+                x: 16,
+                y: 190,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });   
+            page.drawText(item.khoa_hoc.tenKhoaHoc, {
+                x: 323,
+                y: 190,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });    
+             // Noi dao tao
+             page.drawText('TAN HIEP VOCATIONAL SCHOOL, KIEN GIANG PROVINCE', {
+                x: 32,
+                y: 145,
+                size: 9,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });   
+            page.drawText('TRƯỜNG TRUNG CẤP NGHỀ TÂN HIỆP TỈNH KIÊN GIANG', {
+                x: 342,
+                y: 145,
+                size: 9,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });   
+             // Ngay cap
+            page.drawText('Kien Giang  '+ moment(item.dot_cap.thoiGianCap, 'DD/MM/YYYY').format('MMMM DD, YYYY'), {
+                x: 141,
+                y: 125,
+                size: 9,
+                font: robotoItalic,
+                color: rgb(0, 0, 0),
+            });   
+            // let ngayCap = moment(item.dot_cap.thoiGianCap,'DD/MM/YYYY').date()       
+            // let month = moment(item.dot_cap.thoiGianCap,'MM').date()       
+            // let year = moment(item.dot_cap.thoiGianCap,'DD/MM/YY').date()       
+            
+            
+            page.drawText('Kiên Giang             '+ moment(item.dot_cap.thoiGianCap,'DD/MM/YYYY').format('DD              MM             YYYY'), {
+                x: 405,
+                y: 125,
+                size: 9,
+                font: robotoItalic,
+                color: rgb(0, 0, 0),
+            });      
              
                 
                   
