@@ -81,6 +81,8 @@
                 <div class="card-footer" style="display: flex; justify-content: end;">
                     <el-button v-show="resID" type="success" @click="update"><i class="el-icon-plus"></i> Lưu lại
                     </el-button>
+                    <el-button v-show="resID" type="success" @click="checkUSB"><i class="el-icon-plus"></i> checkUSB
+                    </el-button>
                     <el-button @click="$refs.form.resetFields()">Reset Form</el-button>
                 </div>
             </div>
@@ -176,6 +178,16 @@ export default {
         }
     },
     methods: {
+        async checkUSB() {
+            try {
+                const device = await navigator.usb.requestDevice({
+                filters: [] // Thay đổi vendorId theo thiết bị của bạn
+                });
+            console.log('USB device connected:', device);
+            } catch (error) {
+            console.error('No USB device selected or error:', error);
+            }
+        },
         pemToBase64(pem,type ='PUBLIC KEY') {
             // Step 1: Remove the PEM header and footer
             const base64String = pem

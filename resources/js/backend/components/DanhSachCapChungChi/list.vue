@@ -30,7 +30,7 @@
                                 </el-input>
                                 <div>
                                     <el-button @click="validFile()" class="ml-2" type="success"><i
-                                        class="el-icon-key"></i> ValidKey
+                                        class="el-icon-key"></i> Kiểm tra tính hợp lệ chữ ký
                                     </el-button>
                                     <el-button @click="$router.push({name:'CapChungChiCreate'})" class="ml-2" type="primary"><i
                                         class="el-icon-plus"></i> Thêm mới
@@ -70,9 +70,10 @@
                                 </el-table-column>
                                 <el-table-column
                                     prop="namSinh"
-                                    label="NĂM SINH"
+                                    label="NGÀY SINH"
                                     sortable
                                 >
+                                    <template slot-scope="scope"> {{ scope.row.namSinh | formatDate_Default}}</template>
                                 </el-table-column>
                                 <el-table-column
                                     prop="danToc"
@@ -98,7 +99,7 @@
                                 </el-table-column>
                                 <el-table-column
                                     label="THAO TÁC"
-                                    width="180"
+                                    width="280"
                                 >
                                     <template slot-scope="scope">
                                        
@@ -106,7 +107,7 @@
                                             v-if="scope.row.ho_so_duyet"
                                             type="success"
                                             size="mini"
-                                            @click="signPfd(scope.row)"
+                                            @click="signPfd(scope.row, true)"
                                             ><i class="el-icon-view"></i>
                                         </el-button>
                                         <el-button
@@ -115,6 +116,13 @@
                                             size="mini"
                                             @click="kyDuyet(scope.row)"
                                             ><i class="el-icon-check"></i>
+                                        </el-button>
+                                        <el-button
+                                            v-if="!scope.row.ho_so_duyet"
+                                            type="success"
+                                            size="mini"
+                                            @click="signPfd(scope.row, false)"
+                                            >Xem trước
                                         </el-button>
                                         <!-- <el-button
                                             type="success"
@@ -323,7 +331,7 @@ export default {
             const parts = path.split('.');
             return parts.length > 1 ? parts.pop() : '';
        },        
-       async signPfd(item){
+       async signPfd(item, sign){
             // 1. Tạo tài liệu PDF mới
             const pdfDoc = await PDFDocument.create();
             // Nhúng ảnh nền
@@ -361,7 +369,7 @@ export default {
             });
             //set anh 3*4
             const path3x4=item.image    
-            if(path3x4!='null'){
+            if(path3x4 && path3x4!='null'){
                 const imageBytes3x4 = await fetch(path3x4).then((res) =>
                     res.arrayBuffer()
                 );            
@@ -385,6 +393,7 @@ export default {
                     });
                 }     
             }
+            
          
             // Set text
             page.drawText('RECTOR', {
@@ -447,14 +456,14 @@ export default {
                 color: rgb(0, 0, 0),
             });     
             // Nam sinh
-            page.drawText(item.namSinh, {
+            page.drawText(moment(item.namSinh, 'dd/mm/yyyy').format('MMMM DD, YYYY'), {
                 x: 75,
                 y: 231,
                 size: 10,
                 font: roboto,
                 color: rgb(0, 0, 0),
             });   
-            page.drawText(item.namSinh, {
+            page.drawText(moment(item.namSinh, 'dd/mm/yyyy').format('DD/MM/YYYY'), {
                 x: 363,
                 y: 231,
                 size: 10,
@@ -492,34 +501,63 @@ export default {
                 color: rgb(0, 0, 0),
             });   
              // Ngay cap
-            page.drawText('Kien Giang  '+ moment(item.dot_cap.thoiGianCap, 'DD/MM/YYYY').format('MMMM DD, YYYY'), {
-                x: 141,
-                y: 125,
-                size: 9,
-                font: robotoItalic,
-                color: rgb(0, 0, 0),
-            });   
-            // let ngayCap = moment(item.dot_cap.thoiGianCap,'DD/MM/YYYY').date()       
-            // let month = moment(item.dot_cap.thoiGianCap,'MM').date()       
-            // let year = moment(item.dot_cap.thoiGianCap,'DD/MM/YY').date()       
-            
-            
-            page.drawText('Kiên Giang             '+ moment(item.dot_cap.thoiGianCap,'DD/MM/YYYY').format('DD              MM             YYYY'), {
-                x: 405,
-                y: 125,
-                size: 9,
-                font: robotoItalic,
-                color: rgb(0, 0, 0),
-            });      
+            if(item.dot_cap && item.dot_cap.thoiGianCap) {
+                 page.drawText('Kien Giang  '+ moment(item.dot_cap.thoiGianCap, 'DD/MM/YYYY').format('MMMM DD, YYYY'), {
+                    x: 141,
+                    y: 125,
+                    size: 9,
+                    font: robotoItalic,
+                    color: rgb(0, 0, 0),
+                });   
+                // let ngayCap = moment(item.dot_cap.thoiGianCap,'DD/MM/YYYY').date()       
+                // let month = moment(item.dot_cap.thoiGianCap,'MM').date()       
+                // let year = moment(item.dot_cap.thoiGianCap,'DD/MM/YY').date()       
+                
+                
+                page.drawText('Kiên Giang             '+ moment(item.dot_cap.thoiGianCap,'DD/MM/YYYY').format('DD              MM             YYYY'), {
+                    x: 405,
+                    y: 125,
+                    size: 9,
+                    font: robotoItalic,
+                    color: rgb(0, 0, 0),
+                });      
              
+            }           
                 
                   
             
             // 4. Lưu Public Key vào metadata
           
             // pdfDoc.setTitle('Tài liệu chứa Public Key');
-            pdfDoc.setAuthor(item.ho_so_duyet.publickey); // Lưu vào trường 'Author'
-            pdfDoc.setSubject(item.ho_so_duyet.signature)
+            if(sign){
+                //set imgsign
+                const imgSign=item.ho_so_duyet.hinhanhchuky
+                if(imgSign!='null' && sign){
+                    const imageBytesimgSign = await fetch(imgSign).then((res) =>
+                        res.arrayBuffer()
+                    );      
+                    if(imgSign && ['PNG','png'].includes(this.getFileExtension(imgSign))){              
+                        const jpgImageimgSign = await pdfDoc.embedPng(imageBytesimgSign);
+                        page.drawImage(jpgImageimgSign, {
+                            x: 480,
+                            y: 55,
+                            width: 49,
+                            height:52,
+                        });
+                    }else{
+                        const jpgImageimgSign = await pdfDoc.embedJpg(imageBytesimgSign);
+                        page.drawImage(jpgImageimgSign, {
+                            x: 480,
+                            y: 55,
+                            width: 49,
+                            height:52,
+                        });
+                    }     
+                }
+                pdfDoc.setAuthor(item.ho_so_duyet.publickey); // Lưu vào trường 'Author'
+                pdfDoc.setSubject(item.ho_so_duyet.signature)
+            }
+          
 
             // 5. Xuất PDF và tạo Blob để tải về
             const pdfBytes = await pdfDoc.save();
@@ -691,6 +729,7 @@ export default {
                 formData.set('thongTinLuu','')    
                 formData.set('ghiChu','')                
                 formData.set('publickey',this.$store.getters.user.publickey)    
+                formData.set('hinhanhchuky',this.$store.getters.user.hinhanhchuky)    
                 formData.set('signature',res)    
                 axios({
                     method: 'post',

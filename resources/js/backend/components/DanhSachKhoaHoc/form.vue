@@ -20,6 +20,25 @@
             <el-form-item :rules="requiredForm" label="Thời gian đào tạo" prop="thoiGianDaoTao">
                 <el-input v-model="form.thoiGianDaoTao"></el-input>
             </el-form-item>
+            <el-form-item :rules="requiredForm" label="Từ ngày" prop="tuNgay">
+                <el-date-picker
+                    style="width: 100%;"
+                    format="dd/MM/yyyy"
+                    v-model="form.tuNgay"
+                    type="date"
+                    placeholder="Pick a day">
+                </el-date-picker>
+                <!-- <el-input v-model="form.tuNgay"></el-input> -->
+            </el-form-item>
+            <el-form-item :rules="requiredForm" label="Đến ngày" prop="denNgay">
+                <el-date-picker
+                    style="width: 100%;"
+                    format="dd/MM/yyyy"
+                    v-model="form.denNgay"
+                    type="date"
+                    placeholder="Pick a day">
+                </el-date-picker>
+            </el-form-item>
             <el-form-item :rules="requiredForm" label="Nơi đào tạo" prop="noiDaoTao">
                 <el-input v-model="form.noiDaoTao"></el-input>
             </el-form-item>
@@ -47,6 +66,8 @@
                     tenKhoaHocEN:'',
                     chiTietKhoaHoc:'',
                     thoiGianDaoTao:'',
+                    tuNgay:'',
+                    denNgay:'',
                     noiDaoTao:'',
                     noiDaoTaoEN:''
                 },
@@ -131,6 +152,8 @@
                             _this.form.tenKhoaHocEN = res['tenKhoaHocEN']
                             _this.form.chiTietKhoaHoc = res['chiTietKhoaHoc']
                             _this.form.thoiGianDaoTao = res['thoiGianDaoTao']
+                            _this.form.tuNgay = res['tuNgay']
+                            _this.form.denNgay = res['denNgay']
                             _this.form.noiDaoTao = res['noiDaoTao']  
                             _this.form.noiDaoTaoEN = res['noiDaoTaoEN']  
                         }

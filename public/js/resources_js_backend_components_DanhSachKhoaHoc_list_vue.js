@@ -29,6 +29,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         tenKhoaHocEN: '',
         chiTietKhoaHoc: '',
         thoiGianDaoTao: '',
+        tuNgay: '',
+        denNgay: '',
         noiDaoTao: '',
         noiDaoTaoEN: ''
       },
@@ -135,6 +137,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.form.tenKhoaHocEN = res['tenKhoaHocEN'];
                   _this.form.chiTietKhoaHoc = res['chiTietKhoaHoc'];
                   _this.form.thoiGianDaoTao = res['thoiGianDaoTao'];
+                  _this.form.tuNgay = res['tuNgay'];
+                  _this.form.denNgay = res['denNgay'];
                   _this.form.noiDaoTao = res['noiDaoTao'];
                   _this.form.noiDaoTaoEN = res['noiDaoTaoEN'];
                 }
@@ -408,6 +412,50 @@ var render = function render() {
   })], 1), _vm._v(" "), _c("el-form-item", {
     attrs: {
       rules: _vm.requiredForm,
+      label: "Từ ngày",
+      prop: "tuNgay"
+    }
+  }, [_c("el-date-picker", {
+    staticStyle: {
+      width: "100%"
+    },
+    attrs: {
+      format: "dd/MM/yyyy",
+      type: "date",
+      placeholder: "Pick a day"
+    },
+    model: {
+      value: _vm.form.tuNgay,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "tuNgay", $$v);
+      },
+      expression: "form.tuNgay"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
+      label: "Đến ngày",
+      prop: "denNgay"
+    }
+  }, [_c("el-date-picker", {
+    staticStyle: {
+      width: "100%"
+    },
+    attrs: {
+      format: "dd/MM/yyyy",
+      type: "date",
+      placeholder: "Pick a day"
+    },
+    model: {
+      value: _vm.form.denNgay,
+      callback: function callback($$v) {
+        _vm.$set(_vm.form, "denNgay", $$v);
+      },
+      expression: "form.denNgay"
+    }
+  })], 1), _vm._v(" "), _c("el-form-item", {
+    attrs: {
+      rules: _vm.requiredForm,
       label: "Nơi đào tạo",
       prop: "noiDaoTao"
     }
@@ -581,6 +629,30 @@ var render = function render() {
       label: "THỜI GIAN ĐÀO TẠO",
       sortable: ""
     }
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "tuNgay",
+      label: "TỪ NGÀY",
+      sortable: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(scope) {
+        return [_vm._v("\n                                    " + _vm._s(_vm._f("formatDate_Default")(scope.row.tuNgay)) + "\n                                ")];
+      }
+    }])
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "denNgay",
+      label: "ĐẾN NGÀY",
+      sortable: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(scope) {
+        return [_vm._v("\n                                    " + _vm._s(_vm._f("formatDate_Default")(scope.row.denNgay)) + "\n                                ")];
+      }
+    }])
   }), _vm._v(" "), _c("el-table-column", {
     attrs: {
       prop: "noiDaoTao",

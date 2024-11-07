@@ -60,6 +60,24 @@
                                 >
                                 </el-table-column>
                                 <el-table-column
+                                    prop="tuNgay"
+                                    label="TỪ NGÀY"
+                                    sortable
+                                >
+                                    <template slot-scope="scope">
+                                        {{ scope.row.tuNgay | formatDate_Default}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                    prop="denNgay"
+                                    label="ĐẾN NGÀY"
+                                    sortable
+                                >
+                                     <template slot-scope="scope">
+                                        {{ scope.row.denNgay | formatDate_Default}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
                                     prop="noiDaoTao"
                                     label="NƠI ĐÀO TẠO"
                                     sortable

@@ -277,10 +277,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var res = data['data'];
                   _this.formData.maChungChi = res['maChungChi'], _this.formData.hoTen = res['hoTen'], _this.formData.namSinh = res['namSinh'], _this.formData.gioiTinh = res['gioiTinh'], _this.formData.vanHoa = res['vanHoa'], _this.formData.danToc = res['danToc'], _this.formData.queQuan = res['queQuan'], _this.formData.diemTrungBinh = res['diemTrungBinh'], _this.formData.xepLoai = res['xepLoai'], _this.formData.ghiChu = res['ghiChu'];
                   _this.formData.maDotCap = res['maDotCap'], _this.formData.maKhoaHoc = res['maKhoaHoc'];
-                  res['image'] && (_this.fileList = [{
-                    url: res['image'],
-                    id: 1
-                  }]);
+                  if (res['image'] && res['image'] != '') {
+                    _this.fileList = [{
+                      url: res['image'],
+                      id: 1
+                    }];
+                  } else {
+                    _this.fileList = [];
+                  }
                 }
               });
             case 4:
@@ -473,15 +477,19 @@ var render = function render() {
     }
   })], 1)]), _vm._v(" "), _c("el-form-item", {
     attrs: {
-      label: "Năm sinh",
+      label: "Ngày sinh",
       prop: "namSinh"
     }
   }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("el-input", {
+  }, [_c("el-date-picker", {
+    staticStyle: {
+      width: "100%"
+    },
     attrs: {
-      "validate-event": "",
-      placeholder: "Nhập năm sinh"
+      format: "dd/MM/yyyy",
+      type: "date",
+      placeholder: "Nhập ngày tháng năm sinh: dd/mm/yyyy"
     },
     model: {
       value: _vm.formData.namSinh,
@@ -497,9 +505,11 @@ var render = function render() {
     }
   }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("el-input", {
+  }, [_c("el-select", {
+    staticStyle: {
+      width: "100%"
+    },
     attrs: {
-      "validate-event": "",
       placeholder: "Nhập giới tính"
     },
     model: {
@@ -509,7 +519,17 @@ var render = function render() {
       },
       expression: "formData.gioiTinh"
     }
-  })], 1)]), _vm._v(" "), _c("el-form-item", {
+  }, [_c("el-option", {
+    attrs: {
+      label: "Nam",
+      value: "Nam"
+    }
+  }), _vm._v(" "), _c("el-option", {
+    attrs: {
+      label: "Nữ",
+      value: "Nữ"
+    }
+  })], 1)], 1)]), _vm._v(" "), _c("el-form-item", {
     attrs: {
       label: "Văn hóa",
       prop: "vanHoa"
@@ -535,10 +555,12 @@ var render = function render() {
     }
   }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("el-input", {
+  }, [_c("el-select", {
+    staticStyle: {
+      width: "100%"
+    },
     attrs: {
-      "validate-event": "",
-      placeholder: "Nhập dân tộc"
+      placeholder: "Chọn dân tộc"
     },
     model: {
       value: _vm.formData.danToc,
@@ -547,7 +569,22 @@ var render = function render() {
       },
       expression: "formData.danToc"
     }
-  })], 1)]), _vm._v(" "), _c("el-form-item", {
+  }, [_c("el-option", {
+    attrs: {
+      label: "Kinh",
+      value: "Kinh"
+    }
+  }), _vm._v(" "), _c("el-option", {
+    attrs: {
+      label: "Khmer",
+      value: "Khmer"
+    }
+  }), _vm._v(" "), _c("el-option", {
+    attrs: {
+      label: "Hoa",
+      value: "Hoa"
+    }
+  })], 1)], 1)]), _vm._v(" "), _c("el-form-item", {
     attrs: {
       label: "Quê quán",
       prop: "queQuan"
@@ -592,10 +629,12 @@ var render = function render() {
     }
   }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("el-input", {
+  }, [_c("el-select", {
+    staticStyle: {
+      width: "100%"
+    },
     attrs: {
-      "validate-event": "",
-      placeholder: "Nhập xếp loại toàn khóa"
+      placeholder: "Chọn xếp loại"
     },
     model: {
       value: _vm.formData.xepLoai,
@@ -604,7 +643,27 @@ var render = function render() {
       },
       expression: "formData.xepLoai"
     }
-  })], 1)]), _vm._v(" "), _c("el-form-item", {
+  }, [_c("el-option", {
+    attrs: {
+      label: "Trung bình",
+      value: "Trung bình"
+    }
+  }), _vm._v(" "), _c("el-option", {
+    attrs: {
+      label: "Khá",
+      value: "Khá"
+    }
+  }), _vm._v(" "), _c("el-option", {
+    attrs: {
+      label: "Giỏi",
+      value: "Giỏi"
+    }
+  }), _vm._v(" "), _c("el-option", {
+    attrs: {
+      label: "Xuất sắc",
+      value: "Xuất sắc"
+    }
+  })], 1)], 1)]), _vm._v(" "), _c("el-form-item", {
     attrs: {
       "label-width": "220px",
       label: "Ảnh 3x4"

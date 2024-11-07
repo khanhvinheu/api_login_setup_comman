@@ -21,6 +21,8 @@ class ThongTinKhoaHoc extends Migration
             $table->string('tenKhoaHocEN');
             $table->string('chiTietKhoaHoc');
             $table->string('thoiGianDaoTao');
+            $table->string('tuNgay');
+            $table->string('denNgay');
             $table->string('noiDaoTao');                         
             $table->string('noiDaoTaoEN');                         
             $table->timestamps();

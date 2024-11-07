@@ -199,7 +199,7 @@ class danhSachCapChungChiHocVienController extends Controller
         ]; 
         if(!$dataFind){
             $resHS = hoSoKyDuyets::create($formData);
-            $resHS &&  $formDataUpdate['maHoSoKyDuyet']= $resHS->id;            
+            $resHS &&  $formDataUpdate['maHoSoKyDuyet']= $resHS->maHoSo;            
         }else{        
             $idHoSo = $dataFind->toArray();    
             $formDataUpdate['maHoSoKyDuyet']=$idHoSo['maHoSo'];

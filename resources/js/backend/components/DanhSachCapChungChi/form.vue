@@ -30,16 +30,27 @@
                                                     v-model="formData.hoTen"></el-input>
                                     </div>
                                 </el-form-item>                         
-                                <el-form-item label="Năm sinh" prop="namSinh">
+                                <el-form-item label="Ngày sinh" prop="namSinh">
                                     <div class="form-group">
-                                        <el-input validate-event placeholder="Nhập năm sinh"
-                                                    v-model="formData.namSinh"></el-input>
+                                        <!-- <el-input validate-event placeholder="Nhập ngày tháng năm sinh: dd/mm/yyyy"
+                                                    v-model="formData.namSinh"></el-input> -->
+                                        <el-date-picker
+                                            style="width: 100%;"
+                                            format="dd/MM/yyyy"
+                                            v-model="formData.namSinh"
+                                            type="date"
+                                            placeholder="Nhập ngày tháng năm sinh: dd/mm/yyyy">
+                                        </el-date-picker>
                                     </div>
                                 </el-form-item>     
                                 <el-form-item label="Giới tính" prop="gioiTinh">
                                     <div class="form-group">
-                                        <el-input validate-event placeholder="Nhập giới tính"
-                                                    v-model="formData.gioiTinh"></el-input>
+                                        <!-- <el-input validate-event placeholder="Nhập giới tính"
+                                                    v-model="formData.gioiTinh"></el-input> -->
+                                        <el-select style="width: 100%;" v-model="formData.gioiTinh" placeholder="Nhập giới tính">
+                                            <el-option label="Nam" value="Nam"></el-option>
+                                            <el-option label="Nữ" value="Nữ"></el-option>
+                                        </el-select>
                                     </div>
                                 </el-form-item>                       
                                                             
@@ -51,8 +62,13 @@
                                 </el-form-item> 
                                 <el-form-item label="Dân tộc" prop="danToc">
                                     <div class="form-group">
-                                        <el-input validate-event placeholder="Nhập dân tộc"
-                                                  v-model="formData.danToc"></el-input>
+                                        <!-- <el-input validate-event placeholder="Nhập dân tộc"
+                                                  v-model="formData.danToc"></el-input> -->
+                                        <el-select style="width: 100%;" v-model="formData.danToc" placeholder="Chọn dân tộc">
+                                            <el-option label="Kinh" value="Kinh"></el-option>
+                                            <el-option label="Khmer" value="Khmer"></el-option>
+                                            <el-option label="Hoa" value="Hoa"></el-option>
+                                        </el-select>
                                     </div>
                                 </el-form-item> 
                                 <el-form-item label="Quê quán" prop="queQuan">
@@ -69,8 +85,14 @@
                                 </el-form-item> 
                                 <el-form-item label="Xếp loại toàn khóa" prop="xepLoai">
                                     <div class="form-group">
-                                        <el-input validate-event placeholder="Nhập xếp loại toàn khóa"
-                                                  v-model="formData.xepLoai"></el-input>
+                                        <!-- <el-input validate-event placeholder="Nhập xếp loại toàn khóa"
+                                                  v-model="formData.xepLoai"></el-input> -->
+                                        <el-select style="width: 100%;" v-model="formData.xepLoai" placeholder="Chọn xếp loại">
+                                            <el-option label="Trung bình" value="Trung bình"></el-option>
+                                            <el-option label="Khá" value="Khá"></el-option>
+                                            <el-option label="Giỏi" value="Giỏi"></el-option>
+                                            <el-option label="Xuất sắc" value="Xuất sắc"></el-option>
+                                        </el-select>
                                     </div>
                                 </el-form-item> 
                                 <el-form-item label-width="220px" label="Ảnh 3x4">
@@ -363,7 +385,12 @@ export default {
                         _this.formData.ghiChu=res['ghiChu']
                         _this.formData.maDotCap=res['maDotCap'],
                         _this.formData.maKhoaHoc=res['maKhoaHoc']
-                        res['image'] && (_this.fileList=[{url:res['image'], id:1}])        
+                        if(res['image'] && res['image'] !=''){
+                            _this.fileList=[{url:res['image'], id:1}]
+                        }else{
+                            _this.fileList=[]
+                        }
+                          
                     }
                  
                 });

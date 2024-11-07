@@ -5427,6 +5427,33 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
     }))();
   },
   methods: {
+    checkUSB: function checkUSB() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var device;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return navigator.usb.requestDevice({
+                filters: [] // Thay đổi vendorId theo thiết bị của bạn
+              });
+            case 3:
+              device = _context2.sent;
+              console.log('USB device connected:', device);
+              _context2.next = 10;
+              break;
+            case 7:
+              _context2.prev = 7;
+              _context2.t0 = _context2["catch"](0);
+              console.error('No USB device selected or error:', _context2.t0);
+            case 10:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[0, 7]]);
+      }))();
+    },
     pemToBase64: function pemToBase64(pem) {
       var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PUBLIC KEY';
       // Step 1: Remove the PEM header and footer
@@ -5437,28 +5464,28 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
     // Hàm tạo cặp khóa ECDSA
     generateKeys: function generateKeys() {
       var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var privateKey, publicKey;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
               privateKey = '', publicKey = '';
-              _context2.next = 3;
+              _context3.next = 3;
               return _common_api_service__WEBPACK_IMPORTED_MODULE_1__["default"].query('http://localhost:3000/blocks/gen-key').then(function (_ref) {
                 var data = _ref.data;
                 privateKey = _this4.pemToBase64(data.privateKey, 'PRIVATE KEY');
                 publicKey = _this4.pemToBase64(data.publicKey);
               });
             case 3:
-              return _context2.abrupt("return", {
+              return _context3.abrupt("return", {
                 privateKey: privateKey,
                 publicKey: publicKey
               });
             case 4:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     // Hàm lưu trữ khóa (giả định lưu trong localStorage)
@@ -5468,20 +5495,20 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
     },
     // Hàm ký thông điệp
     signMessage: function signMessage(privateKey, message) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var importedPrivateKey, messageEncoded, signature;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _context3.next = 2;
+              _context4.next = 2;
               return crypto__WEBPACK_IMPORTED_MODULE_3__.subtle.importKey('jwk', privateKey, {
                 name: "ECDSA",
                 namedCurve: "P-256"
               }, false, ['sign']);
             case 2:
-              importedPrivateKey = _context3.sent;
+              importedPrivateKey = _context4.sent;
               messageEncoded = new TextEncoder().encode(message);
-              _context3.next = 6;
+              _context4.next = 6;
               return crypto__WEBPACK_IMPORTED_MODULE_3__.subtle.sign({
                 name: "ECDSA",
                 hash: {
@@ -5489,36 +5516,36 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
                 } // Thuật toán băm
               }, importedPrivateKey, messageEncoded);
             case 6:
-              signature = _context3.sent;
-              return _context3.abrupt("return", Array.from(new Uint8Array(signature)).map(function (b) {
+              signature = _context4.sent;
+              return _context4.abrupt("return", Array.from(new Uint8Array(signature)).map(function (b) {
                 return b.toString(16).padStart(2, '0');
               }).join(''));
             case 8:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
-        }, _callee3);
+        }, _callee4);
       }))();
     },
     // Hàm xác minh chữ ký
     verifySignature: function verifySignature(publicKey, message, signatureHex) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var importedPublicKey, messageEncoded, signature, isValid;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _context4.next = 2;
+              _context5.next = 2;
               return crypto__WEBPACK_IMPORTED_MODULE_3__.subtle.importKey('jwk', publicKey, {
                 name: "ECDSA",
                 namedCurve: "P-256"
               }, false, ['verify']);
             case 2:
-              importedPublicKey = _context4.sent;
+              importedPublicKey = _context5.sent;
               messageEncoded = new TextEncoder().encode(message);
               signature = new Uint8Array(signatureHex.match(/.{1,2}/g).map(function (_byte) {
                 return parseInt(_byte, 16);
               }));
-              _context4.next = 7;
+              _context5.next = 7;
               return crypto__WEBPACK_IMPORTED_MODULE_3__.subtle.verify({
                 name: "ECDSA",
                 hash: {
@@ -5526,13 +5553,13 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
                 } // Thuật toán băm
               }, importedPublicKey, signature, messageEncoded);
             case 7:
-              isValid = _context4.sent;
-              return _context4.abrupt("return", isValid);
+              isValid = _context5.sent;
+              return _context5.abrupt("return", isValid);
             case 9:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     messLimit: function messLimit() {
@@ -5584,41 +5611,41 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
     },
     getDetail: function getDetail(id) {
       var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         var _this;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
             case 0:
               _this = _this5; // _this.resID = id
-              _context6.next = 3;
+              _context7.next = 3;
               return axios({
                 method: 'get',
                 url: '/api/admin/users/detail/' + id
               }).then( /*#__PURE__*/function () {
-                var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(_ref2) {
+                var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(_ref2) {
                   var data, res, _yield$_this5$generat, privateKey, publicKey;
-                  return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-                    while (1) switch (_context5.prev = _context5.next) {
+                  return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+                    while (1) switch (_context6.prev = _context6.next) {
                       case 0:
                         data = _ref2.data;
                         if (!data['success']) {
-                          _context5.next = 16;
+                          _context6.next = 16;
                           break;
                         }
                         res = data['data'];
                         if (!(res['publickey'] && res['privatekey'])) {
-                          _context5.next = 8;
+                          _context6.next = 8;
                           break;
                         }
                         _this.formData.publickey = res['publickey'];
                         _this.formData.privatekey = res['privatekey'];
-                        _context5.next = 15;
+                        _context6.next = 15;
                         break;
                       case 8:
-                        _context5.next = 10;
+                        _context6.next = 10;
                         return _this5.generateKeys();
                       case 10:
-                        _yield$_this5$generat = _context5.sent;
+                        _yield$_this5$generat = _context6.sent;
                         privateKey = _yield$_this5$generat.privateKey;
                         publicKey = _yield$_this5$generat.publicKey;
                         _this.formData.publickey = publicKey;
@@ -5643,9 +5670,9 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
                         //  res['hinhanhchuky'] && (_this.fileList=[{url:res['hinhanhchuky'], id:1}])
                       case 16:
                       case "end":
-                        return _context5.stop();
+                        return _context6.stop();
                     }
-                  }, _callee5);
+                  }, _callee6);
                 }));
                 return function (_x) {
                   return _ref3.apply(this, arguments);
@@ -5653,9 +5680,9 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
               }());
             case 3:
             case "end":
-              return _context6.stop();
+              return _context7.stop();
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     },
     appendFileToFormData: function appendFileToFormData() {
@@ -6073,6 +6100,21 @@ var render = function render() {
   }, [_c("i", {
     staticClass: "el-icon-plus"
   }), _vm._v(" Lưu lại\n                    ")]), _vm._v(" "), _c("el-button", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.resID,
+      expression: "resID"
+    }],
+    attrs: {
+      type: "success"
+    },
+    on: {
+      click: _vm.checkUSB
+    }
+  }, [_c("i", {
+    staticClass: "el-icon-plus"
+  }), _vm._v(" checkUSB\n                    ")]), _vm._v(" "), _c("el-button", {
     on: {
       click: function click($event) {
         return _vm.$refs.form.resetFields();

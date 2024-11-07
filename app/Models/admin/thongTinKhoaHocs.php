@@ -15,6 +15,8 @@ class thongTinKhoaHocs extends Model
         'tenKhoaHocEN',
         'chiTietKhoaHoc',
         'thoiGianDaoTao',
+        'tuNgay',
+        'denNgay',
         'noiDaoTao',       
         'noiDaoTaoEN'       
     ];

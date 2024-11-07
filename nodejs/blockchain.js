@@ -112,8 +112,7 @@ class Blockchain {
     }
 
     // Xác thực toàn bộ chuỗi blockchain
-    isChainValid(publicKey, data, providedSignature) {
-        console.log(this.createGenesisBlock())
+    isChainValid(publicKey, data, providedSignature) {    
         var valid = false
         var validSign = false
         for (let i = 1; i < data.length; i++) {
@@ -165,17 +164,26 @@ class Blockchain {
     }
 }
 
-function generateKeys(saveFile = false) {
+
+async function generateKeys(saveFile = true) {
     const {publicKey, privateKey} = crypto.generateKeyPairSync('ec', {
         namedCurve: 'prime256v1',
         publicKeyEncoding: {type: 'spki', format: 'pem'},
         privateKeyEncoding: {type: 'pkcs8', format: 'pem'},
     });
     if (saveFile) {
+        const usbPath ='E:/'
         // Lưu khóa vào file
-        fs.writeFileSync('private_key.pem', privateKey);
-        fs.writeFileSync('public_key.pem', publicKey);
-        console.log('Cặp khóa đã được tạo và lưu.');
+        // fs.writeFileSync('private_key.pem', privateKey);
+        // fs.writeFileSync('public_key.pem', publicKey);
+        // console.log('Cặp khóa đã được tạo và lưu.');
+        // Ghi public key vào USB
+        fs.writeFileSync(`${usbPath}/private_key.pem`, publicKey);
+        console.log('Public key đã được lưu vào USB.');
+
+        // Ghi private key vào USB
+        fs.writeFileSync(`${usbPath}/public_key.pem`,privateKey);
+        console.log('Private key đã được lưu vào USB.');
     }
     return {publicKey, privateKey}
 

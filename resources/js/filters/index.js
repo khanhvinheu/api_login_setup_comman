@@ -1,3 +1,4 @@
+import moment from 'moment';
 // set function parseTime,formatTime to filter
 export { parseTime, formatTime } from '../utils';
 
@@ -31,6 +32,10 @@ export function formatDate_v2(date) {
   }
 
   return [year, month, day].join('-');
+}
+export function formatDate_Default(date) {
+  let format = moment(date).format('DD-MM-YYYY')
+  return format
 }
 
 /**
