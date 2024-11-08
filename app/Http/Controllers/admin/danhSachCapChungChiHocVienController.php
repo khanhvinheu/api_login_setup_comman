@@ -21,14 +21,17 @@ class danhSachCapChungChiHocVienController extends Controller
     {
         //
         try {
+            $filter=[];
+            $request->input('pack_status')&& array_push($filter,['pack_status','=',$request->input('pack_status')]);
             $limit = $request->get('limit', 25);
             $ascending = (int) $request->get('ascending', 0);
             $orderBy = $request->get('orderBy', '');
-            $search = $request->get('search', '');
-            $columnSearch = $request->get('columnSearch', 'name');
+            $search = $request->get('TextSearch', '');
+            $columnSearch = $request->get('columnSearch', ['hoTen','maChungChi']);
             $betweenDate = $request->get('updated_at', []);
             $queryService = new QueryService(new danhSachCapChungChiHocViens());
             $queryService->select = [];
+            $queryService->filter = $filter;
             $queryService->columnSearch =$columnSearch;
             $queryService->withRelationship = ['dotCap','khoaHoc','hoSoDuyet'];
             $queryService->search = $search;

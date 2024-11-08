@@ -30,7 +30,7 @@ class QueryService extends BaseService
      * Column to search using whereLike
      * @var array
      */
-    public string $columnSearch = '';
+    public array $columnSearch = [];
     /**
      * Relationship with other tables
      * @var array
@@ -100,7 +100,14 @@ class QueryService extends BaseService
         $query->when($this->select, fn($q) => $q->select($this->select));
         $query->when($this->filter, fn($q) => $q->where($this->filter));
         // $query->when($this->search, fn($q) => $q->whereLike($this->columnSearch, $this->search));
-        $query->when($this->search, fn($q) => $q->where($this->columnSearch,'LIKE','%'.$this->search.'%'));      
+        // $query->when($this->search, fn($q) => $q->where($this->columnSearch,'LIKE','%'.$this->search.'%'));    
+        $query->when($this->search, function ($q) {
+            $q->where(function ($subQuery) {
+                foreach ((array) $this->columnSearch as $column) {
+                    $subQuery->orWhere($column, 'LIKE', '%' . $this->search . '%');
+                }
+            });
+        });  
         $query->when($this->getListBy, fn($q) => $q->where($this->getListBy));
         foreach (Arr::wrap($this->withRelationship) as $relationship) {
             //search phone number in member
