@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(Module::class);
         $this->call(Role::class);
         $this->call(Users::class);
+        $this->call(addfistBlocks::class);
         $this->call(addExDotCap::class);
         $this->call(addExKhoaHoc::class);
         $this->call(addExDanhSachCap::class);
