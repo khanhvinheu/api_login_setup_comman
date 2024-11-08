@@ -81,8 +81,8 @@
                 <div class="card-footer" style="display: flex; justify-content: end;">
                     <el-button v-show="resID" type="success" @click="update"><i class="el-icon-plus"></i> Lưu lại
                     </el-button>
-                    <el-button v-show="resID" type="success" @click="checkUSB"><i class="el-icon-plus"></i> checkUSB
-                    </el-button>
+<!--                    <el-button v-show="resID" type="success" @click="checkUSB"><i class="el-icon-plus"></i> checkUSB-->
+<!--                    </el-button>-->
                     <el-button @click="$refs.form.resetFields()">Reset Form</el-button>
                 </div>
             </div>

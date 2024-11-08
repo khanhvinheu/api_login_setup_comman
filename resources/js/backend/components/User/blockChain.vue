@@ -5,7 +5,7 @@
                 <div class="card-header" style="background-color: rgb(0,0,0,0.1);">
                     <h3 class="card-title"><i class="el-icon-loading"></i> BLOCK ECDSA</h3>
                     <div class="card-tools">
-                        <el-button @click="dialogTool=true" type="primary"><i class="el-icon-home"></i> Tool</el-button>
+<!--                        <el-button @click="dialogTool=true" type="primary"><i class="el-icon-home"></i> Tool</el-button>-->
                         <el-dialog top="5vh" :visible.sync="dialogTool">
                             <!-- <formData :resID="idUpdate" :trigger="trigger" @success="success"/> -->
                             <toolCheck @close="dialogTool=false"/>

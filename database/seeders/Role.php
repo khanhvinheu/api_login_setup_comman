@@ -21,28 +21,26 @@ class Role extends Seeder
                 "name"=>'Admin',
                 "id_parent"=>null,
                 "ListAction"=>'[]',
-                "ListModule"=>'["MD0001","MD0002","MD0003","MD0004","MD0005","MD0006","MD0007","MD0008"]',
-            ], 
+                "ListModule"=>'["MD0001","MD0002","MD0003","MD0004","MD0005","MD0006","MD0007","MD0008","MD0009"]',
+            ],
             [
                 "code"=>'R0002',
                 "name"=>'User',
                 "id_parent"=>null,
                 "ListAction"=>'[]',
                 "ListModule"=>'["MD0005","MD0006","MD0007"]',
-            ], 
+            ],
         ];
-         // Disable foreign key checks to prevent issues during truncation
-         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        
-         // Truncate the table
-         DB::table('roles')->truncate();
- 
-         // Enable foreign key checks again
-         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // Disable foreign key checks to prevent issues during truncation
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // Truncate the table
+        DB::table('roles')->truncate();
+        // Enable foreign key checks again
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         foreach ($listTypeTask as $index =>$value){
             $data =$value;
             Roles::insert($data);
-        }   
+        }
         dump('Add list module success');
     }
 }

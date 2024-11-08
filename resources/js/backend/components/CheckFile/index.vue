@@ -1,110 +1,1405 @@
 <template>
-    <div>
-        <embed style="width: 100vw; height: 100vh" :src="pdfSrc" 	title="Embedded PDF Viewer" type="application/pdf">              
-        </embed> 
+
+    <div class="main-login">
+        <div class="header-page">
+            <div class="container-header">
+                <div style="display: flex; align-items: center;">
+                    <div class="box-logo">
+                        <img class="img-logo" style="width:100%; height: auto;" src="/images/logo.webp" />
+                    </div>
+                    <div style="padding: 10px;">
+                        <span class="text-header">HỆ THỐNG QUẢN LÝ VÀ CẤP CHỨNG NHẬN TỐT NGHIỆP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pdf-box" v-if="showPdf">
+            <embed v-if="pdfSrc" style="width: 100%; height: 100%" :src="pdfSrc" title="Embedded PDF Viewer"
+                type="application/pdf" />
+            <div v-if="!loading && !showPdf" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                <lottie-animation style="width: 300px; height: 300px;" ref="anim"
+                    :animationData="require('../../../common/Animation - 1731050852688.json')" />
+                <span><i>Chứng chỉ không tồn tại, Vui lòng kiểm tra lại mã QR</i></span>
+                <br>
+                <el-button icon="el-icon-back" @click="showPdf = false">Quay về </el-button>
+            </div>
+            <div v-if="loading" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                <lottie-animation style="width: 300px; height: 300px;" ref="anim"
+                    :animationData="require('../../../common/Animation - 1731053803101.json')" />               
+            </div>
+        </div>
+        <div class="menu-box" v-else>
+            <div class="hexagon-menu clear">
+                <div class="hexagon-item">
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <a class="hex-content">
+                        <span class="hex-content-inner">
+                            <span class="icon">
+                                <i class="fa fa-universal-access"></i>
+                            </span>
+                            <span class="title">Trang chủ</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                                fill="#1e2530"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="hexagon-item"  @click="validFile()">
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <a class="hex-content">
+                        <span class="hex-content-inner">
+                            <span class="icon">
+                                <i class="fa fa-bullseye"></i>
+                            </span>
+                            <span class="title">Kiểm tra chứng chỉ</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                                fill="#1e2530"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="hexagon-item">
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <a class="hex-content">
+                        <span class="hex-content-inner">
+                            <span class="icon">
+                                <i class="fa fa-braille"></i>
+                            </span>
+                            <span class="title">Liên hệ</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                                fill="#1e2530"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="hexagon-item" @click="navLogin()">
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <a class="hex-content">
+                        <span class="hex-content-inner">
+                            <span class="icon">
+                                <i class="fa fa-id-badge"></i>
+                            </span>
+                            <span class="title">Hệ thống quản lý</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                                fill="#1e2530"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <el-dialog :visible.sync="validDialog" width="50vw">
+            <div style="margin-top: -30px">
+                <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">KIỂM TRA TÍNH HỢP LỆ CỦA CHỨNG CHỈ</span>
+                <el-divider></el-divider>
+            </div>
+            <div>
+                <el-upload
+                    accept=".pdf"
+                    class="upload-demo"
+                    drag
+                    action=""
+                    :limit="1"
+                    :on-change="readPdf"
+                    :auto-upload="false"
+                    :on-remove="handleRemove"
+                    :before-upload="beforeUpload"
+                    :file-list="fileList">
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text"><em>Click to upload</em></div>
+                    <!-- <div class="el-upload__tip" slot="tip">pdf files with a size less than 500kb</div> -->
+                </el-upload>
+            </div>
+            <div v-if="publicKey=='' || signature==''">
+                <el-alert v-if="fileList.length>0"
+                          title="File tải lên chưa được ký duyệt hoặc không đúng định dạng, Vui lòng kiểm tra lại"
+                          type="error">
+                </el-alert>
+            </div>
+            <div v-else>
+                <el-alert
+                    :closable=false
+                    title="File tải lên đã hợp lệ"
+                    type="success">
+                </el-alert>
+            </div>
+            <el-divider v-if="publicKey && signature" content-position="left">
+                <el-button v-show="publicKey && signature" style="margin-left: 10px;" size="small" type="success"
+                           @click="validKey()">Kiểm tra tính hợp lệ chữ ký
+                </el-button>
+            </el-divider>
+            <el-progress v-if="percentage>0 && percentage<100" :percentage="percentage" color="success"></el-progress>
+            <div v-if="percentage==100">
+                <el-alert v-if="statusValid===true"
+                          :closable=false
+                          title="Kết quả"
+                          type="success"
+                          description="Khóa hợp lệ"
+                          show-icon>
+                </el-alert>
+                <el-alert v-if="statusValid===false"
+                          :closable=false
+                          title="Kết quả"
+                          type="error"
+                          description="Khóa không hợp lệ"
+                          show-icon>
+                </el-alert>
+            </div>
+
+        </el-dialog>
     </div>
 </template>
 <script>
-import html2pdf from 'html2pdf.js';
+
+import { PDFDocument, rgb } from "pdf-lib";
+import fontkit from '@pdf-lib/fontkit'; // Import fontkit
+import robotoFont from '/assets/fonts/Roboto-Regular.ttf'; // Đường dẫn đến phông chữ
+import robotoItalicFont from '/assets/fonts/Roboto-Italic.ttf'; // Đường dẫn đến phông chữ
+import backgroundImage from '/assets/chungchimau/chungchiv2.jpg';
+import backgroundImage2 from '/assets/chungchimau/chungchimau_back.jpg';
+import QRCode from 'qrcode';
+import VueQRCodeComponent from 'vue-qrcode-component'
+import moment from 'moment/moment';
+import LottieAnimation from 'lottie-web-vue'
 export default {
-    data(){
-        return{
-            data:'',
-            pdfSrc:''
+    data() {
+        return {
+            data: '',
+            pdfSrc: '',
+            showPdf: false,
+            loading:true,
+            fileList: [],
+            validDialog:false,
+            percentage: 0,
+            publicKey:'',
+            signature:''
+
         }
     },
-    watch:{
-        $route(to, from){
+    components: { VueQRCodeComponent, LottieAnimation },
+    watch: {
+        $route(to, from) {
+            if(this.$route.params.id){
+                this.getDetail(this.$route.params.id)                
+            }
+        }
+    },
+    mounted() {
+        if(this.$route.params.id){
+            this.showPdf=true
             this.getDetail(this.$route.params.id)
+        }else{
+            this.showPdf=false
         }
+       
     },
-    mounted(){
-        this.getDetail(this.$route.params.id)
-    },
-    methods:{
+    methods: {
+        navLogin(){
+            this.$router.push({name:'Login'})
+        },
+        beforeUpload(file) {
+            if (this.fileList.length >= 1) {
+                this.fileList.splice(0, 1); // Remove existing file
+            }
+            return true; // Allow upload
+        },
+        fakeLoading() {
+            this.percentage = 0
+            setInterval(() => {
+                if (this.percentage < 100) {
+                    this.percentage += 10;
+                }
+            }, 100);
+        },
+        handleRemove(el) {
+            this.fileList = this.fileList.filter(e => e.uid != el.uid)
+            this.publicKey = this.signature = this.statusValid = ''
+        },
+        validFile() {
+            this.validDialog = true
+        },
+        getFileExtension(path) {
+            const parts = path.split('.');
+            return parts.length > 1 ? parts.pop() : '';
+        },
+        validKey() {
+            this.fakeLoading()
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/blocks/isChainValid',
+                data: {
+                    publicKey: this.publicKey,
+                    providedSignature: this.signature
+                }
+            }).then(({data}) => {
+                this.showValidMess = this.statusValid = data.status
+            });
+        },
+        async readPdf() {
+            const file = event.target.files[0];
+            const arrayBuffer = await file.arrayBuffer();
+
+            const pdfDoc = await PDFDocument.load(arrayBuffer);
+
+            // 7. Đọc Public Key từ metadata (trường Author)
+            const author = pdfDoc.getAuthor();
+            const signature = pdfDoc.getSubject();
+
+            if (!author && !signature) {
+                this.$notify({
+                    title: 'Error',
+                    message: 'File tải lên không hợp lệ',
+                    type: 'error'
+                });
+                this.fileList = []
+            } else {
+                this.publicKey = author || '';
+                this.signature = signature || '';
+            }
+
+
+        },
         async getDetail(id) {
             let _this = this
+            _this.loading=true
             _this.idUpdate = id
             await axios({
                 method: 'get',
                 url: '/api/admin/cap-chung-chi/detail/' + id,
             })
-                .then(({data}) => {                  
+                .then(({ data }) => {
                     if (data['success']) {
                         let res = data['data']
                         this.data = res
                         this.generatePDF(res)
                     }
-                 
+                    setTimeout(()=>{
+                        this.loading=false
+                    },1000)
                 });
-           
+
         },
-        async generatePDF(item) {         
-            const element = `
-                  <div style="display: flex;position: relative;width: 785px;height: 540px;">
-              
-                <img src="/assets/chungchimau/chungchiv2.jpg" style="width: 100%; height: 100%; position: absolute; top: 1px; left: 0;"/>
-                
-                <div class="left" style="position: relative; width: 50%;height: 100%;">                    
-                    <div class="chucVuEN" style="position: absolute;top:65px; left: 169px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">RECTOR</span>
-                    </div>                    
-                    <div class="donViCapEN" style="position: absolute;top:90px; left: 125px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">TRA VINH UNIVERSITY</span>
-                    </div>                   
-                    <div class="hoTenEN" style="position: absolute;top:180px; left: 60px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.hoTen}</span>
-                    </div>
-                    <div class="ngaySinhEN" style="position: absolute;top:210px; left: 100px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.namSinh}</span>
-                    </div>
-                    <div class="tenKhoaHocEN" style="position: absolute;top:268px; left:24px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.khoa_hoc.tenKhoaHocEN}</span>
-                    </div>                
-                    <div class="fromDateEN" style="position: absolute;top:298px; left:192px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">01&nbsp 01 &nbsp&nbsp2016 
-                            &nbsp
-                            &nbsp 01&nbsp&nbsp09&nbsp  2020</span>
-                    </div>                
-                    <div class="noiDaoTaoEN" style="position: absolute;top:325px; left:46px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.khoa_hoc.noiDaoTaoEN}</span>
-                    </div>
-                    <img src="${item.image}" style="position:absolute; top:380px; left:60px; width: 60px; height:75px; object-fit:contain"/>
-                </div>
-                <div class="right" style="position: relative; width: 50%;height: 100%;">
-                    <div class="chucVu" style="position: absolute;top:65px; right: 152px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">HIỆU TRƯỞNG</span>
-                    </div>
-                    <div class="donViCap" style="position: absolute;top:90px; right: 110px">
-                        <span style="font-size: 13px;font-weight: bold; color: #e92b37;">TRƯỜNG ĐẠI HỌC TRÀ VINH</span>
-                    </div>
-                    <div class="hoTen" style="position: absolute;top:180px; left: 50px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.hoTen}</span>
-                    </div>
-                    <div class="gioiTinh" style="position: absolute;top:180px; left: 330px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">Nam</span>
-                    </div>
-                    <div class="ngaySinh" style="position: absolute;top:210px; left:80px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.namSinh}</span>
-                    </div>
-                    <div class="tenKhoaHoc" style="position: absolute;top:268px; left: 30px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.khoa_hoc.tenKhoaHoc}</span>
-                    </div>
-                    <div class="fromDate" style="position: absolute;top:298px; left: 182px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">01&nbsp 01 2016 
-                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                            &nbsp 01&nbsp  09&nbsp  2020</span>
-                    </div>
-                    <div class="noiDaoTao" style="position: absolute;top:325px; left: 48px">
-                        <span style="font-size: 13px;font-weight: bold; color: #2c2d29;">${item.khoa_hoc.noiDaoTao}</span>
-                    </div>
-                </div>
-        </div>
-            `;
-            const pdfBlob = await html2pdf().from(element).outputPdf('blob');
-            this.pdfSrc = URL.createObjectURL(pdfBlob);  
+        async generatePDF(item, sign = false) {
+            // 1. Tạo tài liệu PDF mới
+            const pdfDoc = await PDFDocument.create();
+            // Nhúng ảnh nền
+            const imageBytes = await fetch(backgroundImage).then((res) =>
+                res.arrayBuffer()
+            );
+            const jpgImage = await pdfDoc.embedJpg(imageBytes);
+
+            const imageBytes2 = await fetch(backgroundImage2).then((res) =>
+                res.arrayBuffer()
+            );
+            const jpgImage2 = await pdfDoc.embedJpg(imageBytes2);
+
+            // 2. Đăng ký fontkit và nhúng phông Roboto
+            pdfDoc.registerFontkit(fontkit);
+            const fontBytes = await fetch(robotoFont).then((res) => res.arrayBuffer());
+            const roboto = await pdfDoc.embedFont(fontBytes);
+            const fontItalicBytes = await fetch(robotoItalicFont).then((res) => res.arrayBuffer());
+            const robotoItalic = await pdfDoc.embedFont(fontItalicBytes);
+
+            // 3. Thêm một trang mới vào PDF và vẽ văn bản
+            const page = pdfDoc.addPage([600, 400]);
+            page.drawImage(jpgImage, {
+                x: 0,
+                y: 0,
+                width: page.getWidth(),
+                height: page.getHeight(),
+            });
+            const { protocol, hostname, port, pathname, search, hash } = window.location;
+            this.qrValue = 'http://' + hostname + ':' + port + '/check-file-in-pdf/' + item.id
+
+            const qrImg = await QRCode.toDataURL(this.qrValue)
+            const pngImageBytes = await fetch(qrImg).then(res => res.arrayBuffer());
+            const qrCodeImg = await pdfDoc.embedPng(pngImageBytes);
+            page.drawImage(qrCodeImg, {
+                x: 220,
+                y: 20,
+                width: 60,
+                height: 60,
+            });
+            //set anh 3*4
+            const path3x4 = item.image
+            if (path3x4 && path3x4 != 'null') {
+                const imageBytes3x4 = await fetch(path3x4).then((res) =>
+                    res.arrayBuffer()
+                );
+
+
+                if (path3x4 && ['PNG', 'png'].includes(this.getFileExtension(path3x4))) {
+                    const jpgImage3x4 = await pdfDoc.embedPng(imageBytes3x4);
+                    page.drawImage(jpgImage3x4, {
+                        x: 48,
+                        y: 65,
+                        width: 39,
+                        height: 52,
+                    });
+                } else {
+                    const jpgImage3x4 = await pdfDoc.embedJpg(imageBytes3x4);
+                    page.drawImage(jpgImage3x4, {
+                        x: 48,
+                        y: 65,
+                        width: 39,
+                        height: 52,
+                    });
+                }
+            }
+
+
+            // Set text
+            page.drawText('RECTOR', {
+                x: 126,
+                y: 340,
+                size: 12,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });
+            page.drawText('HIỆU TRƯỞNG', {
+                x: 416,
+                y: 340,
+                size: 12,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });
+
+            page.drawText('TAN HIEP VOCATIONAL SCHOOL, KIEN GIANG PROVINCE', {
+                x: 20,
+                y: 320,
+                size: 10,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });
+            page.drawText('TRƯỜNG TRUNG CẤP NGHỀ TÂN HIỆP TỈNH KIÊN GIANG', {
+                x: 328,
+                y: 320,
+                size: 10,
+                font: roboto,
+                color: rgb(1, 0, 0),
+            });
+            // Ho ten
+            page.drawText(item.hoTen, {
+                x: 44,
+                y: 253,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            page.drawText(item.hoTen, {
+                x: 342,
+                y: 253,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            // Gioi tinh
+            page.drawText(item.gioiTinh, {
+                x: 234,
+                y: 253,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            page.drawText(item.gioiTinh, {
+                x: 552,
+                y: 253,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            // Nam sinh
+            page.drawText(moment(item.namSinh, 'dd/mm/yyyy').format('MMMM DD, YYYY'), {
+                x: 75,
+                y: 231,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            page.drawText(moment(item.namSinh, 'dd/mm/yyyy').format('DD/MM/YYYY'), {
+                x: 363,
+                y: 231,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            //Khoa hoc
+            page.drawText(item.khoa_hoc.tenKhoaHoc, {
+                x: 16,
+                y: 190,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            page.drawText(item.khoa_hoc.tenKhoaHoc, {
+                x: 323,
+                y: 190,
+                size: 10,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            // Noi dao tao
+            page.drawText('TAN HIEP VOCATIONAL SCHOOL, KIEN GIANG PROVINCE', {
+                x: 32,
+                y: 145,
+                size: 9,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            page.drawText('TRƯỜNG TRUNG CẤP NGHỀ TÂN HIỆP TỈNH KIÊN GIANG', {
+                x: 342,
+                y: 145,
+                size: 9,
+                font: roboto,
+                color: rgb(0, 0, 0),
+            });
+            // Ngay cap
+            if (item.dot_cap && item.dot_cap.thoiGianCap) {
+                page.drawText('Kien Giang  ' + moment(item.dot_cap.thoiGianCap, 'DD/MM/YYYY').format('MMMM DD, YYYY'), {
+                    x: 141,
+                    y: 125,
+                    size: 9,
+                    font: robotoItalic,
+                    color: rgb(0, 0, 0),
+                });
+                // let ngayCap = moment(item.dot_cap.thoiGianCap,'DD/MM/YYYY').date()
+                // let month = moment(item.dot_cap.thoiGianCap,'MM').date()
+                // let year = moment(item.dot_cap.thoiGianCap,'DD/MM/YY').date()
+
+
+                page.drawText('Kiên Giang             ' + moment(item.dot_cap.thoiGianCap, 'DD/MM/YYYY').format('DD              MM             YYYY'), {
+                    x: 405,
+                    y: 125,
+                    size: 9,
+                    font: robotoItalic,
+                    color: rgb(0, 0, 0),
+                });
+
+            }
+
+
+            // 4. Lưu Public Key vào metadata
+
+            pdfDoc.setTitle('CHỨNG CHỈ ĐÀO TẠO TRƯỜNG TRUNG CẤP NGHỀ TÂN HIỆP TỈNH KIÊN GIANG');
+            if (item.ho_so_duyet && item.ho_so_duyet.hinhanhchuky) {
+                //set imgsign
+                const imgSign = item.ho_so_duyet.hinhanhchuky
+                if (imgSign != 'null' && sign) {
+                    const imageBytesimgSign = await fetch(imgSign).then((res) =>
+                        res.arrayBuffer()
+                    );
+                    if (imgSign && ['PNG', 'png'].includes(this.getFileExtension(imgSign))) {
+                        const jpgImageimgSign = await pdfDoc.embedPng(imageBytesimgSign);
+                        page.drawImage(jpgImageimgSign, {
+                            x: 480,
+                            y: 55,
+                            width: 49,
+                            height: 52,
+                        });
+                    } else {
+                        const jpgImageimgSign = await pdfDoc.embedJpg(imageBytesimgSign);
+                        page.drawImage(jpgImageimgSign, {
+                            x: 480,
+                            y: 55,
+                            width: 49,
+                            height: 52,
+                        });
+                    }
+                }
+            }
+
+            // Thêm một trang mới vào PDF và vẽ văn bản
+            const page2 = pdfDoc.addPage([600, 400]);
+            page2.drawImage(jpgImage2, {
+                x: 0,
+                y: 0,
+                width: page2.getWidth(),
+                height: page2.getHeight(),
+            });
+
+            // 5. Xuất PDF và tạo Blob để tải về
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            setTimeout(()=>{
+                this.loading=false
+                const url = URL.createObjectURL(blob);
+                this.pdfSrc = url
+            },1000)
+            // 6. Tạo liên kết tải PDF
            
+
         },
     }
 }
 </script>
+<style lang="scss">
+.header-page {
+    height: 100px;
+    width: calc(100%);
+    background: rgb(245, 241, 241, 0.9);
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+
+    .container-header {
+        width: 80%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .box-logo {
+        margin-top: 40px;
+        height: 120px;
+        width: 120px;
+        background-color: rgb(245, 241, 241);
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        padding: 10px;
+    }
+
+    .text-header {
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 18px;
+        color: #ee4d2d;
+    }
+}
+
+.main-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #2d3a4b; */
+    background-image: url('/img/bg.PNG');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+}
+
+.pdf-box {
+    margin-top: 100px;
+    background-color: rgb(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgb(0,0,0, 0.6); */
+    // box-shadow: -16px 18px 0px 5px rgba(222,222,222,0.08);
+    // -webkit-box-shadow: -16px 18px 0px 5px rgba(222,222,222,0.08);
+    // -moz-box-shadow: -16px 18px 0px 5px rgba(222,222,222,0.08);
+    width: 80vw;
+    height: 80vh;
+}
+
+.menu-box {
+    margin-top: 100px;
+    // background-color: rgb(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgb(0,0,0, 0.6); */
+    // box-shadow: -16px 18px 0px 5px rgba(222, 222, 222, 0.08);
+    // -webkit-box-shadow: -16px 18px 0px 5px rgba(222, 222, 222, 0.08);
+    // -moz-box-shadow: -16px 18px 0px 5px rgba(222, 222, 222, 0.08);
+    min-width: 500px;
+    padding: 50px;
+}
+
+.heading-page {
+    text-transform: uppercase;
+    font-size: 43px;
+    font-weight: bolder;
+    letter-spacing: 3px;
+    color: white;
+}
+
+a {
+    color: inherit;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+a:hover,
+a:focus {
+    color: #ababab;
+    text-decoration: none;
+    outline: 0 none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #1e2530;
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    line-height: 1.3;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+/*
+ * Selection color
+ */
+::-moz-selection {
+    background-color: #FA6862;
+    color: #fff;
+}
+
+::selection {
+    background-color: #FA6862;
+    color: #fff;
+}
+
+/*
+ *  Reset bootstrap's default style
+ */
+.form-control::-webkit-input-placeholder,
+::-webkit-input-placeholder {
+    opacity: 1;
+    color: inherit;
+}
+
+.form-control:-moz-placeholder,
+:-moz-placeholder {
+    /* Firefox 18- */
+    opacity: 1;
+    color: inherit;
+}
+
+.form-control::-moz-placeholder,
+::-moz-placeholder {
+    /* Firefox 19+ */
+    opacity: 1;
+    color: inherit;
+}
+
+.form-control:-ms-input-placeholder,
+:-ms-input-placeholder {
+    opacity: 1;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea,
+label {
+    font-weight: 400;
+}
+
+.btn {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active:focus {
+    outline: 0 none;
+}
+
+.btn-primary {
+    background-color: #FA6862;
+    border: 0;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+    height: 48px;
+    line-height: 50px;
+    padding: 0 42px;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:focus {
+    background-color: #f9423a;
+}
+
+.btn-border {
+    border: 1px solid #d7d8db;
+    display: inline-block;
+    padding: 7px;
+}
+
+/*
+ *  CSS Helper Class
+ */
+.clear:before,
+.clear:after {
+    content: " ";
+    display: table;
+}
+
+.clear:after {
+    clear: both;
+}
+
+.pt-table {
+    display: table;
+    width: 100%;
+    height: -webkit-calc(100vh - 4px);
+    height: -moz-calc(100vh - 4px);
+    height: calc(100vh - 4px);
+}
+
+.pt-tablecell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.relative {
+    position: relative;
+}
+
+.primary,
+.link:hover {
+    color: #FA6862;
+}
+
+.no-gutter {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.no-gutter>[class^="col-"] {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-middle {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+}
+
+.space-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.nicescroll-cursors {
+    background: #FA6862 !important;
+}
+
+.preloader {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.preloader.active.hidden {
+    display: none;
+}
+
+.loading-mask {
+    background-color: #FA6862;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 20%;
+    -webkit-transition: all 0.6s cubic-bezier(0.61, 0, 0.6, 1) 0s;
+    -moz-transition: all 0.6s cubic-bezier(0.61, 0, 0.6, 1) 0s;
+    -o-transition: all 0.6s cubic-bezier(0.61, 0, 0.6, 1) 0s;
+    transition: all 0.6s cubic-bezier(0.61, 0, 0.6, 1) 0s;
+}
+
+.loading-mask:nth-child(2) {
+    left: 20%;
+    -webkit-transition-delay: 0.1s;
+    -moz-transition-delay: 0.1s;
+    -o-transition-delay: 0.1s;
+    transition-delay: 0.1s;
+}
+
+.loading-mask:nth-child(3) {
+    left: 40%;
+    -webkit-transition-delay: 0.2s;
+    -moz-transition-delay: 0.2s;
+    -o-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+}
+
+.loading-mask:nth-child(4) {
+    left: 60%;
+    -webkit-transition-delay: 0.3s;
+    -moz-transition-delay: 0.3s;
+    -o-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+}
+
+.loading-mask:nth-child(5) {
+    left: 80%;
+    -webkit-transition-delay: 0.4s;
+    -moz-transition-delay: 0.4s;
+    -o-transition-delay: 0.4s;
+    transition-delay: 0.4s;
+}
+
+.preloader.active.done {
+    z-index: 0;
+}
+
+.preloader.active .loading-mask {
+    width: 0;
+}
+
+/*------------------------------------------------
+	Start Styling
+-------------------------------------------------*/
+.mt20 {
+    margin-top: 20px;
+}
+
+.site-wrapper {
+    border-top: 4px solid #ff0037;
+}
+
+.page-close {
+    font-size: 30px;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    z-index: 100;
+}
+
+.page-title {
+    margin-bottom: 75px;
+}
+
+.page-title img {
+    margin-bottom: 20px;
+}
+
+.page-title h2 {
+    font-size: 68px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 0;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.page-title p {
+    font-size: 14px;
+    font-family: monospace;
+    line-height: 21px;
+}
+
+.page-title .title-bg {
+    color: rgba(30, 37, 48, 0.07);
+    font-size: 158px;
+    left: 0;
+    letter-spacing: 10px;
+    line-height: 0.7;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    z-index: -1;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.section-title {
+    margin-bottom: 20px;
+}
+
+.section-title h3 {
+    display: inline-block;
+    position: relative;
+}
+
+.section-title h3::before,
+.section-title h3::after {
+    content: "";
+    height: 2px;
+    position: absolute;
+    bottom: 8px;
+    left: -webkit-calc(100% + 14px);
+    left: -moz-calc(100% + 14px);
+    left: calc(100% + 14px);
+}
+
+.section-title h3::before {
+    background-color: #1e2530;
+    width: 96px;
+    bottom: 14px;
+}
+
+.section-title h3::after {
+    background-color: #FA6862;
+    width: 73px;
+}
+
+.section-title.light h3 {
+    color: #fff;
+}
+
+.section-title.light h3::before {
+    background-color: #fff;
+}
+
+.page-nav {
+    bottom: 40px;
+    left: 0;
+    position: absolute;
+    right: 0;
+}
+
+.page-nav span {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 0.9;
+    text-transform: uppercase;
+}
+
+/*------------------------------------------------
+    Home Page
+-------------------------------------------------*/
+
+.hexagon-item:first-child {
+    margin-left: 0;
+}
+
+.page-home {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    vertical-align: middle;
+}
+
+//   .page-home .overlay {
+// background-color: rgba(14, 17, 24, 0.97);
+// background-image:url("https://images.unsplash.com/photo-1682686581220-689c34afb6ef?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+// }
+
+/* End of container */
+.hexagon-item {
+    cursor: pointer;
+    width: 200px;
+    height: 173.20508px;
+    float: left;
+    margin-left: -29px;
+    z-index: 0;
+    position: relative;
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+    transform: rotate(30deg);
+}
+
+.hexagon-item:first-child {
+    margin-left: 0;
+}
+
+.hexagon-item:hover {
+    z-index: 1;
+}
+
+.hexagon-item:hover .hex-item:last-child {
+    opacity: 1;
+    -webkit-transform: scale(1.3);
+    -moz-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    -o-transform: scale(1.3);
+    transform: scale(1.3);
+}
+
+.hexagon-item:hover .hex-item:first-child {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.hexagon-item:hover .hex-item:first-child div:before,
+.hexagon-item:hover .hex-item:first-child div:after {
+    height: 5px;
+}
+
+.hexagon-item:hover .hex-item div::before,
+.hexagon-item:hover .hex-item div::after {
+    background-color: #ff0037;
+}
+
+.hexagon-item:hover .hex-content svg {
+    -webkit-transform: scale(0.97);
+    -moz-transform: scale(0.97);
+    -ms-transform: scale(0.97);
+    -o-transform: scale(0.97);
+    transform: scale(0.97);
+}
+
+.page-home .hexagon-item:nth-last-child(1),
+.page-home .hexagon-item:nth-last-child(2),
+.page-home .hexagon-item:nth-last-child(3) {
+    -webkit-transform: rotate(30deg) translate(87px, -80px);
+    -moz-transform: rotate(30deg) translate(87px, -80px);
+    -ms-transform: rotate(30deg) translate(87px, -80px);
+    -o-transform: rotate(30deg) translate(87px, -80px);
+    transform: rotate(30deg) translate(87px, -80px);
+}
+
+.hex-item {
+    position: absolute;
+    top: 0;
+    left: 50px;
+    width: 100px;
+    height: 173.20508px;
+}
+
+.hex-item:first-child {
+    z-index: 0;
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+    -webkit-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.hex-item:last-child {
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 1;
+}
+
+.hex-item div {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 173.20508px;
+    -webkit-transform-origin: center center;
+    -moz-transform-origin: center center;
+    -ms-transform-origin: center center;
+    -o-transform-origin: center center;
+    transform-origin: center center;
+}
+
+.hex-item div::before,
+.hex-item div::after {
+    background-color: #1e2530;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    -webkit-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+    -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+    -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+}
+
+.hex-item div:before {
+    top: 0;
+}
+
+.hex-item div:after {
+    bottom: 0;
+}
+
+.hex-item div:nth-child(1) {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+.hex-item div:nth-child(2) {
+    -webkit-transform: rotate(60deg);
+    -moz-transform: rotate(60deg);
+    -ms-transform: rotate(60deg);
+    -o-transform: rotate(60deg);
+    transform: rotate(60deg);
+}
+
+.hex-item div:nth-child(3) {
+    -webkit-transform: rotate(120deg);
+    -moz-transform: rotate(120deg);
+    -ms-transform: rotate(120deg);
+    -o-transform: rotate(120deg);
+    transform: rotate(120deg);
+}
+
+.hex-content {
+    color: #fff;
+    display: block;
+    height: 180px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    transform: rotate(-30deg);
+    width: 156px;
+}
+
+.hex-content .hex-content-inner {
+    left: 50%;
+    margin: -3px 0 0 2px;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.hex-content .icon {
+    display: block;
+    font-size: 36px;
+    line-height: 30px;
+    margin-bottom: 11px;
+}
+
+.hex-content .title {
+    display: block;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 24px;
+    text-transform: uppercase;
+}
+
+.hex-content svg {
+    left: -7px;
+    position: absolute;
+    top: -13px;
+    transform: scale(0.87);
+    z-index: -1;
+    -webkit-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+    -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+    -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+}
+
+.hex-content:hover {
+    color: #fff;
+}
+
+.page-home .hexagon-item:nth-last-child(1),
+.page-home .hexagon-item:nth-last-child(2),
+.page-home .hexagon-item:nth-last-child(3) {
+    -webkit-transform: rotate(30deg) translate(87px, -80px);
+    -moz-transform: rotate(30deg) translate(87px, -80px);
+    -ms-transform: rotate(30deg) translate(87px, -80px);
+    -o-transform: rotate(30deg) translate(87px, -80px);
+    transform: rotate(30deg) translate(87px, -80px);
+}
+
+/*------------------------------------------------
+    Welcome Page
+-------------------------------------------------*/
+.author-image-large {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.author-image-large img {
+    height: -webkit-calc(100vh - 4px);
+    height: -moz-calc(100vh - 4px);
+    height: calc(100vh - 4px);
+}
+
+
+@media (min-width: 1200px) {
+    .col-lg-offset-2 {
+        margin-left: 16.66666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-8 {
+        width: 66.66666667%;
+    }
+}
+
+.hexagon-item:first-child {
+    margin-left: 0;
+}
+
+.pt-table.desktop-768 .pt-tablecell {
+    padding-bottom: 110px;
+    padding-top: 60px;
+}
+
+
+
+.hexagon-item:hover .icon i {
+    color: #ff0037;
+    transition: 0.6s;
+
+}
+
+
+.hexagon-item:hover .title {
+    -webkit-animation: focus-in-contract 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: focus-in-contract 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/***************************/
+
+@-webkit-keyframes focus-in-contract {
+    0% {
+        letter-spacing: 1em;
+        -webkit-filter: blur(12px);
+        filter: blur(12px);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-filter: blur(0px);
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes focus-in-contract {
+    0% {
+        letter-spacing: 1em;
+        -webkit-filter: blur(12px);
+        filter: blur(12px);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-filter: blur(0px);
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 767px) {
+    .hexagon-item {
+        float: none;
+        margin: 0 auto 50px;
+    }
+
+    .hexagon-item:first-child {
+        margin-left: auto;
+    }
+
+    .page-home .hexagon-item:nth-last-child(1),
+    .page-home .hexagon-item:nth-last-child(2),
+    .page-home .hexagon-item:nth-last-child(3) {
+        -webkit-transform: rotate(30deg) translate(0px, 0px);
+        -moz-transform: rotate(30deg) translate(0px, 0px);
+        -ms-transform: rotate(30deg) translate(0px, 0px);
+        -o-transform: rotate(30deg) translate(0px, 0px);
+        transform: rotate(30deg) translate(0px, 0px);
+    }
+
+}
+</style>

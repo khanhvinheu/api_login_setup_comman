@@ -113,7 +113,7 @@ class Blockchain {
     }
 
     // Xác thực toàn bộ chuỗi blockchain
-    isChainValid(publicKey, data, providedSignature) {    
+    isChainValid(publicKey, data, providedSignature) {
         var valid = false
         var validSign = false
         for (let i = 1; i < data.length; i++) {
@@ -155,18 +155,18 @@ class Blockchain {
             } else {
                 valid = true
             }
-            
-            if (currentBlock.signature === providedSignature) {                             
+
+            if (currentBlock.signature === providedSignature) {
                 console.log(`Block ${currentBlock.index}: Chữ ký khớp với chữ ký đã cung cấp.`);
                 validSign = true
-            } 
+            }
         }
         return valid && validSign;
     }
 }
 
 
-async function generateKeys(saveFile = true) {
+function generateKeys(saveFile = false) {
     const {publicKey, privateKey} = crypto.generateKeyPairSync('ec', {
         namedCurve: 'prime256v1',
         publicKeyEncoding: {type: 'spki', format: 'pem'},
@@ -177,19 +177,19 @@ async function generateKeys(saveFile = true) {
         //Product ID: 25479
         const YOUR_USB_VENDOR_ID = 1423
         const YOUR_USB_PRODUCT_ID = 25479
-        const devices = usb.getDeviceList(); 
-        devices.forEach(device => {  
+        const devices = usb.getDeviceList();
+        devices.forEach(device => {
             // So sánh với vendorId và productId bạn cần tìm
             if (device.deviceDescriptor.idVendor === YOUR_USB_VENDOR_ID && device.deviceDescriptor.idProduct === YOUR_USB_PRODUCT_ID) {
-           
-              // Lấy mô tả về thiết bị và các thuộc tính khác             
-              device.open();
+
+              // Lấy mô tả về thiết bị và các thuộc tính khác
+            //   device.open();
               console.log("Device path:", device);
-        
+
               // Bạn có thể thực hiện các thao tác đọc/ghi với thiết bị tại đây
             }
-          });
-        
+        });
+
 
 
         // const usbPath ='E:/'
