@@ -22,7 +22,7 @@
       :router="true"
       v-if="!loading && data.length>0"
       :default-active="active"
-      :collapse="$store.getters.sidebar.opened" 
+      :collapse="!$store.getters.sidebar.opened" 
       class="el-menu-vertical-demo"   
       background-color="#343a40"
       text-color="#fff"

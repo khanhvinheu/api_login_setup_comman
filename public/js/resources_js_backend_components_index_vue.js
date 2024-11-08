@@ -874,7 +874,7 @@ var render = function render() {
     attrs: {
       router: true,
       "default-active": _vm.active,
-      collapse: _vm.$store.getters.sidebar.opened,
+      collapse: !_vm.$store.getters.sidebar.opened,
       "background-color": "#343a40",
       "text-color": "#fff",
       "active-text-color": "#ffd04b"
