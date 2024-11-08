@@ -167,14 +167,14 @@ export default {
                 type: 'warning'
             }).then(() => {
                 this.$store.dispatch(`user/${LOGOUT}`).then(() => {
-                    this.$router.push({name: 'Login'});
+                    this.$router.push({name: 'CheckFile'});
                 });
             }).catch(() => {
 
             });
 
         },
-    },
+    }, 
 
 }
 </script>

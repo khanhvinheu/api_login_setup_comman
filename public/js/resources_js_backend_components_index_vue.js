@@ -208,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function () {
         _this.$store.dispatch("user/".concat(_store_muation_types__WEBPACK_IMPORTED_MODULE_1__.LOGOUT)).then(function () {
           _this.$router.push({
-            name: 'Login'
+            name: 'CheckFile'
           });
         });
       })["catch"](function () {});
@@ -301,7 +301,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("body", {
-    staticClass: "hold-transition sidebar-mini layout-fixed"
+    staticClass: "hold-transition sidebar-mini sidebar-collapse layout-fixed"
   }, [_c("div", {
     staticClass: "wrapper"
   }, [_c("Transition", {

@@ -1,5 +1,6 @@
 <template>
-    <body class="hold-transition sidebar-mini layout-fixed">
+    <!-- thêm sidebar-collapse để set mặc định đóng slidebar -->
+    <body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
     <div class="wrapper">
         <Transition name="slide-fade" >
         <Preloader v-show="showLoad"></Preloader>
