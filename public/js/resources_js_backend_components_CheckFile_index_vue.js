@@ -38498,7 +38498,7 @@ var render = function render() {
     staticClass: "hexagon-item",
     on: {
       click: function click($event) {
-        return _vm.validFile();
+        return _vm.navLogin();
       }
     }
   }, [_vm._m(5), _vm._v(" "), _vm._m(6), _vm._v(" "), _c("a", {
@@ -38517,7 +38517,12 @@ var render = function render() {
       fill: "#1e2530"
     }
   })])])]), _vm._v(" "), _c("div", {
-    staticClass: "hexagon-item"
+    staticClass: "hexagon-item",
+    on: {
+      click: function click($event) {
+        return _vm.validFile();
+      }
+    }
   }, [_vm._m(8), _vm._v(" "), _vm._m(9), _vm._v(" "), _c("a", {
     staticClass: "hex-content"
   }, [_vm._m(10), _vm._v(" "), _c("svg", {
@@ -38534,12 +38539,7 @@ var render = function render() {
       fill: "#1e2530"
     }
   })])])]), _vm._v(" "), _c("div", {
-    staticClass: "hexagon-item",
-    on: {
-      click: function click($event) {
-        return _vm.navLogin();
-      }
-    }
+    staticClass: "hexagon-item"
   }, [_vm._m(11), _vm._v(" "), _vm._m(12), _vm._v(" "), _c("a", {
     staticClass: "hex-content"
   }, [_vm._m(13), _vm._v(" "), _c("svg", {
@@ -38727,6 +38727,30 @@ var staticRenderFns = [function () {
   }, [_c("span", {
     staticClass: "icon"
   }, [_c("i", {
+    staticClass: "fa fa-id-badge"
+  })]), _vm._v(" "), _c("span", {
+    staticClass: "title"
+  }, [_vm._v("Hệ thống quản lý")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "hex-item"
+  }, [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "hex-item"
+  }, [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("span", {
+    staticClass: "hex-content-inner"
+  }, [_c("span", {
+    staticClass: "icon"
+  }, [_c("i", {
     staticClass: "fa fa-bullseye"
   })]), _vm._v(" "), _c("span", {
     staticClass: "title"
@@ -38755,30 +38779,6 @@ var staticRenderFns = [function () {
   })]), _vm._v(" "), _c("span", {
     staticClass: "title"
   }, [_vm._v("Liên hệ")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "hex-item"
-  }, [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "hex-item"
-  }, [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("span", {
-    staticClass: "hex-content-inner"
-  }, [_c("span", {
-    staticClass: "icon"
-  }, [_c("i", {
-    staticClass: "fa fa-id-badge"
-  })]), _vm._v(" "), _c("span", {
-    staticClass: "title"
-  }, [_vm._v("Hệ thống quản lý")])]);
 }];
 render._withStripped = true;
 

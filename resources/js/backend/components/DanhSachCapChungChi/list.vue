@@ -142,6 +142,7 @@
                                           type="danger"
                                           @click="delete(scope.row.id)">Xóa</el-button> -->
                                         <el-popconfirm
+                                            v-if="!scope.row.ho_so_duyet"
                                             confirm-button-text='Xóa'
                                             cancel-button-text='Không'
                                             :title="'Bạn có chắc chắn muốn xóa hình ảnh này ?'"
