@@ -91,13 +91,13 @@ class danhSachCapChungChiHocVienController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {       
         try{            
-            $res = danhSachCapChungChiHocViens::find($id)->with('dotCap')
+            $res = danhSachCapChungChiHocViens::where('id', $id)
+            ->with('dotCap')
             ->with('khoaHoc')
             ->with('hoSoDuyet')
-            ->first();
+            ->first();            
             if($res){
                 return response()->json(['success'=>true, 'data'=>$res]);
             }else{
