@@ -38498,6 +38498,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "genPDF",
   methods: {
+    removeDiacritics: function removeDiacritics(str) {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    },
     getFileExtension: function getFileExtension(path) {
       var parts = path.split('.');
       return parts.length > 1 ? parts.pop() : '';
@@ -38655,7 +38658,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(1, 0, 0)
               });
               // Ho ten
-              page.drawText(item.hoTen, {
+              page.drawText(_this.removeDiacritics(item.hoTen), {
                 x: 44,
                 y: 253,
                 size: 10,
@@ -38700,7 +38703,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(0, 0, 0)
               });
               //Khoa hoc
-              page.drawText(item.khoa_hoc.tenKhoaHoc, {
+              page.drawText(item.khoa_hoc.tenKhoaHocEN, {
                 x: 16,
                 y: 190,
                 size: 10,

@@ -11,6 +11,9 @@ import moment from 'moment/moment';
 export default{
     name:"genPDF",
     methods:{
+        removeDiacritics(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        },
         getFileExtension(path) {
             const parts = path.split('.');
             return parts.length > 1 ? parts.pop() : '';
@@ -114,7 +117,7 @@ export default{
                 color: rgb(1, 0, 0),
             });
             // Ho ten
-            page.drawText(item.hoTen, {
+            page.drawText(this.removeDiacritics(item.hoTen), {
                 x: 44,
                 y: 253,
                 size: 10,
@@ -159,7 +162,7 @@ export default{
                 color: rgb(0, 0, 0),
             });
             //Khoa hoc
-            page.drawText(item.khoa_hoc.tenKhoaHoc, {
+            page.drawText(item.khoa_hoc.tenKhoaHocEN, {
                 x: 16,
                 y: 190,
                 size: 10,
