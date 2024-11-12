@@ -17,7 +17,10 @@ class HoSoKyDuyet extends Migration
         Schema::create('hoSoKyDuyets', function (Blueprint $table) {
             $table->id();
             $table->string('maHoSo')->unique();
-            $table->string('nguoiKyDuyet');
+            $table->unsignedBigInteger('nguoiKyDuyet')->nullable();
+            $table->foreign('nguoiKyDuyet')->references('id')->on('users');        
+            $table->string('soChungChi')->nullable();
+            $table->string('soVaoSo')->nullable();
             $table->string('thongTinLuu')->nullable();
             $table->string('publickey')->nullable();
             $table->string('privatekey')->nullable();

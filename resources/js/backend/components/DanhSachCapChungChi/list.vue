@@ -54,6 +54,8 @@
                                     label="MÃ CHỨNG CHỈ"
                                     sortable
                                 >
+                                    <template slot-scope="scope">CNTN{{ scope.row.maChungChi}}
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                     prop="hoTen"
@@ -261,6 +263,7 @@
 </template>
 
 <script>
+import ApiService from '../../common/api.service';
 import html2pdf from 'html2pdf.js';
 import formData from "./form";
 import VueQRCodeComponent from 'vue-qrcode-component'
@@ -300,6 +303,11 @@ export default {
     },
 
     methods: {
+        async genCodeVaoSo() {           
+            return await ApiService.query('/api/admin/cap-chung-chi/gen_so-vao-so').then(({data})=>{
+                return data
+            })
+        },
         beforeUpload(file) {
             if (this.fileList.length >= 1) {
                 this.fileList.splice(0, 1); // Remove existing file
@@ -485,7 +493,8 @@ export default {
             this.getList()
         },
         async kyDuyet(item) {
-            await this.addBlock().then((res) => {
+           
+            await this.addBlock().then( async(res) => {
                 let _this = this
                 var formData = new FormData()
                 formData.set('nguoiKyDuyet', this.$store.getters.user.id)
@@ -495,6 +504,8 @@ export default {
                 formData.set('publickey', this.$store.getters.user.publickey)
                 formData.set('hinhanhchuky', this.$store.getters.user.hinhanhchuky)
                 formData.set('signature', res)
+                formData.set('soChungChi',  item.maChungChi)
+                formData.set('soVaoSo', await this.genCodeVaoSo())   
                 axios({
                     method: 'post',
                     url: '/api/admin/cap-chung-chi/kyduyet/' + item.id,
@@ -515,7 +526,6 @@ export default {
                                 type: 'error'
                             });
                         }
-
                     });
             });
         },

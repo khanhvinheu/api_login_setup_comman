@@ -256,9 +256,22 @@ export default{
                     color: rgb(0, 0, 0),
                 });
 
-
             }
 
+            page.drawText(item.maChungChi, {
+                x: 65,
+                y: 20,
+                size: 12,
+                font: robotoItalic,
+                color: rgb(1, 0, 0),
+            });
+            page.drawText(item.maChungChi, {
+                x: 368,
+                y: 40,
+                size: 12,
+                font: robotoItalic,
+                color: rgb(1, 0, 0),
+            });
 
             // 4. Lưu Public Key vào metadata
 
@@ -311,6 +324,16 @@ export default{
                 }
                 pdfDoc.setAuthor(item.ho_so_duyet.publickey); // Lưu vào trường 'Author'
                 pdfDoc.setSubject(item.ho_so_duyet.signature)
+                
+                page.drawText(item.ho_so_duyet.soVaoSo, {
+                    x: 428,
+                    y: 20,
+                    size: 12,
+                    font: robotoItalic,
+                    color: rgb(1, 0, 0),
+                });
+
+
             }
             // Thêm một trang mới vào PDF và vẽ văn bản
             const page2 = pdfDoc.addPage([600, 400]);

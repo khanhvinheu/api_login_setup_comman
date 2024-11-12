@@ -18,7 +18,7 @@ class addExDanhSachCap extends Seeder
         //
         $listTypeTask=[
             [
-                "maChungChi"=>'CCTN0001',
+                "maChungChi"=>'000001',
                 "hoTen"=>'Nguyễn Văn A',
                 "namSinh"=>'01/01/1999',
                 "gioiTinh"=>'Nam',
@@ -31,7 +31,7 @@ class addExDanhSachCap extends Seeder
                 "maKhoaHoc"=>'KH0001',
             ],
             [
-                "maChungChi"=>'CCTN0002',
+                "maChungChi"=>'000002',
                 "hoTen"=>'Nguyễn Văn B',
                 "namSinh"=>'01/01/2000',
                 "gioiTinh"=>'Nam',

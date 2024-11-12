@@ -9,6 +9,7 @@ use App\Models\admin\hoSoKyDuyets;
 use App\Services\QueryService;
 use Illuminate\Support\Str;
 use File;
+use Carbon\Carbon;
 
 class danhSachCapChungChiHocVienController extends Controller
 {
@@ -33,7 +34,7 @@ class danhSachCapChungChiHocVienController extends Controller
             $queryService->select = [];
             $queryService->filter = $filter;
             $queryService->columnSearch =$columnSearch;
-            $queryService->withRelationship = ['dotCap','khoaHoc','hoSoDuyet'];
+            $queryService->withRelationship = ['dotCap','khoaHoc','hoSoDuyet','hoSoDuyet.nguoiKyDuyet'];
             $queryService->search = $search;
             $queryService->betweenDate = $betweenDate;
             $queryService->limit = $limit;
@@ -191,7 +192,19 @@ class danhSachCapChungChiHocVienController extends Controller
         } else {
             $number = intval(substr($lastCode->maChungChi, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
         }    
-        $newCode = 'CCTN' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
+        $newCode = '' . str_pad($number, 5, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
+        return $newCode;
+    }
+
+    public function genCodeSoVaoSo(){
+        $lastCode = hoSoKyDuyets::orderBy('maHoSo', 'desc')->first(); // lấy mã cuối cùng trong database      
+        if (!$lastCode) {
+            $number = 1;
+        } else {
+            $number = intval(substr($lastCode->maHoSo, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
+        }  
+        $yearNow =  Carbon::now()->year;  
+        $newCode = $yearNow.'/ĐT' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
         return $newCode;
     }
     public function kyDuyet(Request $request, $id){            

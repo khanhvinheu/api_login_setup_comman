@@ -4,6 +4,7 @@ namespace App\Models\admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class hoSoKyDuyets extends Model
 {
@@ -12,6 +13,8 @@ class hoSoKyDuyets extends Model
     protected $fillable = [
         'maHoSo',
         'nguoiKyDuyet',
+        'soChungChi',
+        'soVaoSo',
         'hinhanhchuky',
         'publickey',
         'privatekey',
@@ -19,4 +22,8 @@ class hoSoKyDuyets extends Model
         'thongTinLuu',
         'ghiChu',
     ];
+    public function nguoiKyDuyet(): \Illuminate\Database\Eloquent\Relations\belongsTo
+    {
+        return $this->belongsTo(User::class, 'nguoiKyDuyet', 'id');
+    }
 }

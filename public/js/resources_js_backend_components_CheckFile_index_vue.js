@@ -38792,33 +38792,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(0, 0, 0)
                 });
               }
+              page.drawText(item.maChungChi, {
+                x: 65,
+                y: 20,
+                size: 12,
+                font: robotoItalic,
+                color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(1, 0, 0)
+              });
+              page.drawText(item.maChungChi, {
+                x: 368,
+                y: 40,
+                size: 12,
+                font: robotoItalic,
+                color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(1, 0, 0)
+              });
 
               // 4. Lưu Public Key vào metadata
 
               // pdfDoc.setTitle('Tài liệu chứa Public Key');
               if (!sign) {
-                _context.next = 101;
+                _context.next = 104;
                 break;
               }
               //set imgsign
               imgSign = item.ho_so_duyet.hinhanhchuky;
               if (!(imgSign != 'null' && sign)) {
-                _context.next = 99;
+                _context.next = 101;
                 break;
               }
-              _context.next = 79;
+              _context.next = 81;
               return fetch(imgSign).then(function (res) {
                 return res.arrayBuffer();
               });
-            case 79:
+            case 81:
               imageBytesimgSign = _context.sent;
               if (!(imgSign && ['PNG', 'png'].includes(_this.getFileExtension(imgSign)))) {
-                _context.next = 87;
+                _context.next = 89;
                 break;
               }
-              _context.next = 83;
+              _context.next = 85;
               return pdfDoc.embedPng(imageBytesimgSign);
-            case 83:
+            case 85:
               jpgImageimgSign = _context.sent;
               page.drawImage(jpgImageimgSign, {
                 x: 480,
@@ -38826,12 +38840,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 width: 49,
                 height: 52
               });
-              _context.next = 91;
+              _context.next = 93;
               break;
-            case 87:
-              _context.next = 89;
-              return pdfDoc.embedJpg(imageBytesimgSign);
             case 89:
+              _context.next = 91;
+              return pdfDoc.embedJpg(imageBytesimgSign);
+            case 91:
               _jpgImageimgSign = _context.sent;
               page.drawImage(_jpgImageimgSign, {
                 x: 480,
@@ -38839,7 +38853,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 width: 49,
                 height: 52
               });
-            case 91:
+            case 93:
               page.drawText('Hiệu Trưởng', {
                 x: 480,
                 y: 108,
@@ -38847,15 +38861,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 font: roboto,
                 color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(0, 0, 0)
               });
-              _context.next = 94;
+              _context.next = 96;
               return fetch((_assets_chungchimau_sign_png__WEBPACK_IMPORTED_MODULE_7___default())).then(function (res) {
                 return res.arrayBuffer();
               });
-            case 94:
+            case 96:
               imgStamp = _context.sent;
-              _context.next = 97;
+              _context.next = 99;
               return pdfDoc.embedPng(imgStamp);
-            case 97:
+            case 99:
               pngImageStamp = _context.sent;
               page.drawImage(pngImageStamp, {
                 x: 475,
@@ -38863,10 +38877,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 width: 60,
                 height: 55
               });
-            case 99:
+            case 101:
               pdfDoc.setAuthor(item.ho_so_duyet.publickey); // Lưu vào trường 'Author'
               pdfDoc.setSubject(item.ho_so_duyet.signature);
-            case 101:
+              page.drawText(item.ho_so_duyet.soVaoSo, {
+                x: 428,
+                y: 20,
+                size: 12,
+                font: robotoItalic,
+                color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(1, 0, 0)
+              });
+            case 104:
               // Thêm một trang mới vào PDF và vẽ văn bản
               page2 = pdfDoc.addPage([600, 400]);
               page2.drawImage(jpgImage2, {
@@ -38877,9 +38898,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
 
               // 5. Xuất PDF và tạo Blob để tải về
-              _context.next = 105;
+              _context.next = 108;
               return pdfDoc.save();
-            case 105:
+            case 108:
               pdfBytes = _context.sent;
               blob = new Blob([pdfBytes], {
                 type: 'application/pdf'
@@ -38887,7 +38908,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               url = URL.createObjectURL(blob);
               _this.pdfSrc = url;
               _this.viewPdf = true;
-            case 110:
+            case 113:
             case "end":
               return _context.stop();
           }
@@ -39115,7 +39136,7 @@ module.exports = "/images/chungchimau_back.jpg?edb4b13f32b709912552b4f109672299"
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = "/images/chungchiv2.jpg?3cd4e56c8ae7e8318f5f61a796ec7217";
+module.exports = "/images/chungchiv2.jpg?a2009a432ccda73ecbd7c25b91bd88ca";
 
 /***/ }),
 
