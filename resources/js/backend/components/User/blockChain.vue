@@ -30,6 +30,7 @@
                                         <p class="textContent">PreviousHash: {{ item.previousHash }}</p>
                                         <p class="textContent">Hash: {{ item.hash }}</p>
                                         <p class="textContent">Signature: {{ item.signature }}</p>
+                                        <p class="textContent">Data: {{ JSON.parse(item.data) }}</p>
                                     </el-card>
                                 </el-timeline-item>
                             </el-timeline>
@@ -77,7 +78,7 @@ export default {
                 method: 'post',
                 url: 'http://localhost:3000/add-block',
                 data:{
-                    privateKey:this.$store.getters.user.privatekey
+                    privateKey:this.$store.getters.user.privatekey,
                 }
             }).then(({data}) => {
                 this.$notify({

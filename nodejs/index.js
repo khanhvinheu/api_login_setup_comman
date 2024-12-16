@@ -46,8 +46,9 @@ app.post('/add-block', async (req, res) => {
     try {
         // const privateKey = fs.readFileSync('private_key.pem', 'utf8');
         const privateKey = formatPEM(req.body.privateKey)
+        const data = req.body.data
         const index = await getIndex()
-        const newBlock = new Block(index, new Date().toISOString(), { year: 2024 });
+        const newBlock = new Block(index, new Date().toISOString(), data);
         blockchain.addBlock(newBlock, privateKey);
         // // res.status(201).json({ message: 'Block added successfully', block: newBlock ,privateKey:privateKey});
 

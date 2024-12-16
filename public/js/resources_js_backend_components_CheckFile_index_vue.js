@@ -38210,10 +38210,34 @@ var render = function render() {
       fill: "#1e2530"
     }
   })])])]), _vm._v(" "), _c("div", {
-    staticClass: "hexagon-item"
+    staticClass: "hexagon-item",
+    on: {
+      click: function click($event) {
+        return _vm.$router.push({
+          name: "lookUp"
+        });
+      }
+    }
   }, [_vm._m(11), _vm._v(" "), _vm._m(12), _vm._v(" "), _c("a", {
     staticClass: "hex-content"
   }, [_vm._m(13), _vm._v(" "), _c("svg", {
+    attrs: {
+      viewBox: "0 0 173.20508075688772 200",
+      height: "200",
+      width: "174",
+      version: "1.1",
+      xmlns: "http://www.w3.org/2000/svg"
+    }
+  }, [_c("path", {
+    attrs: {
+      d: "M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z",
+      fill: "#1e2530"
+    }
+  })])])]), _vm._v(" "), _c("div", {
+    staticClass: "hexagon-item"
+  }, [_vm._m(14), _vm._v(" "), _vm._m(15), _vm._v(" "), _c("a", {
+    staticClass: "hex-content"
+  }, [_vm._m(16), _vm._v(" "), _c("svg", {
     attrs: {
       viewBox: "0 0 173.20508075688772 200",
       height: "200",
@@ -38426,6 +38450,30 @@ var staticRenderFns = [function () {
   })]), _vm._v(" "), _c("span", {
     staticClass: "title"
   }, [_vm._v("Kiểm tra chứng chỉ")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "hex-item"
+  }, [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "hex-item"
+  }, [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("span", {
+    staticClass: "hex-content-inner"
+  }, [_c("span", {
+    staticClass: "icon"
+  }, [_c("i", {
+    staticClass: "fa fa-bullseye"
+  })]), _vm._v(" "), _c("span", {
+    staticClass: "title"
+  }, [_vm._v("Tra cứu")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;

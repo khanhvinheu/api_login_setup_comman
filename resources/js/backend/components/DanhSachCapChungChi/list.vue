@@ -367,12 +367,19 @@ export default {
 
 
         },
-        async addBlock() {
+        async addBlock(e) {
             return await axios({
                 method: 'post',
                 url: 'http://localhost:3000/add-block',
                 data: {
-                    privateKey: this.$store.getters.user.privatekey
+                    privateKey: this.$store.getters.user.privatekey,
+                    data:{
+                        hoTen:e.hoTen,
+                        namSinh:e.namSinh,
+                        queQuan:e.queQuan,
+                        khoa_hoc:e.khoa_hoc.tenKhoaHoc,
+                        nguoiKyDuyet: this.$store.getters.user.name
+                    }
                 }
             }).then(({data}) => {
                 if (data && data.status) {
@@ -494,7 +501,7 @@ export default {
         },
         async kyDuyet(item) {
            
-            await this.addBlock().then( async(res) => {
+            await this.addBlock(item).then( async(res) => {
                 let _this = this
                 var formData = new FormData()
                 formData.set('nguoiKyDuyet', this.$store.getters.user.id)

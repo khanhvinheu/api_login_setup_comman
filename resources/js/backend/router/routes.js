@@ -11,6 +11,12 @@ export const constantRouterMap = [
         meta:{title:'CheckFile'}
     },
     {
+        path: '/check-file-in-pdf-look-up',
+        component: () => import('../components/CheckFile/lookUp'),
+        name:'lookUp',
+        meta:{title:'lookUp'}
+    },
+    {
         path: '/login',
         component: () => import('../components/Auth/login'),
         name:'Login',
