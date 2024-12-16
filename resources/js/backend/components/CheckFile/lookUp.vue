@@ -14,10 +14,13 @@
             </div>
         </div>
         <div class="pdf-box-look-up">
-            <div>
-                <el-button @click="typeSearch=1" :type="typeSearch==1?'primary':''"> <i class="el-icon-search"></i> Tra cứu theo số chứng chỉ</el-button>
-                <el-button @click="typeSearch=2" :type="typeSearch==2?'primary':''"> <i class="el-icon-search"></i> Tra cứu theo nghành học</el-button>
-                <el-button @click="typeSearch=3" :type="typeSearch==3?'primary':''"> <i class="el-icon-search"></i> Tra cứu thời gian cấp</el-button>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <el-button @click="typeSearch=1" :type="typeSearch==1?'primary':''"> <i class="el-icon-search"></i> Tra cứu theo số chứng chỉ</el-button>
+                    <el-button @click="typeSearch=2" :type="typeSearch==2?'primary':''"> <i class="el-icon-search"></i> Tra cứu theo nghành học</el-button>
+                    <el-button @click="typeSearch=3" :type="typeSearch==3?'primary':''"> <i class="el-icon-search"></i> Tra cứu thời gian cấp</el-button>
+                </div>
+                <el-button @click="$router.go(-1)"><i class="el-icon-back"></i> Quay về</el-button>
             </div>
             <div style="padding-top: 20px;">
                 <el-input placeholder="Nhập nội dung cần tra cứu" v-model="valueSearch" class="input-with-select">
@@ -33,7 +36,7 @@
                 <div v-if="dataSearch.length==0" style="display: flex;justify-content: center; align-items: center;">
                     <lottie-animation style="width: 100px; height: 100px;" ref="anim"
                     :animationData="require('../../../common/Animation - 1731050852688.json')" />
-                    <span>Chưa có kết quả tìm kiếm nào</span>
+                    <span style="font-size: 12px; color: rgb(0,0,0,0.7);">Chưa có kết quả tìm kiếm nào</span>
                 </div>
             </div>
         </div>

@@ -38077,6 +38077,11 @@ var render = function render() {
     staticClass: "main-login"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "pdf-box-look-up"
+  }, [_c("div", {
+    staticStyle: {
+      display: "flex",
+      "justify-content": "space-between"
+    }
   }, [_c("div", [_c("el-button", {
     attrs: {
       type: _vm.typeSearch == 1 ? "primary" : ""
@@ -38110,7 +38115,15 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "el-icon-search"
-  }), _vm._v(" Tra cứu thời gian cấp")])], 1), _vm._v(" "), _c("div", {
+  }), _vm._v(" Tra cứu thời gian cấp")])], 1), _vm._v(" "), _c("el-button", {
+    on: {
+      click: function click($event) {
+        return _vm.$router.go(-1);
+      }
+    }
+  }, [_c("i", {
+    staticClass: "el-icon-back"
+  }), _vm._v(" Quay về")])], 1), _vm._v(" "), _c("div", {
     staticStyle: {
       "padding-top": "20px"
     }
@@ -38151,7 +38164,12 @@ var render = function render() {
     attrs: {
       animationData: __webpack_require__(/*! ../../../common/Animation - 1731050852688.json */ "./resources/js/common/Animation - 1731050852688.json")
     }
-  }), _vm._v(" "), _c("span", [_vm._v("Chưa có kết quả tìm kiếm nào")])], 1) : _vm._e()])])]);
+  }), _vm._v(" "), _c("span", {
+    staticStyle: {
+      "font-size": "12px",
+      color: "rgb(0,0,0,0.7)"
+    }
+  }, [_vm._v("Chưa có kết quả tìm kiếm nào")])], 1) : _vm._e()])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
