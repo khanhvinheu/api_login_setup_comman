@@ -26,6 +26,12 @@ class QueryService extends BaseService
 
     public string $searchRelationship = '';
 
+    public string $itemRelationship = '';
+
+    public string $relationship = '';
+
+    public string $with = '';
+
     /**
      * Column to search using whereLike
      * @var array
@@ -109,16 +115,28 @@ class QueryService extends BaseService
             });
         });  
         $query->when($this->getListBy, fn($q) => $q->where($this->getListBy));
-        foreach (Arr::wrap($this->withRelationship) as $relationship) {
+        foreach (Arr::wrap($this->withRelationship) as $relationship) {            
             //search phone number in member
-            if($relationship=='member'){
-                $query = $query->with($relationship)->whereHas('member', function ($query){
-                    $query->where('phone_number', 'like', '%'.$this->searchRelationship.'%');
+            // if($relationship=='member'){
+            //     $query = $query->with($relationship)->whereHas('member', function ($query){
+            //         $query->where('phone_number', 'like', '%'.$this->searchRelationship.'%');
+            //     });
+            // } 
+            // else if($relationship=='hoSoDuyet'){
+            //     $query = $query->with($relationship)->whereHas('hoSoDuyet', function ($query){
+            //         $query->where('soChungChi', 'like', '%'.$this->searchRelationship.'%');
+            //     });
+            // }else{
+            //     $query = $query->with($relationship);
+            // }
+            if($this->itemRelationship && $this->with){   
+                 $query = $query->with($this->with)->whereHas($this->with, function ($query){
+                    $query->where($this->itemRelationship, 'like', '%'.$this->searchRelationship.'%');
                 });
             }else{
                 $query = $query->with($relationship);
             }
-
+           
         }
         $query->when(isset($this->betweenDate[0]) && isset($this->betweenDate[1]), function ($q) {
             $startDate = Carbon::parse($this->betweenDate[0])->startOfDay();

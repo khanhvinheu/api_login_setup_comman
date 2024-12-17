@@ -37922,135 +37922,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     VueQRCodeComponent: vue_qrcode_component__WEBPACK_IMPORTED_MODULE_1__["default"],
     LottieAnimation: lottie_web_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  mixins: [_common_genPdfFunction__WEBPACK_IMPORTED_MODULE_2__["default"]],
-  watch: {
-    $route: function $route(to, from) {
-      if (this.$route.params.id) {
-        this.getDetail(this.$route.params.id);
-      }
-    }
-  },
-  mounted: function mounted() {
-    if (this.$route.params.id) {
-      this.showPdf = true;
-      this.getDetail(this.$route.params.id);
-    } else {
-      this.showPdf = false;
-    }
-  },
+  mounted: function mounted() {},
   methods: {
-    navLogin: function navLogin() {
-      this.$router.push({
-        name: 'Login'
-      });
-    },
-    beforeUpload: function beforeUpload(file) {
-      if (this.fileList.length >= 1) {
-        this.fileList.splice(0, 1); // Remove existing file
-      }
-
-      return true; // Allow upload
-    },
-    fakeLoading: function fakeLoading() {
-      var _this2 = this;
-      this.percentage = 0;
-      setInterval(function () {
-        if (_this2.percentage < 100) {
-          _this2.percentage += 10;
-        }
-      }, 100);
-    },
-    handleRemove: function handleRemove(el) {
-      this.fileList = this.fileList.filter(function (e) {
-        return e.uid != el.uid;
-      });
-      this.publicKey = this.signature = this.statusValid = '';
-    },
-    validFile: function validFile() {
-      this.validDialog = true;
-    },
-    validKey: function validKey() {
-      var _this3 = this;
-      this.fakeLoading();
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/blocks/isChainValid',
-        data: {
-          publicKey: this.publicKey,
-          providedSignature: this.signature
-        }
-      }).then(function (_ref) {
-        var data = _ref.data;
-        _this3.showValidMess = _this3.statusValid = data.status;
-      });
-    },
-    readPdf: function readPdf() {
-      var _this4 = this;
+    getListData: function getListData() {
+      var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var file, arrayBuffer, pdfDoc, author, signature;
+        var params;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              file = event.target.files[0];
+              params = {
+                TextSearchWith: 'Ngày 26/04/2023',
+                ItemSearchWith: 'thoiGianCap',
+                "with": 'dotCap'
+              };
               _context.next = 3;
-              return file.arrayBuffer();
+              return axios({
+                method: 'get',
+                url: '/api/admin/cap-chung-chi',
+                data: params
+              }).then(function (_ref) {
+                var data = _ref.data;
+                if (data['success'] && data['data']) {
+                  var res = data['data'];
+                  _this.data = res;
+                }
+              });
             case 3:
-              arrayBuffer = _context.sent;
-              _context.next = 6;
-              return pdf_lib__WEBPACK_IMPORTED_MODULE_0__.PDFDocument.load(arrayBuffer);
-            case 6:
-              pdfDoc = _context.sent;
-              // 7. Đọc Public Key từ metadata (trường Author)
-              author = pdfDoc.getAuthor();
-              signature = pdfDoc.getSubject();
-              if (!author && !signature) {
-                _this4.$notify({
-                  title: 'Error',
-                  message: 'File tải lên không hợp lệ',
-                  type: 'error'
-                });
-                _this4.fileList = [];
-              } else {
-                _this4.publicKey = author || '';
-                _this4.signature = signature || '';
-              }
-            case 10:
             case "end":
               return _context.stop();
           }
         }, _callee);
-      }))();
-    },
-    getDetail: function getDetail(id) {
-      var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _this;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _this = _this5;
-              _this.loading = true;
-              _this.idUpdate = id;
-              _context2.next = 5;
-              return axios({
-                method: 'get',
-                url: '/api/admin/cap-chung-chi/detail/' + id
-              }).then(function (_ref2) {
-                var data = _ref2.data;
-                if (data['success'] && data['data'] && data['data']['maHoSoKyDuyet'] != null) {
-                  var res = data['data'];
-                  _this5.data = res;
-                  _this5.signPfd(res, true);
-                }
-                setTimeout(function () {
-                  _this5.loading = false;
-                }, 1000);
-              });
-            case 5:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2);
       }))();
     }
   }
@@ -38143,6 +38045,9 @@ var render = function render() {
     attrs: {
       slot: "append",
       icon: "el-icon-search"
+    },
+    on: {
+      click: _vm.getListData
     },
     slot: "append"
   })], 1)], 1), _vm._v(" "), _c("div", {

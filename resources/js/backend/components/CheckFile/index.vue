@@ -341,17 +341,16 @@ export default {
                 method: 'get',
                 url: '/api/admin/cap-chung-chi/detail/' + id,
             })
-                .then(({ data }) => {
-                    if (data['success'] && data['data'] && data['data']['maHoSoKyDuyet'] != null) {
-                        let res = data['data']
-                        this.data = res
-                        this.signPfd(res, true)
-                    }
-                    setTimeout(()=>{                     
-                        this.loading=false
-                    },1000)
-                });
-
+            .then(({ data }) => {
+                if (data['success'] && data['data'] && data['data']['maHoSoKyDuyet'] != null) {
+                    let res = data['data']
+                    this.data = res
+                    this.signPfd(res, true)
+                }
+                setTimeout(()=>{                     
+                    this.loading=false
+                },1000)
+            });
         },
         
     }

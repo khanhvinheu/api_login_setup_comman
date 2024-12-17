@@ -28,6 +28,9 @@ class danhSachCapChungChiHocVienController extends Controller
             $ascending = (int) $request->get('ascending', 0);
             $orderBy = $request->get('orderBy', '');
             $search = $request->get('TextSearch', '');
+            $searchWith = $request->get('TextSearchWith', '');
+            $with = $request->get('with', '');
+            $itemWith = $request->get('ItemSearchWith', '');
             $columnSearch = $request->get('columnSearch', ['hoTen','maChungChi']);
             $betweenDate = $request->get('updated_at', []);
             $queryService = new QueryService(new danhSachCapChungChiHocViens());
@@ -35,6 +38,9 @@ class danhSachCapChungChiHocVienController extends Controller
             $queryService->filter = $filter;
             $queryService->columnSearch =$columnSearch;
             $queryService->withRelationship = ['dotCap','khoaHoc','hoSoDuyet','hoSoDuyet.nguoiKyDuyet'];
+            $queryService->searchRelationship = $searchWith;
+            $queryService->itemRelationship = $itemWith;
+            $queryService->with = $with;
             $queryService->search = $search;
             $queryService->betweenDate = $betweenDate;
             $queryService->limit = $limit;

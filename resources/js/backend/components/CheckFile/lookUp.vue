@@ -29,7 +29,7 @@
                         <el-option label="Order No." value="2"></el-option>
                         <el-option label="Tel" value="3"></el-option>
                     </el-select> -->
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
                 </el-input>
             </div>
             <div style="padding-top: 10px;">
@@ -65,111 +65,30 @@ export default {
             typeSearch: 1,
             valueSearch:'',
             dataSearch:[],
-
-
         }
     },
     components: { VueQRCodeComponent, LottieAnimation },
-    mixins:[genPdfFunction],
-    watch: {
-        $route(to, from) {
-            if(this.$route.params.id){
-                this.getDetail(this.$route.params.id)                
-            }
-        }
-    },
     mounted() {
-        if(this.$route.params.id){
-            this.showPdf=true
-            this.getDetail(this.$route.params.id)
-        }else{
-            this.showPdf=false
-        }
-       
     },
     methods: {
-        navLogin(){
-            this.$router.push({name:'Login'})
-        },
-        beforeUpload(file) {
-            if (this.fileList.length >= 1) {
-                this.fileList.splice(0, 1); // Remove existing file
+        async getListData(){
+            let params ={
+                TextSearchWith:'Ngày 26/04/2023',
+                ItemSearchWith:'thoiGianCap',
+                with:'dotCap',
             }
-            return true; // Allow upload
-        },
-        fakeLoading() {
-            this.percentage = 0
-            setInterval(() => {
-                if (this.percentage < 100) {
-                    this.percentage += 10;
-                }
-            }, 100);
-        },
-        handleRemove(el) {
-            this.fileList = this.fileList.filter(e => e.uid != el.uid)
-            this.publicKey = this.signature = this.statusValid = ''
-        },
-        validFile() {
-            this.validDialog = true
-        },       
-        validKey() {
-            this.fakeLoading()
-            axios({
-                method: 'post',
-                url: 'http://localhost:3000/blocks/isChainValid',
-                data: {
-                    publicKey: this.publicKey,
-                    providedSignature: this.signature
-                }
-            }).then(({data}) => {
-                this.showValidMess = this.statusValid = data.status
-            });
-        },
-        async readPdf() {
-            const file = event.target.files[0];
-            const arrayBuffer = await file.arrayBuffer();
-
-            const pdfDoc = await PDFDocument.load(arrayBuffer);
-
-            // 7. Đọc Public Key từ metadata (trường Author)
-            const author = pdfDoc.getAuthor();
-            const signature = pdfDoc.getSubject();
-
-            if (!author && !signature) {
-                this.$notify({
-                    title: 'Error',
-                    message: 'File tải lên không hợp lệ',
-                    type: 'error'
-                });
-                this.fileList = []
-            } else {
-                this.publicKey = author || '';
-                this.signature = signature || '';
-            }
-
-
-        },
-        async getDetail(id) {
-            let _this = this
-            _this.loading=true
-            _this.idUpdate = id
             await axios({
                 method: 'get',
-                url: '/api/admin/cap-chung-chi/detail/' + id,
+                url: '/api/admin/cap-chung-chi',
+                data:params
             })
-                .then(({ data }) => {
-                    if (data['success'] && data['data'] && data['data']['maHoSoKyDuyet'] != null) {
-                        let res = data['data']
-                        this.data = res
-                        this.signPfd(res, true)
-                    }
-                    setTimeout(()=>{                     
-                        this.loading=false
-                    },1000)
-                });
-
-        },
-        
+            .then(({ data }) => {
+                if (data['success'] && data['data']) {
+                    let res = data['data']
+                    this.data = res                  
+                }               
+            });
+        }
     }
 }
 </script>
