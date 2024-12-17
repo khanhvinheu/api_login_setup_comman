@@ -135,6 +135,7 @@
                                             ><i class="el-icon-check"></i>
                                         </el-button> -->
                                         <el-button
+                                            v-if="!scope.row.ho_so_duyet"
                                             type="primary"
                                             size="mini"
                                             @click="update(scope.row)"><i class="el-icon-edit"></i>
