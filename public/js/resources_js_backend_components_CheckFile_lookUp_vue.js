@@ -37907,7 +37907,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       data: '',
       pdfSrc: '',
       showPdf: false,
-      loading: true,
+      loadingTable: true,
       fileList: [],
       validDialog: false,
       percentage: 0,
@@ -37931,24 +37931,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              params = {
-                TextSearchWith: 'Ngày 26/04/2023',
-                ItemSearchWith: 'thoiGianCap',
-                "with": 'dotCap'
-              };
-              _context.next = 3;
+              params = {};
+              if (_this.typeSearch == 1) {
+                params = {
+                  TextSearchWith: _this.valueSearch,
+                  ItemSearchWith: 'soChungChi',
+                  "with": 'hoSoDuyet'
+                };
+              } else if (_this.typeSearch == 2) {
+                params = {
+                  TextSearchWith: _this.valueSearch,
+                  ItemSearchWith: 'tenKhoaHoc',
+                  "with": 'khoaHoc'
+                };
+              } else if (_this.typeSearch == 3) {
+                params = {
+                  TextSearchWith: _this.valueSearch,
+                  ItemSearchWith: 'thoiGianCap',
+                  "with": 'dotCap'
+                };
+              }
+              _context.next = 4;
               return axios({
                 method: 'get',
                 url: '/api/admin/cap-chung-chi',
-                data: params
+                params: params
               }).then(function (_ref) {
                 var data = _ref.data;
                 if (data['success'] && data['data']) {
                   var res = data['data'];
-                  _this.data = res;
+                  _this.dataSearch = res;
                 }
               });
-            case 3:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -38074,7 +38089,78 @@ var render = function render() {
       "font-size": "12px",
       color: "rgb(0,0,0,0.7)"
     }
-  }, [_vm._v("Chưa có kết quả tìm kiếm nào")])], 1) : _vm._e()])])]);
+  }, [_vm._v("Chưa có kết quả tìm kiếm nào")])], 1) : _vm._e()]), _vm._v(" "), _vm.dataSearch.length ? _c("div", {
+    staticStyle: {
+      display: "flex",
+      "justify-content": "flex-end"
+    }
+  }, [_c("el-button", {
+    on: {
+      click: function click($event) {
+        _vm.dataSearch = [];
+      }
+    }
+  }, [_c("i", {
+    staticClass: "el-icon-close"
+  })]), _vm._v(" "), _c("el-table", {
+    staticStyle: {
+      width: "100%"
+    },
+    attrs: {
+      "empty-text": "Chưa có dữ liệu !",
+      data: _vm.dataSearch,
+      border: "",
+      resizable: true
+    }
+  }, [_c("el-table-column", {
+    attrs: {
+      prop: "maChungChi",
+      label: "MÃ CHỨNG CHỈ",
+      sortable: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(scope) {
+        return [_vm._v("CNTN" + _vm._s(scope.row.maChungChi) + "\n                    ")];
+      }
+    }], null, false, 1868836033)
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "hoTen",
+      label: "HỌ TÊN",
+      sortable: ""
+    }
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "namSinh",
+      label: "NGÀY SINH",
+      sortable: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(scope) {
+        return [_vm._v(" " + _vm._s(_vm._f("formatDate_Default")(scope.row.namSinh)) + "\n                    ")];
+      }
+    }], null, false, 2145211467)
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "danToc",
+      label: "DÂN TỘC",
+      sortable: ""
+    }
+  }), _vm._v(" "), _c("el-table-column", {
+    attrs: {
+      prop: "xepLoai",
+      label: "XẾP LOẠI",
+      sortable: ""
+    }
+  }), _vm._v(" "), _c("template", {
+    slot: "empty"
+  }, [_c("el-empty", {
+    attrs: {
+      description: "No data"
+    }
+  })], 1)], 2)], 1) : _vm._e()])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,

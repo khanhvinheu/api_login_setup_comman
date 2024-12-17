@@ -39,6 +39,55 @@
                     <span style="font-size: 12px; color: rgb(0,0,0,0.7);">Chưa có kết quả tìm kiếm nào</span>
                 </div>
             </div>
+            <div v-if="dataSearch.length" style="display: flex; justify-content: flex-end;">
+                <el-button @click="dataSearch=[]"><i class="el-icon-close"></i></el-button>
+                <el-table
+                    empty-text="Chưa có dữ liệu !"
+                    :data="dataSearch"
+                    style="width: 100%"
+                    border
+                    :resizable="true"                  
+                    >
+
+                    <el-table-column
+                        prop="maChungChi"
+                        label="MÃ CHỨNG CHỈ"
+                        sortable
+                    >
+                        <template slot-scope="scope">CNTN{{ scope.row.maChungChi}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="hoTen"
+                        label="HỌ TÊN"
+                        sortable
+                    >
+                    </el-table-column>                    
+                    <el-table-column
+                        prop="namSinh"
+                        label="NGÀY SINH"
+                        sortable
+                    >
+                        <template slot-scope="scope"> {{ scope.row.namSinh | formatDate_Default }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="danToc"
+                        label="DÂN TỘC"
+                        sortable
+                    >
+                    </el-table-column>
+                    <el-table-column
+                        prop="xepLoai"
+                        label="XẾP LOẠI"
+                        sortable
+                    >
+                    </el-table-column>                    
+                    <template slot="empty">
+                        <el-empty description="No data"></el-empty>
+                    </template>
+                </el-table>
+            </div>
         </div>
         
     </div>
@@ -56,7 +105,7 @@ export default {
             data: '',
             pdfSrc: '',
             showPdf: false,
-            loading:true,
+            loadingTable:true,
             fileList: [],
             validDialog:false,
             percentage: 0,
@@ -72,20 +121,37 @@ export default {
     },
     methods: {
         async getListData(){
-            let params ={
-                TextSearchWith:'Ngày 26/04/2023',
-                ItemSearchWith:'thoiGianCap',
-                with:'dotCap',
+            let params ={}
+            if(this.typeSearch == 1){
+                params = {
+                    TextSearchWith:this.valueSearch,
+                    ItemSearchWith:'soChungChi',
+                    with:'hoSoDuyet',
+                }
+            }
+            else if(this.typeSearch == 2){
+                params = {
+                    TextSearchWith:this.valueSearch,
+                    ItemSearchWith:'tenKhoaHoc',
+                    with:'khoaHoc',
+                }
+            }
+            else if(this.typeSearch == 3){
+                params = {
+                    TextSearchWith:this.valueSearch,
+                    ItemSearchWith:'thoiGianCap',
+                    with:'dotCap',
+                }
             }
             await axios({
                 method: 'get',
                 url: '/api/admin/cap-chung-chi',
-                data:params
+                params:params
             })
             .then(({ data }) => {
                 if (data['success'] && data['data']) {
                     let res = data['data']
-                    this.data = res                  
+                    this.dataSearch = res                  
                 }               
             });
         }
