@@ -135,7 +135,7 @@ class UserController extends Controller
     public function createSigature(Request $request, $id)
     {
         //
-        // try{
+        try{
             $formData = $request->post();  
             $file = $request->file('file0');
             if($file){
@@ -148,16 +148,16 @@ class UserController extends Controller
                 if(file_exists((public_path($formData['delete_image'])))){
                     File::delete(public_path($formData['delete_image']));
                 }
-            }                    
+            }                      
             $res = User::find($id)->update($formData);
             if($res){
                 return response()->json(['success'=>true, 'mess'=>'Cập nhật dữ liệu thành công']);
             }else{
                 return response()->json(['success'=>false, 'mess'=>'Cập nhật thất bại!']);
             }
-        // }catch(\Exception $e){
-        //     return response()->json(['success'=>false, 'mess'=>$e]);
-        // }
+        }catch(\Exception $e){
+            return response()->json(['success'=>false, 'mess'=>$e]);
+        }
     }
 
     public function upload($file){

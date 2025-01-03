@@ -5557,7 +5557,11 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
             case 0:
               privateKey = '', publicKey = '';
               _context3.next = 3;
-              return _common_api_service__WEBPACK_IMPORTED_MODULE_1__["default"].query('http://localhost:3000/blocks/gen-key').then(function (_ref) {
+              return _common_api_service__WEBPACK_IMPORTED_MODULE_1__["default"].query('http://localhost:3000/blocks/gen-key', {
+                params: {
+                  id: 1
+                }
+              }).then(function (_ref) {
                 var data = _ref.data;
                 privateKey = _this4.pemToBase64(data.privateKey, 'PRIVATE KEY');
                 publicKey = _this4.pemToBase64(data.publicKey);
@@ -5796,7 +5800,7 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
     },
     update: function update() {
       var _this = this;
-      _this.appendToFormData();
+      // _this.appendToFormData()
       _this.appendFileToFormData();
       this.$refs['formData'].validate(function (valid) {
         if (valid) {
@@ -5965,6 +5969,12 @@ var render = function render() {
     }
   }, _vm._l(_vm.listBlock, function (item, i) {
     return _c("el-timeline-item", {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: i > 0,
+        expression: "i>0"
+      }],
       key: i,
       attrs: {
         timestamp: item.timestamp,
@@ -6043,44 +6053,6 @@ var render = function render() {
       "label-width": "180px"
     }
   }, [_c("el-form-item", {
-    attrs: {
-      label: "Private Key",
-      prop: "privatekey"
-    }
-  }, [_c("div", {
-    staticClass: "form-group"
-  }, [_c("el-input", {
-    attrs: {
-      "validate-event": "",
-      placeholder: "Privatekey"
-    },
-    model: {
-      value: _vm.formData.privatekey,
-      callback: function callback($$v) {
-        _vm.$set(_vm.formData, "privatekey", $$v);
-      },
-      expression: "formData.privatekey"
-    }
-  })], 1)]), _vm._v(" "), _c("el-form-item", {
-    attrs: {
-      label: "Public Key",
-      prop: "publickey"
-    }
-  }, [_c("div", {
-    staticClass: "form-group"
-  }, [_c("el-input", {
-    attrs: {
-      "validate-event": "",
-      placeholder: "Publickey"
-    },
-    model: {
-      value: _vm.formData.publickey,
-      callback: function callback($$v) {
-        _vm.$set(_vm.formData, "publickey", $$v);
-      },
-      expression: "formData.publickey"
-    }
-  })], 1)]), _vm._v(" "), _c("el-form-item", {
     attrs: {
       label: "Ảnh chữ ký"
     }

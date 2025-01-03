@@ -97,8 +97,21 @@ app.post('/blocks/isChainValid', async(req, res) => {
 });
 app.get('/blocks/gen-key', (req, res)=>{
     try {
-        var key = generateKeys();
-        res.status(200).json(key);
+        var id = req.query.id
+        const fileExists = (filePath) => {
+            return fs.existsSync(filePath);
+        };
+        const privateKeyPath = `./pem/private_key_${id}.pem`; // Adjust path as needed
+        const publicKeyPath = `./pem/public_key_${id}.pem`;
+        
+        if (fileExists(privateKeyPath) && fileExists(publicKeyPath)) {
+            res.status(200).json({success: false, mess:'File exist'});
+        } else {
+            var key = generateKeys(true, id);
+            res.status(200).json(key);
+        }
+     
+       
     }
     catch (error){
         res.status(200).json({status:false, messages:"Tạo key thất bại"});

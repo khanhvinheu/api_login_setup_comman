@@ -23,7 +23,7 @@
                             <el-divider></el-divider>
                             <el-timeline style="max-height: 60vh; overflow-y: auto">
                                 <el-timeline-item v-for="(item, i) in listBlock" :key="i" :timestamp="item.timestamp"
-                                    :icon="'el-icon-key'" color="#0bbd87"  placement="top">
+                                    :icon="'el-icon-key'" color="#0bbd87"  placement="top" v-show="i>0">
                                     <el-card>
                                         <h4>Block # {{ item.index }}</h4>
 <!--                                        <p class="textContent">Data: {{ item.data }}</p>-->

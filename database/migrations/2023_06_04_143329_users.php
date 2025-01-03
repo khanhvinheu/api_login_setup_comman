@@ -22,9 +22,9 @@ class Users extends Migration
             $table->string('note')->nullable();
             $table->string('email')->unique();
             $table->string('hinhanhchuky')->nullable();
-            $table->string('publickey')->nullable();
-            $table->string('privatekey')->nullable();
-            $table->string('signature')->nullable();
+            // $table->string('publickey')->nullable();
+            // $table->string('privatekey')->nullable();
+            // $table->string('signature')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('id_module_default');

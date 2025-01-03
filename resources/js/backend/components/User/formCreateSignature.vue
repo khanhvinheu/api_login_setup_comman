@@ -18,7 +18,7 @@
                                      label-width="180px" class="demo-ruleForm">
                                 <!-- <span class="title-divider">Thông tin nhân viên</span>
                                 <el-divider></el-divider>                                      -->
-                                <el-form-item label="Private Key" prop="privatekey">
+                                <!-- <el-form-item label="Private Key" prop="privatekey">
                                     <div class="form-group">
                                         <el-input validate-event placeholder="Privatekey"
                                                   v-model="formData.privatekey"></el-input>
@@ -29,7 +29,7 @@
                                         <el-input validate-event placeholder="Publickey"
                                                   v-model="formData.publickey"></el-input>
                                     </div>
-                                </el-form-item>
+                                </el-form-item> -->
 <!--                                <el-form-item label="Signature" prop="signature">-->
 <!--                                    <div class="form-group">-->
 <!--                                        <el-input validate-event placeholder="Signature"-->
@@ -200,7 +200,7 @@ export default {
         // Hàm tạo cặp khóa ECDSA
         async generateKeys() {
             let privateKey='',publicKey=''
-            await ApiService.query('http://localhost:3000/blocks/gen-key').then(({data})=>{
+            await ApiService.query('http://localhost:3000/blocks/gen-key',{params:{id:1}}).then(({data})=>{
                privateKey = this.pemToBase64(data.privateKey,'PRIVATE KEY')
                publicKey = this.pemToBase64(data.publicKey)
             })
@@ -381,7 +381,7 @@ export default {
         },
         update() {
             let _this = this
-            _this.appendToFormData()
+            // _this.appendToFormData()
             _this.appendFileToFormData()
             this.$refs['formData'].validate((valid) => {
                 if (valid) {

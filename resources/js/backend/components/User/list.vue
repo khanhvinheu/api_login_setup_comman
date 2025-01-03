@@ -83,7 +83,7 @@
 
                                 <el-table-column
                                     label="THAO TÁC"
-                                    width="320"
+                                    width="420"
                                 >
                                     <template slot-scope="scope">
                                         <el-button
@@ -91,7 +91,14 @@
                                             size="mini"
                                             @click="createSign(scope.row)">
                                             <i class="el-icon-key"></i>
-                                            Tạo chữ ký số
+                                            Tạo ký số
+                                        </el-button>
+                                        <el-button
+                                            type="success"
+                                            size="mini"
+                                            @click="createImgSign(scope.row)">
+                                            <i class="el-icon-key"></i>
+                                            Hình ảnh ký
                                         </el-button>
                                         <el-button
                                             size="mini"
@@ -182,10 +189,35 @@ export default {
             this.idUpdate = e.id
             this.$router.push({name:'UserUpdate',params:{id:e.id}})
         },
-        createSign(e){
+        async createSign(e){
+            // this.trigger=new Date().getTime()
+            // this.idUpdate = e.id
+            // this.outerVisible = true
+            // let privateKey='',publicKey=''            
+            await ApiService.query('http://localhost:3000/blocks/gen-key',{params:{id:e.id}}).then(({data})=>{
+              if(data.success){               
+                this.$notify({
+                        title: 'Success',
+                        message: 'Khóa tạo thành công',
+                        type: 'success'
+                    });
+              }else{
+                if(data.mess=='File exist'){
+                    this.$notify({
+                            title: 'Warning',
+                            message: 'Khóa đã tồn tại',
+                            type: 'warning'
+                        });
+                }
+              }
+              
+            })
+            
+        },
+        createImgSign(e){
             this.trigger=new Date().getTime()
             this.idUpdate = e.id
-            this.outerVisible = true
+            this.outerVisible = true           
         },
         handleSizeChange(val) {
             this.options.PageLimit = val

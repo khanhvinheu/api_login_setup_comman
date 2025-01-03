@@ -174,11 +174,11 @@ function generateKeys(saveFile = true, id='id_user') {
     });
     if (saveFile) {
         // Lưu khóa vào file        
-        fs.writeFileSync('pem/private_key_${id}.pem', privateKey);
-        fs.writeFileSync('pem/public_key_${id}.pem', publicKey);
+        fs.writeFileSync('pem/private_key_'+id+'.pem', privateKey);
+        fs.writeFileSync('pem/public_key_'+id+'.pem', publicKey);
         console.log('Cặp khóa đã được tạo và lưu.');        
     }
-    return {publicKey, privateKey}
+    return {mess:'Create key success', success: true,publicKey, privateKey}
 
 }
 
