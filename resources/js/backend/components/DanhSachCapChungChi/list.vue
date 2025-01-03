@@ -206,7 +206,7 @@
                 <el-divider></el-divider>
             </div>
             <div>
-                <el-upload
+                <el-upload                    
                     accept=".pdf"
                     class="upload-demo"
                     drag
@@ -217,8 +217,11 @@
                     :on-remove="handleRemove"
                     :before-upload="beforeUpload"
                     :file-list="fileList">
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text"><em>Click to upload</em></div>
+                    <div @click="clearFile" style="height: 100%; width: 100%;">
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text"><em>Click to upload</em></div>
+                    </div>
+                   
                     <!-- <div class="el-upload__tip" slot="tip">pdf files with a size less than 500kb</div> -->
                 </el-upload>
             </div>
@@ -315,6 +318,12 @@ export default {
             }
             return true; // Allow upload
         },
+        clearFile(){
+            this.fileList = [];   
+            this.publicKey=''
+            this.signature=''         
+            this.statusValid=''         
+        },
         fakeLoading() {
             this.percentage = 0
             setInterval(() => {
@@ -344,7 +353,8 @@ export default {
         validFile() {
             this.validDialog = true
         },
-        async readPdf() {
+        async readPdf() {           
+            
             const file = event.target.files[0];
             const arrayBuffer = await file.arrayBuffer();
 
@@ -500,8 +510,7 @@ export default {
             this.options.Page = val
             this.getList()
         },
-        async kyDuyet(item) {
-           
+        async kyDuyet(item) {           
             await this.addBlock(item).then( async(res) => {
                 let _this = this
                 var formData = new FormData()
@@ -511,7 +520,7 @@ export default {
                 formData.set('ghiChu', '')
                 formData.set('publickey', this.$store.getters.user.publickey)
                 formData.set('hinhanhchuky', this.$store.getters.user.hinhanhchuky)
-                formData.set('signature', res)
+                formData.set('hash', res)
                 formData.set('soChungChi',  item.maChungChi)
                 formData.set('soVaoSo', await this.genCodeVaoSo())   
                 axios({

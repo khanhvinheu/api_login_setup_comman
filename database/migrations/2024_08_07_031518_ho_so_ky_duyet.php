@@ -23,8 +23,8 @@ class HoSoKyDuyet extends Migration
             $table->string('soVaoSo')->nullable();
             $table->string('thongTinLuu')->nullable();
             $table->string('publickey')->nullable();
-            $table->string('privatekey')->nullable();
-            $table->string('signature')->nullable();
+            // $table->string('privatekey')->nullable();
+            $table->string('hash')->nullable();
             $table->string('hinhanhchuky')->nullable();
             $table->string('ghiChu')->nullable();             
             $table->timestamps();

@@ -16,9 +16,8 @@ class hoSoKyDuyets extends Model
         'soChungChi',
         'soVaoSo',
         'hinhanhchuky',
-        'publickey',
-        'privatekey',
-        'signature',
+        'publickey',       
+        'hash',
         'thongTinLuu',
         'ghiChu',
     ];

@@ -326,7 +326,7 @@ export default{
                  
                 }
                 pdfDoc.setAuthor(item.ho_so_duyet.publickey); // Lưu vào trường 'Author'
-                pdfDoc.setSubject(item.ho_so_duyet.signature)
+                pdfDoc.setSubject(item.ho_so_duyet.hash)
                 
                 page.drawText(item.ho_so_duyet.soVaoSo, {
                     x: 428,

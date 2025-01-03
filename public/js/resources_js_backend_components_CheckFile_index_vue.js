@@ -37955,6 +37955,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    clearFile: function clearFile() {
+      this.fileList = [];
+      this.publicKey = '';
+      this.signature = '';
+      this.statusValid = '';
+    },
     navLogin: function navLogin() {
       this.$router.push({
         name: 'Login'
@@ -38283,11 +38289,19 @@ var render = function render() {
       "before-upload": _vm.beforeUpload,
       "file-list": _vm.fileList
     }
+  }, [_c("div", {
+    staticStyle: {
+      height: "100%",
+      width: "100%"
+    },
+    on: {
+      click: _vm.clearFile
+    }
   }, [_c("i", {
     staticClass: "el-icon-upload"
   }), _vm._v(" "), _c("div", {
     staticClass: "el-upload__text"
-  }, [_c("em", [_vm._v("Click to upload")])])])], 1), _vm._v(" "), _vm.publicKey == "" || _vm.signature == "" ? _c("div", [_vm.fileList.length > 0 ? _c("el-alert", {
+  }, [_c("em", [_vm._v("Click to upload")])])])])], 1), _vm._v(" "), _vm.publicKey == "" || _vm.signature == "" ? _c("div", [_vm.fileList.length > 0 ? _c("el-alert", {
     attrs: {
       title: "File tải lên chưa được ký duyệt hoặc không đúng định dạng, Vui lòng kiểm tra lại",
       type: "error"
@@ -38930,7 +38944,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 101:
               pdfDoc.setAuthor(item.ho_so_duyet.publickey); // Lưu vào trường 'Author'
-              pdfDoc.setSubject(item.ho_so_duyet.signature);
+              pdfDoc.setSubject(item.ho_so_duyet.hash);
               page.drawText(item.ho_so_duyet.soVaoSo, {
                 x: 428,
                 y: 20,

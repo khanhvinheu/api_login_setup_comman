@@ -181,8 +181,10 @@
                     :on-remove="handleRemove"
                     :before-upload="beforeUpload"
                     :file-list="fileList">
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text"><em>Click to upload</em></div>
+                    <div @click="clearFile" style="height: 100%; width: 100%;">
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text"><em>Click to upload</em></div>
+                    </div>
                     <!-- <div class="el-upload__tip" slot="tip">pdf files with a size less than 500kb</div> -->
                 </el-upload>
             </div>
@@ -272,6 +274,12 @@ export default {
        
     },
     methods: {
+        clearFile(){
+            this.fileList = [];   
+            this.publicKey=''
+            this.signature=''         
+            this.statusValid=''         
+        },
         navLogin(){
             this.$router.push({name:'Login'})
         },
