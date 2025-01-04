@@ -25,7 +25,7 @@ class ActionController extends Controller
             $orderBy = $request->get('orderBy', '');
             $moduleCode = $request->get('moduleCode', '');
             $search = $request->get('TextSearch', '');
-            $columnSearch = $request->get('columnSearch', 'name');           
+            $columnSearch = $request->get('columnSearch', ['name']);           
             $betweenDate = $request->get('updated_at', []);
             $queryService = new QueryService(new Actions());
             $queryService->select = [];

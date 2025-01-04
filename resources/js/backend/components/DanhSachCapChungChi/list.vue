@@ -116,7 +116,7 @@
                                         ><i class="el-icon-view"></i>
                                         </el-button>
                                         <el-button
-                                            v-else
+                                            v-else-if="checkRoleAction()"
                                             type="success"
                                             size="mini"
                                             @click="kyDuyet(scope.row)"
@@ -274,9 +274,11 @@ import VueQRCodeComponent from 'vue-qrcode-component'
 import QRCode from 'qrcode';
 import {PDFDocument, rgb} from 'pdf-lib';
 import genPdfFunction from '../../common/genPdfFunction';
+import commonFn from '../../common/commonFn';
+
 export default {
     components: {formData, VueQRCodeComponent},
-    mixins:[genPdfFunction],
+    mixins:[genPdfFunction, commonFn],
     data() {
         return {
             fileList: [],
@@ -302,8 +304,8 @@ export default {
             percentage: 0
         }
     },
-    mounted() {
-        this.getList()
+    mounted() {       
+        this.getList()        
     },
 
     methods: {

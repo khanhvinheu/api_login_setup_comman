@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Modules;
+use App\Models\Actions;
+
 
 class UserResource extends JsonResource
 {
@@ -15,7 +17,8 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        $list_modules=array_map(function ($role) {                
+        
+        $list_modules=array_map(function ($role) {                   
             return json_decode($role['ListModule'],true);
         }, $this->role->toArray());
         $privatekey = @file_get_contents('../nodejs/pem/private_key_'.$this->id.'.pem');
@@ -29,6 +32,7 @@ class UserResource extends JsonResource
         }
 
         $modules = Modules::whereIn('code', $list_modules[0])->get()->toArray();      
+        // $action = Actions::whereIn('module_code', $list_modules[0])->get()->toArray();   
         return [
             'id' => $this->id,
             'name' => $this->name,
