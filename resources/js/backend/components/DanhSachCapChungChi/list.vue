@@ -116,7 +116,7 @@
                                         ><i class="el-icon-view"></i>
                                         </el-button>
                                         <el-button
-                                            v-else-if="checkRoleAction()"
+                                            v-else-if="checkRoleAction('kyDuyet')"
                                             type="success"
                                             size="mini"
                                             @click="kyDuyet(scope.row)"
@@ -304,7 +304,7 @@ export default {
             percentage: 0
         }
     },
-    mounted() {       
+    mounted() {  
         this.getList()        
     },
 

@@ -31,7 +31,7 @@ class Modules extends Model
     public function children()
     {
         return $this->hasMany(Modules::class, 'id_parent')
-            ->with('children');
+            ->with('children','action');
     }
 
     // One level parent

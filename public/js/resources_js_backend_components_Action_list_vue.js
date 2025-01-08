@@ -76,7 +76,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.genCode();
       }
     },
-    triggerLoad: function triggerLoad() {
+    triggerLoad: function triggerLoad(e) {
       this.title = '', this.value = '', this.images = [];
       if (this.resID) {
         this.title = 'Cập nhật màu sản phẩm';
@@ -253,6 +253,11 @@ __webpack_require__.r(__webpack_exports__);
       this.outerVisible = false;
       this.getList();
     },
+    createOrUpdate: function createOrUpdate() {
+      this.outerVisible = true;
+      this.idUpdate = '';
+      this.triggerLoad = new Date().getTime();
+    },
     update: function update(e) {
       this.idUpdate = e.id;
       this.triggerLoad = new Date().getTime();
@@ -398,7 +403,7 @@ var render = function render() {
     }
   }, [_c("el-input", {
     attrs: {
-      disabled: true
+      disabled: false
     },
     model: {
       value: _vm.form.code,
@@ -567,20 +572,26 @@ var render = function render() {
       },
       expression: "textSearch"
     }
-  }), _vm._v(" "), _c("el-button", {
+  }), _vm._v(" "), _c("div", [_c("el-button", {
     staticClass: "ml-2",
     attrs: {
       type: "primary"
     },
     on: {
-      click: function click($event) {
-        _vm.outerVisible = true;
-        _vm.idUpdate = "";
-      }
+      click: _vm.createOrUpdate
     }
   }, [_c("i", {
     staticClass: "el-icon-plus"
-  }), _vm._v(" Thêm mới\n                            ")])], 1), _vm._v(" "), _c("el-table", {
+  }), _vm._v(" Thêm mới\n                                ")]), _vm._v(" "), _c("el-button", {
+    staticClass: "ml-2",
+    on: {
+      click: function click($event) {
+        return _vm.$router.push({
+          name: "ModuleList"
+        });
+      }
+    }
+  }, [_vm._v("Quay về\n                                ")])], 1)], 1), _vm._v(" "), _c("el-table", {
     directives: [{
       name: "loading",
       rawName: "v-loading",

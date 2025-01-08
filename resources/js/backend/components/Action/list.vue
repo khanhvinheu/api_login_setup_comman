@@ -31,9 +31,14 @@
 
                                     </template>
                                 </el-input>
-                                <el-button @click="outerVisible=true; idUpdate=''" class="ml-2" type="primary"><i
-                                    class="el-icon-plus"></i> Thêm mới
-                                </el-button>
+                                <div>
+                                    <el-button @click="createOrUpdate" class="ml-2" type="primary"><i
+                                        class="el-icon-plus"></i> Thêm mới
+                                    </el-button>
+                                    <el-button @click="$router.push({name:'ModuleList'})" class="ml-2">Quay về
+                                    </el-button>
+                                </div>
+                               
                             </div>
                             <el-table
                                 empty-text="Chưa có dữ liệu !"
@@ -162,6 +167,11 @@ export default {
         success(){
           this.outerVisible = false
           this.getList()
+        },
+        createOrUpdate(){
+            this.outerVisible=true
+            this.idUpdate=''
+            this.triggerLoad = new Date().getTime()
         },
         update(e){
             this.idUpdate = e.id

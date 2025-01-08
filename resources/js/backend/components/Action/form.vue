@@ -7,7 +7,7 @@
         <el-form :model="form" ref="form" label-width="120px" class="demo-ruleForm">
            
             <el-form-item :rules="requiredForm" label="Mã action" prop="code">
-                <el-input v-model="form.code" :disabled="true"></el-input>
+                <el-input v-model="form.code" :disabled="false"></el-input>
             </el-form-item>
             <el-form-item :rules="requiredForm" label="Tên action" prop="name">
                 <el-input v-model="form.name"></el-input>
@@ -91,7 +91,7 @@ export default {
             }
            
         },
-        triggerLoad(){
+        triggerLoad(e){       
             this.title= '',
             this.value= '',
             this.images=[]

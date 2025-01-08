@@ -19,7 +19,7 @@ class RoleController extends Controller
         if($request->input('type')=='treeData'){           
             $column=['*'];         
             $request->input('column') && $column =   $request->input('column');            
-            $res = Roles::select($column)->with('children')->whereNull('id_parent')->get()->toArray();         
+            $res = Roles::select($column)->with('children')->whereNull('id_parent')->get()->toArray();                     
         }else{
             $res = Roles::all()->toArray();
         }   

@@ -19,7 +19,7 @@ class ModuleController extends Controller
         if($request->input('type')=='treeData'){
             $column=['*'];         
             $request->input('column') && $column =   $request->input('column');            
-            $res = Modules::select($column)->with('children','action')->whereNull('id_parent')->get()->toArray();
+            $res = Modules::select($column)->with('children','action')->whereNull('id_parent')->get()->toArray();           
         }else{
             $res = Modules::with('action')->get()->toArray();
         }
