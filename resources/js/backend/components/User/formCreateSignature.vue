@@ -101,6 +101,7 @@ export default {
     props:['resID','trigger'],
     watch: {
         trigger(e){
+
             if(this.resID){
                 this.title='Cập nhật ký số'
                 this.getDetail(this.resID)
@@ -324,6 +325,11 @@ export default {
                 .then(async({data}) => {
                     if (data['success']) {
                         let res = data['data']
+                        if(res['hinhanhchuky']){
+                            _this.fileList=[{url:res['hinhanhchuky'], id:1}]
+                        }else{
+                            _this.fileList=[]
+                        }
                         if(res['publickey'] &&  res['privatekey']){
                             _this.formData.publickey = res['publickey']
                             _this.formData.privatekey = res['privatekey']
@@ -333,20 +339,7 @@ export default {
                             _this.formData.privatekey=privateKey
                         }
 
-                        // const message = res['name'];
-                        // if(res['signature']){
-                            // _this.formData.signature=res['signature']
-                        // }else{
-                            // const signature = await _this.signMessage(JSON.parse(_this.formData.privatekey), message);
-                            // await(_this.formData.signature=signature);
-                        // }
 
-                        if(res['hinhanhchuky']){
-                            _this.fileList=[{url:res['hinhanhchuky'], id:1}]
-                        }else{
-                            _this.fileList=[]
-                        }
-                        //  res['hinhanhchuky'] && (_this.fileList=[{url:res['hinhanhchuky'], id:1}])
                     }
 
                 }

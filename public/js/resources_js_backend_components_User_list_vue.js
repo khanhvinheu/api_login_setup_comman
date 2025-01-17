@@ -5637,32 +5637,6 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
                           break;
                         }
                         res = data['data'];
-                        if (!(res['publickey'] && res['privatekey'])) {
-                          _context6.next = 8;
-                          break;
-                        }
-                        _this.formData.publickey = res['publickey'];
-                        _this.formData.privatekey = res['privatekey'];
-                        _context6.next = 15;
-                        break;
-                      case 8:
-                        _context6.next = 10;
-                        return _this5.generateKeys();
-                      case 10:
-                        _yield$_this5$generat = _context6.sent;
-                        privateKey = _yield$_this5$generat.privateKey;
-                        publicKey = _yield$_this5$generat.publicKey;
-                        _this.formData.publickey = publicKey;
-                        _this.formData.privatekey = privateKey;
-                      case 15:
-                        // const message = res['name'];
-                        // if(res['signature']){
-                        // _this.formData.signature=res['signature']
-                        // }else{
-                        // const signature = await _this.signMessage(JSON.parse(_this.formData.privatekey), message);
-                        // await(_this.formData.signature=signature);
-                        // }
-
                         if (res['hinhanhchuky']) {
                           _this.fileList = [{
                             url: res['hinhanhchuky'],
@@ -5671,7 +5645,23 @@ var EC = (__webpack_require__(/*! elliptic */ "./node_modules/elliptic/lib/ellip
                         } else {
                           _this.fileList = [];
                         }
-                        //  res['hinhanhchuky'] && (_this.fileList=[{url:res['hinhanhchuky'], id:1}])
+                        if (!(res['publickey'] && res['privatekey'])) {
+                          _context6.next = 9;
+                          break;
+                        }
+                        _this.formData.publickey = res['publickey'];
+                        _this.formData.privatekey = res['privatekey'];
+                        _context6.next = 16;
+                        break;
+                      case 9:
+                        _context6.next = 11;
+                        return _this5.generateKeys();
+                      case 11:
+                        _yield$_this5$generat = _context6.sent;
+                        privateKey = _yield$_this5$generat.privateKey;
+                        publicKey = _yield$_this5$generat.publicKey;
+                        _this.formData.publickey = publicKey;
+                        _this.formData.privatekey = privateKey;
                       case 16:
                       case "end":
                         return _context6.stop();
