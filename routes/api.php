@@ -171,6 +171,7 @@ Route::prefix('admin')->namespace('admin')->group(function () {
     Route::get('cap-chung-chi/detail/{id}','danhSachCapChungChiHocVienController@show');
     Route::post('cap-chung-chi/update/{id}','danhSachCapChungChiHocVienController@update');
     Route::post('cap-chung-chi/create','danhSachCapChungChiHocVienController@store');
+    Route::post('capchungchi/import','danhSachCapChungChiHocVienController@import');
     Route::post('cap-chung-chi/delete/{id}','danhSachCapChungChiHocVienController@destroy');
     Route::post('cap-chung-chi/kyduyet/{id}','danhSachCapChungChiHocVienController@kyDuyet');
     Route::get('cap-chung-chi/gen_code','danhSachCapChungChiHocVienController@genCode');

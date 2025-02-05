@@ -10,6 +10,7 @@ use App\Services\QueryService;
 use Illuminate\Support\Str;
 use File;
 use Carbon\Carbon;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class danhSachCapChungChiHocVienController extends Controller
 {
@@ -89,6 +90,22 @@ class danhSachCapChungChiHocVienController extends Controller
         }catch(\Exception $e){
             return response()->json(['success'=>false, 'mess'=>$e]);
         }
+    }
+    public function import(Request $request){
+        // Validate that the file is an Excel or CSV file
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+        ]);
+
+        // Use FastExcel to read the file and return the rows as an array
+        $data = (new FastExcel)->import($request->file('file'));
+
+        // Return the data as JSON
+        return response()->json([
+            'success'=>true,
+            'data'=>$data,
+            'mess'=>'Import thành công!'
+        ]);
     }
 
     /**

@@ -30,6 +30,9 @@
                                     </template>
                                 </el-input>
                                 <div>
+                                    <el-button @click="uploadFile()" class="ml-2" type="success"><i
+                                        class="el-icon-upload"></i> Import Excel
+                                    </el-button>
                                     <el-button @click="validFile()" class="ml-2" type="success"><i
                                         class="el-icon-key"></i> Kiểm tra tính hợp lệ chữ ký
                                     </el-button>
@@ -262,6 +265,27 @@
             </div>
 
         </el-dialog>
+        <el-dialog :visible.sync="validDialogUpload" width="50vw">
+            <div style="margin-top: -30px">
+                <span style="font-size: 13px; font-weight: bold; text-transform: uppercase">Import file excel</span>
+                <el-divider></el-divider>
+            </div>
+            <div>
+                <el-upload
+                    v-model:file-list="fileList"
+                    class="upload-demo"     
+                    action="/api/admin/capchungchi/import"       
+                    :on-success="handleSuccess"    
+                >
+                    <el-button type="primary">Click to upload</el-button>
+                    <template #tip>
+                    <div class="el-upload__tip">
+                        xls/xlsx files with a size less than 500KB.
+                    </div>
+                    </template>
+                </el-upload>
+            </div>
+        </el-dialog>
     </div>
 
 </template>
@@ -300,6 +324,7 @@ export default {
             publicKey: '',
             signature: '',
             validDialog: false,
+            validDialogUpload: false,
             statusValid: '',
             percentage: 0
         }
@@ -309,6 +334,25 @@ export default {
     },
 
     methods: {
+        // Handle file upload success
+        handleSuccess(response, file, fileList) {
+            console.log('File uploaded successfully!', response);
+            // You can access the response data here, which will typically be the server response.
+            if (response && response.success === true) {
+                this.$notify({
+                                title: 'Success',
+                                message: response.data['mess'],
+                                type: 'success'
+                            });
+                this.getList()
+            } else {
+                this.$notify({
+                    title: 'Error',
+                    message: 'Import thất bại, Vui lòng kiểm tra nội dung file',
+                    type: 'error'
+                });
+            }
+        },
         async genCodeVaoSo() {           
             return await ApiService.query('/api/admin/cap-chung-chi/gen_so-vao-so').then(({data})=>{
                 return data
@@ -354,6 +398,9 @@ export default {
         
         validFile() {
             this.validDialog = true
+        },
+        uploadFile() {
+            this.validDialogUpload = true
         },
         async readPdf() {           
             
