@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\danhSachCapChungChiHocViens;
 use App\Models\admin\hoSoKyDuyets;
+use App\Models\admin\thongTinKhoaHocs;
 use App\Services\QueryService;
 use Illuminate\Support\Str;
 use File;
 use Carbon\Carbon;
+use DateTime;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class danhSachCapChungChiHocVienController extends Controller
@@ -99,13 +101,59 @@ class danhSachCapChungChiHocVienController extends Controller
 
         // Use FastExcel to read the file and return the rows as an array
         $data = (new FastExcel)->import($request->file('file'));
-
+        $success=[];
+        $error = [];
+        if($data && count($data)>0){
+            foreach($data as $index=>$item){
+                $formData = $item;  
+                $formData['maChungChi']= self::genCode();            
+                dd($formData['namSinh']);
+                $formData['namSinh']=  Carbon::parse($formData['namSinh'])->format('m/d/Y');                
+                $khoaHoc = thongTinKhoaHocs::where('tenKhoaHoc',$formData['khoaHoc'])->first();               
+                if($khoaHoc){
+                    $formData['maKhoaHoc']= $khoaHoc->toArray()['maKhoaHoc'];
+                }else{
+                    $formDataKhoaHoc=[
+                        "maKhoaHoc"=> self::genCodeKhoaHoc(),
+                        "tenKhoaHoc"=> $formData['khoaHoc'],
+                        "tenKhoaHocEN"=> "null",
+                        "chiTietKhoaHoc"=> "null",
+                        "thoiGianDaoTao"=> "null",
+                        "tuNgay"=> "mull",
+                        "denNgay"=> "mull",
+                        "noiDaoTao"=> "mull",
+                        "noiDaoTaoEN"=> "mull",
+                    ];
+                    $resKhoaHoc = thongTinKhoaHocs::create($formDataKhoaHoc);                 
+                    if($resKhoaHoc){
+                        $formData['maKhoaHoc']= $formDataKhoaHoc['maKhoaHoc'];
+                    }
+                }                
+                $res = danhSachCapChungChiHocViens::create($formData);   
+                    
+                if($res){
+                    array_push($success,$item['hoTen']);
+                }else{
+                    array_push($error,$item['hoTen']);
+                }
+            }
+        }     
         // Return the data as JSON
         return response()->json([
             'success'=>true,
-            'data'=>$data,
+            'error'=>$error,
             'mess'=>'Import thành công!'
         ]);
+    }
+    public function genCodeKhoaHoc(){
+        $lastCode = thongTinKhoaHocs::orderBy('maKhoaHoc', 'desc')->first(); // lấy mã cuối cùng trong database      
+        if (!$lastCode) {
+            $number = 1;
+        } else {
+            $number = intval(substr($lastCode->maKhoaHoc, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
+        }    
+        $newCode = 'KH' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
+        return $newCode;
     }
 
     /**
