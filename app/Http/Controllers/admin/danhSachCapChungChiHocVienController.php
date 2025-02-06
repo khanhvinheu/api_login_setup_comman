@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\admin\danhSachCapChungChiHocViens;
 use App\Models\admin\hoSoKyDuyets;
 use App\Models\admin\thongTinKhoaHocs;
+use App\Models\admin\dotCaps;
 use App\Services\QueryService;
 use Illuminate\Support\Str;
 use File;
@@ -27,7 +28,8 @@ class danhSachCapChungChiHocVienController extends Controller
         try {
             $filter=[];
             $request->input('pack_status')&& array_push($filter,['pack_status','=',$request->input('pack_status')]);
-            $limit = $request->get('limit', 25);
+            $limit = $request->get('PageLimit', 25);
+            $page = $request->get('Page', 1);           
             $ascending = (int) $request->get('ascending', 0);
             $orderBy = $request->get('orderBy', '');
             $search = $request->get('TextSearch', '');
@@ -50,7 +52,8 @@ class danhSachCapChungChiHocVienController extends Controller
             $queryService->ascending = $ascending;
             $queryService->orderBy = $orderBy;
             $query = $queryService->queryTable();
-            $query = $query->paginate($limit);
+            $query = $query->paginate($limit,['*'],'page',$page);
+            
             $product = $query->toArray();
             return $this->jsonTable($product);
         } catch (\Exception $e) {
@@ -106,9 +109,16 @@ class danhSachCapChungChiHocVienController extends Controller
         if($data && count($data)>0){
             foreach($data as $index=>$item){
                 $formData = $item;  
-                $formData['maChungChi']= self::genCode();            
-                dd($formData['namSinh']);
-                $formData['namSinh']=  Carbon::parse($formData['namSinh'])->format('m/d/Y');                
+                $formData['maChungChi']= self::genCode();   
+                $formData['image']='/images/no_img.jpg';
+                if(@$formData['namSinh'] instanceof DateTime){
+                    $formData['namSinh']=  $formData['namSinh']->getTimestamp(); 
+                    $formData['namSinh']=  Carbon::createFromTimestamp($formData['namSinh'])->format('d/m/Y');                
+                }else{
+                    $formData['namSinh']=  Carbon::createFromFormat('d/m/Y',$formData['namSinh'])->format('m/d/Y');        
+                }
+                
+                //Khóa học
                 $khoaHoc = thongTinKhoaHocs::where('tenKhoaHoc',$formData['khoaHoc'])->first();               
                 if($khoaHoc){
                     $formData['maKhoaHoc']= $khoaHoc->toArray()['maKhoaHoc'];
@@ -118,20 +128,39 @@ class danhSachCapChungChiHocVienController extends Controller
                         "tenKhoaHoc"=> $formData['khoaHoc'],
                         "tenKhoaHocEN"=> "null",
                         "chiTietKhoaHoc"=> "null",
-                        "thoiGianDaoTao"=> "null",
-                        "tuNgay"=> "mull",
-                        "denNgay"=> "mull",
-                        "noiDaoTao"=> "mull",
-                        "noiDaoTaoEN"=> "mull",
+                        "thoiGianDaoTao"=> "90",
+                        "tuNgay"=> "03-01-2023",
+                        "denNgay"=> "03-01-2023",
+                        "noiDaoTao"=> "Trường trung cấp nghề Tân Hiệp tỉnh Kiên Giang",
+                        "noiDaoTaoEN"=> "Tan Hiep, Kien Giang",
                     ];
                     $resKhoaHoc = thongTinKhoaHocs::create($formDataKhoaHoc);                 
                     if($resKhoaHoc){
                         $formData['maKhoaHoc']= $formDataKhoaHoc['maKhoaHoc'];
                     }
+                }  
+                // Đợt cấp
+                $dotCap = dotCaps::where('thoiGianCap',$formData['dotCap'])->first();               
+                if($dotCap){
+                    $formData['maDotCap']= $dotCap->toArray()['maDot'];
+                }else{
+                    $formDataDotCap=[
+                        "maDot"=> self::genCodeDotCap(),
+                        "thoiGianCap"=> $formData['dotCap'],
+                        "ghiChu"=> "null"
+                    ];
+                    $resKhoaHoc = dotCaps::create($formDataDotCap);                 
+                    if($resKhoaHoc){
+                        $formData['maDotCap']= $formDataDotCap['maDot'];
+                    }
+                }  
+                $checkExist = danhSachCapChungChiHocViens::where([['hoTen',$formData['hoTen']],['maKhoaHoc',$formData['maKhoaHoc']]])->first();  
+                if($checkExist){                   
+                    $res = danhSachCapChungChiHocViens::find($checkExist->toArray()['id'])->update($formData);
+                }else{
+                    $res = danhSachCapChungChiHocViens::create($formData);
                 }                
-                $res = danhSachCapChungChiHocViens::create($formData);   
-                    
-                if($res){
+                if(@$res){
                     array_push($success,$item['hoTen']);
                 }else{
                     array_push($error,$item['hoTen']);
@@ -153,6 +182,17 @@ class danhSachCapChungChiHocVienController extends Controller
             $number = intval(substr($lastCode->maKhoaHoc, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
         }    
         $newCode = 'KH' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
+        return $newCode;
+    }
+
+    public function genCodeDotCap(){
+        $lastCode = dotCaps::orderBy('maDot', 'desc')->first(); // lấy mã cuối cùng trong database      
+        if (!$lastCode) {
+            $number = 1;
+        } else {
+            $number = intval(substr($lastCode->maDot, -3)) + 1; // lấy số cuối cùng của mã và tăng giá trị lên 1
+        }    
+        $newCode = 'DC' . str_pad($number, 4, '0', STR_PAD_LEFT); // tạo mã mới dựa trên số đó và định dạng "ABCXXX"
         return $newCode;
     }
 
