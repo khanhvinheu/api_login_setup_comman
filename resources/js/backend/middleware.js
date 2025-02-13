@@ -45,7 +45,7 @@ router.beforeEach(async (to, from, next) => {
             if(pathModule.includes(to.path)|| to.meta.type=='Form'){
               next({...to, replace: true });
             }else{
-              if(to.path.includes('/check-file-in-pdf')){
+              if(to.path.includes('/check-file-in-pdf') || to.path.includes('/valid-qrcode')){
                 next()
               }else{
                 next({path:'/404'});
@@ -75,7 +75,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       console.log(to.path);
       
-      if(to.path.includes('/check-file-in-pdf')){
+      if(to.path.includes('/check-file-in-pdf') || to.path.includes('/valid-qrcode')){
         next()
       }else{
          // other pages that do not have permission to access are redirected to the login page.

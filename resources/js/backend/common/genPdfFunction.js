@@ -10,7 +10,12 @@ import moment from 'moment/moment';
 
 export default{
     name:"genPDF",
-    methods:{
+    data(){
+        return{
+            ipLocal:'192.168.48.236'
+        }
+    },
+    methods:{        
         removeDiacritics(str) {
             return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         },
@@ -45,19 +50,7 @@ export default{
                 y: 0,
                 width: page.getWidth(),
                 height: page.getHeight(),
-            });
-            const {protocol, hostname, port, pathname, search, hash} = window.location;
-            this.qrValue = 'http://' + hostname + ':' + port + '/check-file-in-pdf/' + item.id
-
-            const qrImg = await QRCode.toDataURL(this.qrValue)
-            const pngImageBytes = await fetch(qrImg).then(res => res.arrayBuffer());
-            const qrCodeImg = await pdfDoc.embedPng(pngImageBytes);
-            page.drawImage(qrCodeImg, {
-                x: 220,
-                y: 20,
-                width: 60,
-                height: 60,
-            });
+            });            
             //set anh 3*4
             const path3x4 = item.image
             if (path3x4 && path3x4 != 'null') {
@@ -280,6 +273,18 @@ export default{
 
             // pdfDoc.setTitle('Tài liệu chứa Public Key');
             if (sign) {
+                const {protocol, hostname, port, pathname, search, hash} = window.location;
+                this.qrValue = 'http://' + hostname + ':' + port + '/valid-qrcode/'+encodeURIComponent(item.ho_so_duyet.hash)+'?key=' + encodeURIComponent(item.ho_so_duyet.publickey)
+
+                const qrImg = await QRCode.toDataURL(this.qrValue)
+                const pngImageBytes = await fetch(qrImg).then(res => res.arrayBuffer());
+                const qrCodeImg = await pdfDoc.embedPng(pngImageBytes);
+                page.drawImage(qrCodeImg, {
+                    x: 220,
+                    y: 20,
+                    width: 60,
+                    height: 60,
+                });
                 //set imgsign
                 const imgSign = item.ho_so_duyet.hinhanhchuky
                 if (imgSign != 'null' && sign) {

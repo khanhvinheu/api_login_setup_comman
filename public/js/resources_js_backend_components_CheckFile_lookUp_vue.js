@@ -38239,6 +38239,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "genPDF",
+  data: function data() {
+    return {
+      ipLocal: '192.168.48.236'
+    };
+  },
   methods: {
     removeDiacritics: function removeDiacritics(str) {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -38250,7 +38255,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     signPfd: function signPfd(item, sign) {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var pdfDoc, imageBytes, jpgImage, imageBytes2, jpgImage2, fontBytes, roboto, fontItalicBytes, robotoItalic, page, _window$location, protocol, hostname, port, pathname, search, hash, qrImg, pngImageBytes, qrCodeImg, path3x4, imageBytes3x4, jpgImage3x4, _jpgImage3x, khoaHoc, imgSign, imageBytesimgSign, jpgImageimgSign, _jpgImageimgSign, imgStamp, pngImageStamp, page2, pdfBytes, blob, url;
+        var pdfDoc, imageBytes, jpgImage, imageBytes2, jpgImage2, fontBytes, roboto, fontItalicBytes, robotoItalic, page, path3x4, imageBytes3x4, jpgImage3x4, _jpgImage3x, khoaHoc, _window$location, protocol, hostname, port, pathname, search, hash, qrImg, pngImageBytes, qrCodeImg, imgSign, imageBytesimgSign, jpgImageimgSign, _jpgImageimgSign, imgStamp, pngImageStamp, page2, pdfBytes, blob, url;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -38308,47 +38313,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 width: page.getWidth(),
                 height: page.getHeight()
               });
-              _window$location = window.location, protocol = _window$location.protocol, hostname = _window$location.hostname, port = _window$location.port, pathname = _window$location.pathname, search = _window$location.search, hash = _window$location.hash;
-              _this.qrValue = 'http://' + hostname + ':' + port + '/check-file-in-pdf/' + item.id;
-              _context.next = 34;
-              return qrcode__WEBPACK_IMPORTED_MODULE_0__.toDataURL(_this.qrValue);
-            case 34:
-              qrImg = _context.sent;
-              _context.next = 37;
-              return fetch(qrImg).then(function (res) {
-                return res.arrayBuffer();
-              });
-            case 37:
-              pngImageBytes = _context.sent;
-              _context.next = 40;
-              return pdfDoc.embedPng(pngImageBytes);
-            case 40:
-              qrCodeImg = _context.sent;
-              page.drawImage(qrCodeImg, {
-                x: 220,
-                y: 20,
-                width: 60,
-                height: 60
-              });
               //set anh 3*4
               path3x4 = item.image;
               if (!(path3x4 && path3x4 != 'null')) {
-                _context.next = 58;
+                _context.next = 46;
                 break;
               }
-              _context.next = 46;
+              _context.next = 34;
               return fetch(path3x4).then(function (res) {
                 return res.arrayBuffer();
               });
-            case 46:
+            case 34:
               imageBytes3x4 = _context.sent;
               if (!(path3x4 && ['PNG', 'png'].includes(_this.getFileExtension(path3x4)))) {
-                _context.next = 54;
+                _context.next = 42;
                 break;
               }
-              _context.next = 50;
+              _context.next = 38;
               return pdfDoc.embedPng(imageBytes3x4);
-            case 50:
+            case 38:
               jpgImage3x4 = _context.sent;
               page.drawImage(jpgImage3x4, {
                 x: 48,
@@ -38356,12 +38339,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 width: 39,
                 height: 52
               });
-              _context.next = 58;
+              _context.next = 46;
               break;
-            case 54:
-              _context.next = 56;
+            case 42:
+              _context.next = 44;
               return pdfDoc.embedJpg(imageBytes3x4);
-            case 56:
+            case 44:
               _jpgImage3x = _context.sent;
               page.drawImage(_jpgImage3x, {
                 x: 48,
@@ -38369,7 +38352,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 width: 39,
                 height: 52
               });
-            case 58:
+            case 46:
               // Set text
               page.drawText('RECTOR', {
                 x: 126,
@@ -38559,6 +38542,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 104;
                 break;
               }
+              _window$location = window.location, protocol = _window$location.protocol, hostname = _window$location.hostname, port = _window$location.port, pathname = _window$location.pathname, search = _window$location.search, hash = _window$location.hash;
+              _this.qrValue = 'http://' + hostname + ':' + port + '/valid-qrcode/' + encodeURIComponent(item.ho_so_duyet.hash) + '?key=' + encodeURIComponent(item.ho_so_duyet.publickey);
+              _context.next = 69;
+              return qrcode__WEBPACK_IMPORTED_MODULE_0__.toDataURL(_this.qrValue);
+            case 69:
+              qrImg = _context.sent;
+              _context.next = 72;
+              return fetch(qrImg).then(function (res) {
+                return res.arrayBuffer();
+              });
+            case 72:
+              pngImageBytes = _context.sent;
+              _context.next = 75;
+              return pdfDoc.embedPng(pngImageBytes);
+            case 75:
+              qrCodeImg = _context.sent;
+              page.drawImage(qrCodeImg, {
+                x: 220,
+                y: 20,
+                width: 60,
+                height: 60
+              });
               //set imgsign
               imgSign = item.ho_so_duyet.hinhanhchuky;
               if (!(imgSign != 'null' && sign)) {

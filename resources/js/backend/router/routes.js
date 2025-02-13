@@ -11,6 +11,12 @@ export const constantRouterMap = [
         meta:{title:'CheckFile'}
     },
     {
+        path: '/valid-qrcode/:sig',
+        component: () => import('../components/Valid/index'),
+        name:'ValidQR',
+        meta:{title:'ValidQR'}
+    },
+    {
         path: '/check-file-in-pdf-look-up',
         component: () => import('../components/CheckFile/lookUp'),
         name:'lookUp',
