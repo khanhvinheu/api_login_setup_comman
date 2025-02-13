@@ -107,7 +107,7 @@
                                 </el-table-column>
                                 <el-table-column
                                     label="THAO TÁC"
-                                    width="280"
+                                    width="300"
                                 >
                                     <template slot-scope="scope">
 
@@ -118,12 +118,13 @@
                                             @click="signPfd(scope.row, true)"
                                         ><i class="el-icon-view"></i>
                                         </el-button>
-                                        <el-button
+                                        <el-button                                         
+                                            :disabled="loadingKyDuyet"
                                             v-else-if="checkRoleAction('kyDuyet')"
                                             type="success"
                                             size="mini"
                                             @click="kyDuyet(scope.row)"
-                                        ><i class="el-icon-check"></i>
+                                        ><i :class="loadingKyDuyet?'el-icon-loading':'el-icon-check'"></i>
                                         </el-button>
                                         <el-button
                                             v-if="!scope.row.ho_so_duyet"
@@ -306,6 +307,7 @@ export default {
     data() {
         return {
             fileList: [],
+            loadingKyDuyet:false,
             idUpdate: '',
             outerVisible: false,
             viewPdf: false,
@@ -443,6 +445,7 @@ export default {
                 }
             }).then(({data}) => {
                 if (data && data.status && data.newBlock.signature) {
+                    this.loadingKyDuyet=false
                     return data.newBlock.signature
                 } else {
                     return false
@@ -460,6 +463,7 @@ export default {
                         message: 'Kiểm tra server blockchain',
                         type: 'error'
                     });
+                    this.loadingKyDuyet=false
                     return false;
                 } else {
                     // Something else happened
@@ -578,7 +582,8 @@ export default {
             this.options.Page = val
             this.getList()
         },
-        async kyDuyet(item) {           
+        async kyDuyet(item) {    
+            this.loadingKyDuyet = true       
             await this.addBlock(item).then( async(res) => {
                 let _this = this
                 if(res !==false){
@@ -612,6 +617,7 @@ export default {
                                     type: 'error'
                                 });
                             }
+                            this.loadingKyDuyet = false
                         });
                     }                
             });  
