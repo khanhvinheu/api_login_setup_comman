@@ -4,6 +4,19 @@ const {isString} = require('lodash');
 const path = require('path');
 const axios = require("axios");
 const usb = require('usb');
+const axiosRetry = require('axios-retry').default;
+
+axiosRetry(axios, {
+    retries: 3, // Số lần thử lại tối đa
+    retryDelay: (retryCount) => {
+        console.log(`Thử lại lần ${retryCount}...`);
+        return retryCount * 1000; // Chờ 1s, 2s, 3s...
+    },
+    retryCondition: (error) => {
+        // Chỉ retry nếu lỗi không phải 4xx
+        return error.response && error.response.status >= 500;
+    }
+});
 
 // Định nghĩa Block
 class Block {
@@ -65,21 +78,72 @@ class Blockchain {
         })
     }
 
-    genBlock(currentBlock) {
-        currentBlock['data'] = JSON.parse(currentBlock['data'])
-        return new Block(currentBlock.index, currentBlock.timestamp, currentBlock.data, currentBlock.previousHash, currentBlock.signature, currentBlock.hash);
+    genBlock(currentBlock) { 
+        if (currentBlock && currentBlock.data) {
+            try {
+                const parsedData = currentBlock.data;
+                return new Block(
+                    currentBlock.index, 
+                    currentBlock.timestamp, 
+                    parsedData, 
+                    currentBlock.previousHash, 
+                    currentBlock.signature, 
+                    currentBlock.hash
+                );
+            } catch (error) {
+                console.error("Lỗi JSON.parse:", error.message);
+                return null; // Hoặc xử lý lỗi phù hợp
+            }
+        } else {
+            console.error("currentBlock hoặc currentBlock.data bị undefined!");
+            return null;
+        }
     }
+    
+
+    // async getLastBlock() {
+    //     try {
+    //         const url = 'http://localhost:8000/api/admin/blocks/get-last';
+    //         // Optional: If you need to send any data (e.g., for POST requests)
+    //         // Example of a GET request
+    //         const response = await axios.get(url);
+    //         return response.data;
+    //     } catch (error) {
+    //         return error.response ? error.response.data : error.message;
+    //         // console.error('Error calling Laravel API:', error.response ? error.response.data : error.message);
+    //     }
+    // }
 
     async getLastBlock() {
         try {
-            const url = 'http://localhost:8000/api/admin/blocks/get-last';
-            // Optional: If you need to send any data (e.g., for POST requests)
-            // Example of a GET request
-            const response = await axios.get(url);
-            return response.data;
+            const blocksDir = path.join(__dirname, 'blocks'); // Thư mục chứa block
+            const files = fs.readdirSync(blocksDir); // Lấy danh sách file
+    
+            if (files.length === 0) {
+                throw new Error("Thư mục blocks trống!");
+            }
+    
+            // Lọc file có dạng "block_xxx.json" và trích xuất số thứ tự
+            const blockFiles = files
+                .filter(file => file.match(/^block_\d+\.json$/)) // Lọc file đúng format
+                .map(file => ({
+                    name: file,
+                    number: parseInt(file.match(/\d+/)[0]) // Lấy số từ tên file
+                }))
+                .sort((a, b) => b.number - a.number); // Sắp xếp giảm dần theo số
+    
+            if (blockFiles.length === 0) {
+                throw new Error("Không tìm thấy file block nào!");
+            }
+    
+            const lastFile = blockFiles[0].name; // File có số lớn nhất
+            const filePath = path.join(blocksDir, lastFile);
+            const data = fs.readFileSync(filePath, 'utf8'); // Đọc file
+    
+            return JSON.parse(data); // Trả về JSON
         } catch (error) {
-            return error.response ? error.response.data : error.message;
-            // console.error('Error calling Laravel API:', error.response ? error.response.data : error.message);
+            console.error("Lỗi đọc file:", error.message);
+            return null;
         }
     }
 

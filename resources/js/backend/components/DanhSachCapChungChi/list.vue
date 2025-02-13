@@ -442,10 +442,29 @@ export default {
                     }
                 }
             }).then(({data}) => {
-                if (data && data.status) {
+                if (data && data.status && data.newBlock.signature) {
                     return data.newBlock.signature
                 } else {
                     return false
+                }
+            }).catch(error => {
+                // Catch and handle any errors
+                if (error.response) {
+                    // Server responded with an error status code
+                    console.log("Server Error:", error.response.data);
+                    return false;
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    this.$notify({
+                        title: 'Error',
+                        message: 'Kiểm tra server blockchain',
+                        type: 'error'
+                    });
+                    return false;
+                } else {
+                    // Something else happened
+                    console.log("Error:", error.message);
+                    return false;
                 }
             });
         },
@@ -562,38 +581,41 @@ export default {
         async kyDuyet(item) {           
             await this.addBlock(item).then( async(res) => {
                 let _this = this
-                var formData = new FormData()
-                formData.set('nguoiKyDuyet', this.$store.getters.user.id)
-                formData.set('maHoSo', item.id)
-                formData.set('thongTinLuu', '')
-                formData.set('ghiChu', '')
-                formData.set('publickey', this.$store.getters.user.publickey)
-                formData.set('hinhanhchuky', this.$store.getters.user.hinhanhchuky)
-                formData.set('hash', res)
-                formData.set('soChungChi',  item.maChungChi)
-                formData.set('soVaoSo', await this.genCodeVaoSo())   
-                axios({
-                    method: 'post',
-                    url: '/api/admin/cap-chung-chi/kyduyet/' + item.id,
-                    data: formData
-                })
-                    .then(function (response) {
-                        if (response.data['success']) {
-                            _this.$notify({
-                                title: 'Success',
-                                message: response.data['mess'],
-                                type: 'success'
-                            });
-                            _this.getList()
-                        } else {
-                            _this.$notify({
-                                title: 'Error',
-                                message: response.data['mess'],
-                                type: 'error'
-                            });
-                        }
-                    });
-            });
+                if(res !==false){
+                    var formData = new FormData()
+                    formData.set('nguoiKyDuyet', this.$store.getters.user.id)
+                    formData.set('maHoSo', item.id)
+                    formData.set('thongTinLuu', '')
+                    formData.set('ghiChu', '')
+                    formData.set('publickey', this.$store.getters.user.publickey)
+                    formData.set('hinhanhchuky', this.$store.getters.user.hinhanhchuky)
+                    formData.set('hash', res)
+                    formData.set('soChungChi',  item.maChungChi)
+                    formData.set('soVaoSo', await this.genCodeVaoSo())   
+                    axios({
+                        method: 'post',
+                        url: '/api/admin/cap-chung-chi/kyduyet/' + item.id,
+                        data: formData
+                    })
+                        .then(function (response) {
+                            if (response.data['success']) {
+                                _this.$notify({
+                                    title: 'Success',
+                                    message: response.data['mess'],
+                                    type: 'success'
+                                });
+                                _this.getList()
+                            } else {
+                                _this.$notify({
+                                    title: 'Error',
+                                    message: response.data['mess'],
+                                    type: 'error'
+                                });
+                            }
+                        });
+                    }                
+            });  
+                
         },
         deleteBanner(id) {
             let _this = this
