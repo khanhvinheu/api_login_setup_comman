@@ -38508,28 +38508,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   font: robotoItalic,
                   color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(0, 0, 0)
                 });
-                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD    MM   YYYY'), {
+                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.tuNgay, 'MM/DD/YYYY').format('DD    MM   YYYY'), {
                   x: 148,
                   y: 166,
                   size: 9,
                   font: robotoItalic,
                   color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(0, 0, 0)
                 });
-                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD   MM   YYYY'), {
+                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.tuNgay, 'MM/DD/YYYY').format('DD   MM   YYYY'), {
                   x: 438,
                   y: 166,
                   size: 9,
                   font: robotoItalic,
                   color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(0, 0, 0)
                 });
-                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD    MM   YYYY'), {
+                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.denNgay, 'MM/DD/YYYY').format('DD    MM   YYYY'), {
                   x: 220,
                   y: 166,
                   size: 9,
                   font: robotoItalic,
                   color: (0,pdf_lib__WEBPACK_IMPORTED_MODULE_1__.rgb)(0, 0, 0)
                 });
-                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD   MM   YYYY'), {
+                page.drawText(moment_moment__WEBPACK_IMPORTED_MODULE_8___default()(khoaHoc.denNgay, 'MM/DD/YYYY').format('DD   MM   YYYY'), {
                   x: 530,
                   y: 166,
                   size: 9,

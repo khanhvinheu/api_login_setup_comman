@@ -146,13 +146,13 @@
                 })
                     .then(({data})=> {
                         if(data['success']){
-                            let res = data['data']
+                            let res = data['data']    
                             _this.form.maKhoaHoc = res['maKhoaHoc']
                             _this.form.tenKhoaHoc = res['tenKhoaHoc']
                             _this.form.tenKhoaHocEN = res['tenKhoaHocEN']
                             _this.form.chiTietKhoaHoc = res['chiTietKhoaHoc']
                             _this.form.thoiGianDaoTao = res['thoiGianDaoTao']
-                            _this.form.tuNgay = res['tuNgay']
+                            _this.form.tuNgay =  res['tuNgay']
                             _this.form.denNgay = res['denNgay']
                             _this.form.noiDaoTao = res['noiDaoTao']  
                             _this.form.noiDaoTaoEN = res['noiDaoTaoEN']  

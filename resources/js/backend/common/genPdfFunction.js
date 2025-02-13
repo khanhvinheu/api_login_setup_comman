@@ -227,7 +227,7 @@ export default{
                     color: rgb(0, 0, 0),
                 });
 
-                page.drawText(moment(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD    MM   YYYY'), {
+                page.drawText(moment(khoaHoc.tuNgay, 'MM/DD/YYYY').format('DD    MM   YYYY'), {
                     x: 148,
                     y: 166,
                     size: 9,
@@ -235,7 +235,7 @@ export default{
                     color: rgb(0, 0, 0),
                 });
               
-                page.drawText(moment(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD   MM   YYYY'), {
+                page.drawText(moment(khoaHoc.tuNgay, 'MM/DD/YYYY').format('DD   MM   YYYY'), {
                     x: 438,
                     y: 166,
                     size: 9,
@@ -243,7 +243,7 @@ export default{
                     color: rgb(0, 0, 0),
                 });
 
-                page.drawText(moment(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD    MM   YYYY'), {
+                page.drawText(moment(khoaHoc.denNgay, 'MM/DD/YYYY').format('DD    MM   YYYY'), {
                     x: 220,
                     y: 166,
                     size: 9,
@@ -251,7 +251,7 @@ export default{
                     color: rgb(0, 0, 0),
                 });
               
-                page.drawText(moment(khoaHoc.tuNgay, 'DD/MM/YYYY').format('DD   MM   YYYY'), {
+                page.drawText(moment(khoaHoc.denNgay, 'MM/DD/YYYY').format('DD   MM   YYYY'), {
                     x: 530,
                     y: 166,
                     size: 9,
